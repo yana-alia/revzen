@@ -8,9 +8,12 @@ Identified the problem, using both academic sources, our own survey and intervie
 
 The video presented can be found [here](https://drive.google.com/file/d/1YDk0OAX-id19LFdZmLnov0wUPu3iIrON/view).
 
+## Documentation:
+The documentation for the backend is generated from the `dev` branch by our CI and can be found [here](https://ok220.pages.doc.ic.ac.uk/group-28-drp/backend_doc/revzen_backend/index.html).
+
 ## Git Hygiene
 
-## Dev Branch
+### Dev Branch
 When making changes for new features, branch from, and eventually merge into the `dev` branch. Master is used for the public facing, released version. This allows for the group to test for bugs, use and experience new features, and show new feature developments to stakeholders before publicly releasing. 
 
 When merging into `dev`, deployment is done for our internal testing. Public deployment is done in master.

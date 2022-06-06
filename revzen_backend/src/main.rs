@@ -10,7 +10,7 @@ extern crate rocket;
 
 #[get("/")]
 fn index() -> &'static str {
-    "Hello, this is the Group 28 DRP project backend!"
+    "Hello, this is the skeleton for the Group 28 DRP project backend!"
 }
 
 #[launch]

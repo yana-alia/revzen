@@ -1,0 +1,73 @@
+# Set cargo home relative to the project directory to allow for caching
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/.cargo
+
+# Backend should be run with the latest rust image, only if there are changes 
+# in the revzen_backend directory.
+#
+# The target directory is cached, this way if cargo determines some files do not
+# need to be re downloaded or compiled, they can be reused (significant speedup).
+.backend-run:
+  before_script:
+    - cd revzen_backend
+  image: rust:latest
+  cache:
+    key: backend-shared-cache
+    paths:
+        - revzen_backend/target/
+        - .cargo/
+  only:
+    changes:
+      - revzen_backend/*
+
+stages:
+  - build
+  - test
+  - lint
+  - deploy
+
+backend-build:
+  extends: 
+    - .backend-run
+  stage: build
+  script:
+    - cargo build --verbose
+
+backend-test:
+  extends: 
+    - .backend-run
+  stage: test
+  script:
+    - cargo test --verbose
+
+backend-clippy:
+  extends: 
+    - .backend-run
+  stage: lint
+  script:
+    - cargo clippy --verbose
+
+backend-fmt:
+  extends: 
+    - .backend-run
+  stage: lint
+  script:
+    - cargo fmt --check
+
+# When merging into the dev branch, publish the backend docs (hosted on gitlab 
+# pages)
+pages:
+  extends: 
+    - .backend-run
+  stage: deploy
+  script:
+    - cargo doc
+    - mkdir ../public
+    - mkdir ../public/backend_doc
+    - mv target/doc/* ../public/backend_doc
+  artifacts:
+    paths:
+      - public/backend_doc
+    expire_in: 1 week
+  only:
+    - dev
