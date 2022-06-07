@@ -71,3 +71,19 @@ pages:
     expire_in: 1 week
   only:
     - dev
+
+deploy-dev:
+  stage: deploy
+  image: ceorcham/dpl-heroku
+  script:
+    - dpl --provider=heroku --app=revzen-backend-dev --api-key=$HEROKU_API_KEY
+  # only:
+  #  - dev
+
+deploy-prod:
+  stage: deploy
+  image: ceorcham/dpl-heroku
+  script:
+    - dpl --provider=heroku --app=revzen-backend-prod --api-key=$HEROKU_API_KEY
+  only:
+   - dev
