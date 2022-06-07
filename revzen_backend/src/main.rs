@@ -5,12 +5,14 @@
 //! - Store user data (revision time, goals (for feed) and current revision status)
 #![doc(html_logo_url = "https://i.imgur.com/82uGv0e.png")]
 #![doc(html_favicon_url = "https://i.imgur.com/82uGv0e.png")]
+
+use rocket::http::ContentType;
 #[macro_use]
 extern crate rocket;
 
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, this is the skeleton for the Group 28 DRP project backend!"
+fn index() -> (ContentType, &'static str) {
+    (ContentType::HTML, include_str!("revzen.html"))
 }
 
 #[launch]
@@ -19,10 +21,4 @@ fn rocket() -> _ {
 }
 
 #[cfg(test)]
-mod test {
-
-    #[test]
-    fn this_is_a_test() {
-        assert!(true)
-    }
-}
+mod test {}
