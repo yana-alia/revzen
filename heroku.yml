@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: Dockerfile
-run:
-  web: ROCKET_PORT=$PORT ROCKET_ENV=prod ./revzen_backend/target/release/revzen_backend

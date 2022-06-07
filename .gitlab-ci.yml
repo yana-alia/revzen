@@ -22,8 +22,8 @@ variables:
 
 stages:
   - build
-  - test
   - lint
+  - test
   - deploy
 
 backend-build:
@@ -44,6 +44,7 @@ backend-clippy:
   extends: 
     - .backend-run
   stage: lint
+  allow_failure: true
   script:
     - cargo clippy --verbose
 
@@ -51,6 +52,7 @@ backend-fmt:
   extends: 
     - .backend-run
   stage: lint
+  allow_failure: true
   script:
     - cargo fmt --check
 
@@ -72,18 +74,28 @@ pages:
   only:
     - dev
 
+# Heroku Backend Hosting:
+# - A buildpack is used to set the revzen_backend directory as the root, allowing 
+#   for the rust buildpack to be used. This requires a PROJECT_PATH variable in 
+#   heroku as well as the packs to be ordered, and procfile placed in revzen_backend
+#   (subdir first)
+# - A separate heroku app is used for the production environment.
+
+# When merging into dev, we want to host on the development backend
 deploy-dev:
   stage: deploy
   image: ceorcham/dpl-heroku
   script:
     - dpl --provider=heroku --app=revzen-backend-dev --api-key=$HEROKU_API_KEY
-  # only:
-  #  - dev
+  only:
+   - dev
 
+# When merging into master, we want to host on the production backend
 deploy-prod:
   stage: deploy
   image: ceorcham/dpl-heroku
   script:
     - dpl --provider=heroku --app=revzen-backend-prod --api-key=$HEROKU_API_KEY
   only:
-   - dev
+   - master
+  
