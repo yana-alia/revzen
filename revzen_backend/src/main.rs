@@ -34,12 +34,26 @@ extern crate rocket;
 /// Basic landing page containing a link to the app to download.
 #[get("/")]
 fn index() -> (ContentType, &'static str) {
-    (ContentType::HTML, include_str!("revzen.html"))
+    (ContentType::HTML, include_str!("static_pages/revzen.html"))
+}
+
+/// Privacy policy and Terms of Service are required by google oauth2. Hence a
+/// page contains these
+#[get("/policy")]
+fn policy() -> (ContentType, &'static str) {
+    (ContentType::HTML, include_str!("static_pages/policy.html"))
+}
+
+#[get("/login")]
+fn api_login() -> (ContentType, &'static str) {
+    (ContentType::HTML, "This is the login")
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    rocket::build()
+        .mount("/", routes![index, policy])
+        .mount("/api", routes![api_login])
 }
 
 #[cfg(test)]
