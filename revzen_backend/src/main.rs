@@ -27,7 +27,9 @@
 #![doc(html_logo_url = "https://i.imgur.com/82uGv0e.png")]
 #![doc(html_favicon_url = "https://i.imgur.com/82uGv0e.png")]
 
-use rocket::http::ContentType;
+use std::collections::HashMap;
+
+use rocket::{http::{ContentType, Status}, tokio::sync::RwLock, State};
 #[macro_use]
 extern crate rocket;
 
@@ -44,16 +46,57 @@ fn policy() -> (ContentType, &'static str) {
     (ContentType::HTML, include_str!("static_pages/policy.html"))
 }
 
-#[get("/login")]
-fn api_login() -> (ContentType, &'static str) {
-    (ContentType::HTML, "This is the login")
+#[get("/revising")]
+async fn revising(state: &State<RwLock<RevZenState>>) -> (ContentType, String) {
+    (ContentType::Text, format!("{:?}",state.read().await.users))
+}
+
+
+type UserID = u128;
+
+/// Holds the current state of the webserver. Currently the map of users.
+struct RevZenState {
+    users: HashMap<UserID, bool>
+}
+
+impl RevZenState {
+    fn new() -> Self {
+        RevZenState { users: HashMap::new() }
+    }
+
+    fn user_revise(&mut self, user: UserID) {
+        self.users.insert(user, true);
+    }
+
+    fn user_no_revise(&mut self, user: UserID) {
+        self.users.insert(user, false);
+    }
+}
+
+#[get("/login/<user>")]
+async fn api_login(state: &State<RwLock<RevZenState>>, user: UserID) -> Status {
+    state.write().await.user_no_revise(user);
+    Status::Ok
+}
+
+#[get("/revise/<user>")]
+async fn api_start_revision(state: &State<RwLock<RevZenState>>, user: UserID) -> Status {
+    state.write().await.user_revise(user);
+    Status::Ok
+}
+
+#[get("/end_revise/<user>")]
+async fn api_end_revision(state: &State<RwLock<RevZenState>>, user: UserID) -> Status {
+    state.write().await.user_no_revise(user);
+    Status::Ok
 }
 
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![index, policy])
-        .mount("/api", routes![api_login])
+        .mount("/", routes![index, policy, revising])
+        .mount("/api", routes![api_login, api_start_revision, api_end_revision])
+        .manage(RwLock::from(RevZenState::new()))
 }
 
 #[cfg(test)]
