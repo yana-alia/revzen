@@ -98,4 +98,3 @@ deploy-prod:
     - dpl --provider=heroku --app=revzen-backend-prod --api-key=$HEROKU_API_KEY
   only:
    - master
-  
