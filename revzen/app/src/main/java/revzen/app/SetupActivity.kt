@@ -13,6 +13,7 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var breakSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //todo make it so break length has different options
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, times)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)

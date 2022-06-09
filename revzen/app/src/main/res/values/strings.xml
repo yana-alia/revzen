@@ -25,6 +25,11 @@
     <string name="break_button">Break!</string>
     <string name="warning_title">Breaking a streak will lose your progress!</string>
 
+    <string name="fail_title1">Oh no!</string>
+    <string name="fail_title2">You broke your study session</string>
+    <string name="summary_button">OK</string>
+    <string name="health_bar">❤ ❤ ❤</string>
+
     <string name="summary_title">Summary</string>
 
     <string name="sample_text">Lorem Ipsum</string>

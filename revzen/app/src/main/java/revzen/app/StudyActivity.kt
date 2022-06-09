@@ -31,7 +31,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         }
         super.onUserLeaveHint()
         timer.stop()
-        startActivity(Intent(this, SummaryActivity::class.java))
+        startActivity(Intent(this, FailActivity::class.java))
         finish()
     }
 
@@ -64,10 +64,10 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     fun goToEndSession(_view: View) {
         validLeave = true
+        //leaving via button is considered valid. Leaving by home button is invalid
+
         if (inSession) {
-            //go to fail page not summary page
-            //add fail page
-            startActivity(Intent(this, SummaryActivity::class.java))
+            startActivity(Intent(this, FailActivity::class.java))
         } else {
             startActivity(Intent(this, BreakActivity::class.java))
         }
