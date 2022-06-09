@@ -13,6 +13,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var timer: Chronometer
     private var minutes = 1
     private var inSession = true
+    private var validLeave = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +25,15 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timer.start()
     }
 
-//    override fun onUserLeaveHint() {
-//        super.onUserLeaveHint()
-//        timer.stop()
-//        startActivity(Intent(this, SummaryActivity::class.java))
-//        finish()
-//    }
+    override fun onUserLeaveHint() {
+        if(validLeave){
+            return
+        }
+        super.onUserLeaveHint()
+        timer.stop()
+        startActivity(Intent(this, SummaryActivity::class.java))
+        finish()
+    }
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
@@ -59,7 +63,10 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun goToEndSession(_view: View) {
+        validLeave = true
         if (inSession) {
+            //go to fail page not summary page
+            //add fail page
             startActivity(Intent(this, SummaryActivity::class.java))
         } else {
             startActivity(Intent(this, BreakActivity::class.java))
