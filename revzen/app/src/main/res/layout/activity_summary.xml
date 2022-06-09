@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".SummaryActivity">
 
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="96dp"
+        android:layout_height="68dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="goToMenu"
+        android:text="OK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/summaryTitleView"
         android:layout_width="wrap_content"

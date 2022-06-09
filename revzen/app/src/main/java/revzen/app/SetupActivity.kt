@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 
 class SetupActivity : AppCompatActivity() {
-    private var times = listOf("30 MINUTES", "1 HOUR")
+    private var times = listOf("30 MINUTES", "45 MINUTES", "1 HOUR", "1 HOUR 30 MINUTES", "2 HOURS")
     private lateinit var studySpinner: Spinner
     private lateinit var breakSpinner: Spinner
 
@@ -24,5 +24,6 @@ class SetupActivity : AppCompatActivity() {
 
     fun goToStudySession(view: View) {
         startActivity(Intent(this, StudyActivity::class.java))
+        finish()
     }
 }

@@ -57,13 +57,11 @@
     <ProgressBar
         android:id="@+id/studyProgressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="111dp"
-        android:layout_height="112dp"
+        android:layout_width="83dp"
+        android:layout_height="88dp"
         android:layout_marginStart="111dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="220dp"
         android:layout_marginEnd="108dp"
-        android:layout_marginBottom="281dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +76,38 @@
         android:layout_marginBottom="104dp"
         android:onClick="endSessionManually"
         android:text="@string/end_session_button"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/breakButton"
+        android:layout_width="122dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginBottom="104dp"
+        android:onClick="startBreak"
+        android:text="@string/break_button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/petView"
+        android:layout_width="207dp"
+        android:layout_height="203dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="96dp"
+        android:contentDescription="@string/pet_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/studyProgressBar"
+        app:srcCompat="@drawable/petsession" />
 </androidx.constraintlayout.widget.ConstraintLayout>
