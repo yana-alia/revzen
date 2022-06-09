@@ -12,13 +12,6 @@
 //!
 //! # API
 //! The main functions of the api are:
-//! - Get user's revision history
-//! - Get user's friend list
-//! - Get if user is online
-//! - Get new feed items from friends
-//! - Post new revision sessions successes/failures
-//! - Post new friend requests and friend accepts
-//! - Post when revising, when revising ends.
 //!
 //! # Live updating
 //! We can make use of [server sent events/streams](https://rocket.rs/v0.5-rc/guide/responses/#async-streams), as well as by continually polling the api per fixed time.
@@ -27,9 +20,14 @@
 #![doc(html_logo_url = "https://i.imgur.com/82uGv0e.png")]
 #![doc(html_favicon_url = "https://i.imgur.com/82uGv0e.png")]
 
-use std::collections::HashMap;
+use std::{collections::HashMap, time::SystemTime};
 
-use rocket::{http::{ContentType, Status}, tokio::sync::RwLock, State};
+use rocket::{
+    form::Form,
+    http::{ContentType, Status},
+    tokio::sync::RwLock,
+    State,
+};
 #[macro_use]
 extern crate rocket;
 
@@ -47,47 +45,135 @@ fn policy() -> (ContentType, &'static str) {
 }
 
 #[get("/revising")]
-async fn revising(state: &State<RwLock<RevZenState>>) -> (ContentType, String) {
-    (ContentType::Text, format!("{:?}",state.read().await.users))
-}
+async fn revising(revstate: &State<RwLock<RevisionStates>>) -> (ContentType, String) {
+    let state = revstate.read().await;
 
+    let revising = state
+        .users_revising
+        .iter()
+        .map(|(user, (time, exp))| {
+            let timer = time.elapsed().unwrap().as_secs();
+            format!(
+                "user {} has been revising for {}:{} and promised to revise for {}:{}",
+                user,
+                timer / 60,
+                timer % 60,
+                exp / 60,
+                exp % 60
+            )
+        })
+        .collect::<Vec<String>>()
+        .join("\n");
+
+    let events = state.events.iter().map(|(user, exp, long)| if long >= exp {
+        format!("Well done {}, they revised for {}:{} when they promised to revise for {}:{}", user, long / 60, long % 60, exp / 60, exp % 60)
+    } else {
+        format!("Boo, {} did not stick to their promise - they promised to revise for {}:{} but only managed {}:{}", user, exp / 60, exp % 60, long / 60, long % 60)
+    }).collect::<Vec<String>>().join("\n");
+
+    (
+        ContentType::HTML,
+        format!(include_str!("static_pages/revising.html"), revising, events),
+    )
+}
+/// The version number, use to check the clients and backend are using compatible versions.
+const BACKEND_VERSION: AppVer = 0;
 
 type UserID = u128;
+type AppVer = u32;
 
-/// Holds the current state of the webserver. Currently the map of users.
-struct RevZenState {
-    users: HashMap<UserID, bool>
+/// Used to identify a client (with version number for compatability check)
+#[derive(FromForm)]
+struct Client {
+    #[field(name = uncased("user_id"))]
+    user: UserID,
+
+    #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
+    client_version: AppVer,
 }
 
-impl RevZenState {
+#[post("/login", data = "<user_auth>")]
+fn api_login(user_auth: Form<Client>) -> Status {
+    println!(
+        "/login: User: {} running version: {}",
+        user_auth.user, user_auth.client_version
+    );
+    Status::Ok
+}
+
+#[post("/create/<name>", data = "<user_auth>")]
+fn api_create_user(name: &str, user_auth: Form<Client>) -> Status {
+    println!(
+        "/create: User: {} running version: {} created with name {}",
+        user_auth.user, user_auth.client_version, name
+    );
+    Status::Ok
+}
+
+#[derive(FromForm)]
+struct ClientRevise {
+    #[field(name = uncased("user_id"))]
+    user: UserID,
+
+    #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
+    client_version: AppVer,
+
+    #[field(name = uncased("rev_time"), validate = range(0..30))]
+    revision_time: u64,
+}
+
+struct RevisionStates {
+    users_revising: HashMap<UserID, (SystemTime, u64)>,
+    events: Vec<(UserID, u64, u64)>,
+}
+
+impl RevisionStates {
     fn new() -> Self {
-        RevZenState { users: HashMap::new() }
+        RevisionStates {
+            users_revising: HashMap::new(),
+            events: Vec::new(),
+        }
     }
 
-    fn user_revise(&mut self, user: UserID) {
-        self.users.insert(user, true);
+    fn start_revising(&mut self, user: UserID, expected: u64) {
+        self.users_revising
+            .insert(user, (SystemTime::now(), expected));
     }
 
-    fn user_no_revise(&mut self, user: UserID) {
-        self.users.insert(user, false);
+    fn remove_revision(&mut self, user: UserID) {
+        if let Some((time, exp)) = self.users_revising.remove(&user) {
+            self.events
+                .push((user, exp, time.elapsed().unwrap().as_secs() as u64))
+        }
     }
 }
 
-#[get("/login/<user>")]
-async fn api_login(state: &State<RwLock<RevZenState>>, user: UserID) -> Status {
-    state.write().await.user_no_revise(user);
+#[post("/revise", data = "<user_data>")]
+async fn api_user_revise(
+    revstate: &State<RwLock<RevisionStates>>,
+    user_data: Form<ClientRevise>,
+) -> Status {
+    println!(
+        "/create: User: {} running version: {} is going to revise for {} minutes",
+        user_data.user, user_data.client_version, user_data.revision_time
+    );
+    revstate
+        .write()
+        .await
+        .start_revising(user_data.user, user_data.revision_time);
     Status::Ok
 }
 
-#[get("/revise/<user>")]
-async fn api_start_revision(state: &State<RwLock<RevZenState>>, user: UserID) -> Status {
-    state.write().await.user_revise(user);
-    Status::Ok
-}
-
-#[get("/end_revise/<user>")]
-async fn api_end_revision(state: &State<RwLock<RevZenState>>, user: UserID) -> Status {
-    state.write().await.user_no_revise(user);
+#[post("/stop_revise", data = "<user_data>")]
+async fn api_user_stop_revise(
+    revstate: &State<RwLock<RevisionStates>>,
+    user_data: Form<Client>,
+) -> Status {
+    println!(
+        "/create: User: {} running version: {} has stopped revising",
+        user_data.user, user_data.client_version,
+    );
+    revstate.write().await.remove_revision(user_data.user);
     Status::Ok
 }
 
@@ -95,8 +181,16 @@ async fn api_end_revision(state: &State<RwLock<RevZenState>>, user: UserID) -> S
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index, policy, revising])
-        .mount("/api", routes![api_login, api_start_revision, api_end_revision])
-        .manage(RwLock::from(RevZenState::new()))
+        .mount(
+            "/api",
+            routes![
+                api_login,
+                api_create_user,
+                api_user_revise,
+                api_user_stop_revise
+            ],
+        )
+        .manage(RwLock::from(RevisionStates::new()))
 }
 
 #[cfg(test)]

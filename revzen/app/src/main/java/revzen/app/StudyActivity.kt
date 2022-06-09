@@ -8,9 +8,15 @@ import android.widget.Chronometer
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import kotlin.random.Random
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
+    private val client = OkHttpClient()
     private lateinit var timer: Chronometer
+    private val userID = Random.nextInt() % 1000
     private var minutes = 1
     private var inSession = true
     private var validLeave = false
@@ -23,9 +29,23 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timer.base = SystemClock.elapsedRealtime() + (minutes * 60000)
         timer.onChronometerTickListener = this
         timer.start()
+        apiStartRevision()
+    }
+
+    private fun apiStartRevision() {
+        val requestBody = FormBody.Builder().add("user_id", userID.toString()).add("version", "0").add("rev_time", (minutes * 60).toString()).build()
+        val request = Request.Builder().url(BuildConfig.API + "/revise").post(requestBody).build()
+        client.newCall(request).execute()
+    }
+
+    private fun apiEndRevision() {
+        val requestBody = FormBody.Builder().add("user_id", userID.toString()).add("version", "0").build()
+        val request = Request.Builder().url(BuildConfig.API + "/stop_revise").post(requestBody).build()
+        client.newCall(request).execute()
     }
 
     override fun onUserLeaveHint() {
+        apiEndRevision()
         if(validLeave){
             return
         }
@@ -63,6 +83,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun goToEndSession(_view: View) {
+        apiEndRevision()
         validLeave = true
         //leaving via button is considered valid. Leaving by home button is invalid
 
