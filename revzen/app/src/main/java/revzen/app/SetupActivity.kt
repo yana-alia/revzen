@@ -22,7 +22,7 @@ class SetupActivity : AppCompatActivity() {
         breakSpinner.adapter = adapter
     }
 
-    fun goToStudySession(view: View) {
+    fun goToStudySession(_view: View) {
         startActivity(Intent(this, StudyActivity::class.java))
         finish()
     }

@@ -10,7 +10,7 @@ class SummaryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_summary)
     }
 
-    fun goToMenu(view: View) {
+    fun goToMenu(_view: View) {
         finish()
     }
 }

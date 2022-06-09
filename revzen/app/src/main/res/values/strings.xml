@@ -21,6 +21,7 @@
     <string name="end_session_button">End Session</string>
 
     <string name="break_title">Take a Break!</string>
+    <string name="keep_studying_button">Continue Studying</string>
     <string name="break_button">Break!</string>
     <string name="warning_title">Breaking a streak will lose your progress!</string>
 

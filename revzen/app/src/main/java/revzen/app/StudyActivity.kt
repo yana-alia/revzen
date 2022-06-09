@@ -12,7 +12,7 @@ import android.widget.TextView
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
     private var minutes = 1
-    private var state = true
+    private var inSession = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,47 +24,46 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timer.start()
     }
 
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        timer.stop()
-        startActivity(Intent(this, SummaryActivity::class.java))
-        finish()
-    }
+//    override fun onUserLeaveHint() {
+//        super.onUserLeaveHint()
+//        timer.stop()
+//        startActivity(Intent(this, SummaryActivity::class.java))
+//        finish()
+//    }
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
-        if ((elapsedMillis <= 0) && state) {
+        if (elapsedMillis.equals(-0)){
+            chronometer.base -= (1000)
+        }
+        if ((elapsedMillis <= 0) && inSession) {
             setBreakView()
-            state = false
-        } else if ((elapsedMillis > 0) && !state) {
+            inSession = false
+        } else if ((elapsedMillis > 0) && !inSession) {
             setTimerView()
-            state = true
+            inSession = true
         }
     }
 
     private fun setBreakView() {
         findViewById<TextView>(R.id.studyTitleText).text = resources.getString(R.string.break_title)
         findViewById<TextView>(R.id.warningView).visibility = View.INVISIBLE
-        findViewById<Button>(R.id.endSessionButton).visibility = View.GONE
-        findViewById<Button>(R.id.breakButton).visibility = View.VISIBLE
+        findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.break_button)
     }
 
     private fun setTimerView() {
         findViewById<TextView>(R.id.studyTitleText).text =
             resources.getString(R.string.session_title)
         findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
-        findViewById<Button>(R.id.endSessionButton).visibility = View.VISIBLE
-        findViewById<Button>(R.id.breakButton).visibility = View.GONE
+        findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.end_session_button)
     }
 
-    fun endSessionManually(view: View) {
-        startActivity(Intent(this, SummaryActivity::class.java))
+    fun goToEndSession(_view: View) {
+        if (inSession) {
+            startActivity(Intent(this, SummaryActivity::class.java))
+        } else {
+            startActivity(Intent(this, BreakActivity::class.java))
+        }
         finish()
     }
-
-    fun startBreak(view: View) {
-        startActivity(Intent(this, SummaryActivity::class.java))
-        finish()
-    }
-
 }

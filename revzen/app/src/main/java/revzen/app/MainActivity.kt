@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun goToMainMenu(view: View) {
+    fun goToMainMenu(_view: View) {
         startActivity(Intent(this, MenuActivity::class.java))
     }
 }

@@ -11,7 +11,7 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
     }
 
-    fun goToSessionSetup(view: View) {
+    fun goToSessionSetup(_view: View) {
         startActivity(Intent(this, SetupActivity::class.java))
     }
 }
