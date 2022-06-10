@@ -82,8 +82,8 @@ deploy-backend-dev:
   image: ceorcham/dpl-heroku
   script:
     - dpl --provider=heroku --app=revzen-backend-dev --api-key=$HEROKU_API_KEY
-  # only:
-  #  - dev
+  only:
+   - dev
 
 # When merging into master, we want to host on the production backend
 deploy-backend-prod:
@@ -180,5 +180,5 @@ pages:
     paths:
       - public/app.apk
     expire_in: 1 week
-  # only:
-  #   - dev
+  only:
+    - dev
