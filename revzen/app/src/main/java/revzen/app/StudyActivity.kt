@@ -10,12 +10,13 @@ import android.widget.Button
 import android.widget.TextView
 import okhttp3.*
 import java.io.IOException
+import java.lang.Math.abs
 import kotlin.random.Random
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private val client = OkHttpClient()
     private lateinit var timer: Chronometer
-    private val userID = Random.nextInt() % 1000
+    private val userID = abs(Random.nextInt()) % 1000
     private var minutes = 1
     private var inSession = true
     private var validLeave = false
@@ -36,7 +37,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             FormBody.Builder().add("user_id", userID.toString()).add("version", "0")
                 .add("rev_time", "3").build()
         val request =
-            Request.Builder().url(BuildConfig.API + "api/stop_revise").post(requestBody).build()
+            Request.Builder().url(BuildConfig.API + "api/revise").post(requestBody).build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {call.cancel()}
             override fun onResponse(call: Call, response: Response) {

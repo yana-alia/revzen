@@ -63,13 +63,13 @@ async fn revising(revstate: &State<RwLock<RevisionStates>>) -> (ContentType, Str
             )
         })
         .collect::<Vec<String>>()
-        .join("\n");
+        .join("<br>");
 
     let events = state.events.iter().map(|(user, exp, long)| if long >= exp {
         format!("Well done {}, they revised for {}:{} when they promised to revise for {}:{}", user, long / 60, long % 60, exp / 60, exp % 60)
     } else {
         format!("Boo, {} did not stick to their promise - they promised to revise for {}:{} but only managed {}:{}", user, exp / 60, exp % 60, long / 60, long % 60)
-    }).collect::<Vec<String>>().join("\n");
+    }).collect::<Vec<String>>().join("<br>");
 
     (
         ContentType::HTML,
@@ -118,7 +118,7 @@ struct ClientRevise {
     #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
     client_version: AppVer,
 
-    #[field(name = uncased("rev_time"), validate = range(0..30))]
+    #[field(name = uncased("rev_time"), validate = range(0..7200))]
     revision_time: u64,
 }
 
@@ -154,7 +154,7 @@ async fn api_user_revise(
     user_data: Form<ClientRevise>,
 ) -> Status {
     println!(
-        "/create: User: {} running version: {} is going to revise for {} minutes",
+        "/revise: User: {} running version: {} is going to revise for {} minutes",
         user_data.user, user_data.client_version, user_data.revision_time
     );
     revstate
@@ -170,7 +170,7 @@ async fn api_user_stop_revise(
     user_data: Form<Client>,
 ) -> Status {
     println!(
-        "/create: User: {} running version: {} has stopped revising",
+        "/stop_revise: User: {} running version: {} has stopped revising",
         user_data.user, user_data.client_version,
     );
     revstate.write().await.remove_revision(user_data.user);

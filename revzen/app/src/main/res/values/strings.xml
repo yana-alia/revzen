@@ -33,4 +33,8 @@
     <string name="summary_title">Summary</string>
 
     <string name="sample_text">Lorem Ipsum</string>
+    <string name="revzen_welcome">Welcome to revzen!</string>
+    <string name="revzen_menu_social">Social Dashboard</string>
+    <string name="revzen_history_menu">Study Histroy</string>
+    <string name="revzen_account_menu">Account Settings</string>
 </resources>
