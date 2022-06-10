@@ -8,9 +8,8 @@ import android.widget.Chronometer
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import java.io.IOException
 import kotlin.random.Random
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
@@ -33,19 +32,30 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     private fun apiStartRevision() {
-        val requestBody = FormBody.Builder().add("user_id", userID.toString()).add("version", "0").add("rev_time", (minutes * 60).toString()).build()
-        val request = Request.Builder().url(BuildConfig.API + "/revise").post(requestBody).build()
-        client.newCall(request).execute()
+        val requestBody =
+            FormBody.Builder().add("user_id", userID.toString()).add("version", "0")
+                .add("rev_time", "3").build()
+        val request =
+            Request.Builder().url(BuildConfig.API + "api/stop_revise").post(requestBody).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {call.cancel()}
+            override fun onResponse(call: Call, response: Response) {
+            }
+        })
+
     }
 
     private fun apiEndRevision() {
         val requestBody = FormBody.Builder().add("user_id", userID.toString()).add("version", "0").build()
-        val request = Request.Builder().url(BuildConfig.API + "/stop_revise").post(requestBody).build()
-        client.newCall(request).execute()
+        val request = Request.Builder().url(BuildConfig.API + "api/stop_revise").post(requestBody).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response) {}
+        })
     }
 
     override fun onUserLeaveHint() {
-        apiEndRevision()
+//        apiEndRevision()
         if(validLeave){
             return
         }
