@@ -1,9 +1,6 @@
 # Set cargo home relative to the project directory to allow for caching
 variables:
   CARGO_HOME: $CI_PROJECT_DIR/.cargo
-  ANDROID_COMPILE_SDK: "32"
-  ANDROID_BUILD_TOOLS: "30.0.3"
-  ANDROID_SDK_TOOLS:   "4333796"
 
 stages:
   - build
@@ -12,14 +9,17 @@ stages:
   - deploy
   - pass
 
+# This is required for an issue with gitlab. When there are no jobs (no code 
+# changes, e.g just readme), there are no CI jobs, hence the pipeline will 
+# continually "get ready" to run, but never finish.
 pipeline-pass:
   stage: pass
   script:
     - echo "No jobs required for this commit."
   except:
     changes:
-      - revzen_backend/*
-      - revzen/*
+      - revzen_backend/**/*
+      - revzen/**/*
 
 # Backend should be run with the latest rust image, only if there are changes 
 # in the revzen_backend directory.
@@ -37,7 +37,7 @@ pipeline-pass:
         - .cargo/
   only:
     changes:
-      - revzen_backend/*
+      - revzen_backend/**/*
 
 backend-build:
   extends: 
@@ -68,24 +68,6 @@ backend-fmt:
   allow_failure: true
   script:
     - cargo fmt --check
-
-# When merging into the dev branch, publish the backend docs (hosted on gitlab 
-# pages)
-pages:
-  extends: 
-    - .backend-run
-  stage: deploy
-  script:
-    - cargo doc
-    - mkdir ../public
-    - mkdir ../public/backend_doc
-    - mv target/doc/* ../public/backend_doc
-  artifacts:
-    paths:
-      - public/backend_doc
-    expire_in: 1 week
-  only:
-    - dev
 
 # Heroku Backend Hosting:
 # - A buildpack is used to set the revzen_backend directory as the root, allowing 
@@ -123,9 +105,9 @@ deploy-backend-prod:
     paths:
       - .m2/
       - .gradle/
-  # only:
-  #   changes:
-  #     - revzen/*
+  only:
+    changes:
+      - revzen/**/*
 
 build-android:
   extends:
@@ -158,3 +140,45 @@ lint-android:
       - revzen/app/build/reports/lint-results-debug.html
     expire_in: 1 week
     expose_as: 'Android App Linting Report'
+
+deploy-android-dev:
+  extends:
+    .android-run
+  stage: deploy
+  script:
+    - ./gradlew assembleDev
+  artifacts:
+    paths:
+      - revzen/app/build/outputs/apk/dev/app-dev.apk
+  only:
+    - dev
+
+deploy-android-prod:
+  extends:
+    .android-run
+  stage: deploy
+  script:
+    - ./gradlew assembleProd
+  artifacts:
+    paths:
+      - revzen/app/build/outputs/apk/prod/app-prod.apk
+  only:
+  - master
+
+# When merging into the dev branch, publish the backend docs (hosted on gitlab 
+# pages)
+pages:
+  extends: 
+    - .android-run
+  stage: deploy
+  script:
+    - ./gradlew assembleDebug
+    - mkdir ../public
+    - mkdir ../public/android_app
+    - mv app/build/outputs/apk/debug/app-debug.apk ../public/app.apk
+  artifacts:
+    paths:
+      - public/app.apk
+    expire_in: 1 week
+  only:
+    - dev
