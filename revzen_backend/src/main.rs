@@ -20,16 +20,31 @@
 #![doc(html_logo_url = "https://i.imgur.com/82uGv0e.png")]
 #![doc(html_favicon_url = "https://i.imgur.com/82uGv0e.png")]
 
-use std::{collections::HashMap, time::SystemTime};
+#[macro_use]
+extern crate rocket;
+#[macro_use]
+extern crate diesel;
 
+mod models;
+mod schema;
+
+use diesel::{dsl::Find, insert_into, prelude::*, select};
+use models::AddUser;
 use rocket::{
     form::Form,
     http::{ContentType, Status},
     tokio::sync::RwLock,
     State,
 };
-#[macro_use]
-extern crate rocket;
+use rocket_sync_db_pools::database;
+use schema::users;
+use std::{collections::HashMap, time::SystemTime};
+
+use crate::models::User;
+
+/// The revzen database type, which will hold the connection pool used by the application.
+#[database("revzen_db")]
+struct RevzenDB(diesel::PgConnection);
 
 /// Basic landing page containing a link to the app to download.
 #[get("/")]
@@ -44,42 +59,10 @@ fn policy() -> (ContentType, &'static str) {
     (ContentType::HTML, include_str!("static_pages/policy.html"))
 }
 
-#[get("/revising")]
-async fn revising(revstate: &State<RwLock<RevisionStates>>) -> (ContentType, String) {
-    let state = revstate.read().await;
-
-    let revising = state
-        .users_revising
-        .iter()
-        .map(|(user, (time, exp))| {
-            let timer = time.elapsed().unwrap().as_secs();
-            format!(
-                "user {} has been revising for {}:{} and promised to revise for {}:{}",
-                user,
-                timer / 60,
-                timer % 60,
-                exp / 60,
-                exp % 60
-            )
-        })
-        .collect::<Vec<String>>()
-        .join("<br>");
-
-    let events = state.events.iter().map(|(user, exp, long)| if long >= exp {
-        format!("Well done {}, they revised for {}:{} when they promised to revise for {}:{}", user, long / 60, long % 60, exp / 60, exp % 60)
-    } else {
-        format!("Boo, {} did not stick to their promise - they promised to revise for {}:{} but only managed {}:{}", user, exp / 60, exp % 60, long / 60, long % 60)
-    }).collect::<Vec<String>>().join("<br>");
-
-    (
-        ContentType::HTML,
-        format!(include_str!("static_pages/revising.html"), revising, events),
-    )
-}
 /// The version number, use to check the clients and backend are using compatible versions.
 const BACKEND_VERSION: AppVer = 0;
 
-type UserID = u128;
+type UserID = i64;
 type AppVer = u32;
 
 /// Used to identify a client (with version number for compatability check)
@@ -93,20 +76,29 @@ struct Client {
 }
 
 #[post("/login", data = "<user_auth>")]
-fn api_login(user_auth: Form<Client>) -> Status {
-    println!(
-        "/login: User: {} running version: {}",
-        user_auth.user, user_auth.client_version
-    );
-    Status::Ok
+async fn api_login(db: RevzenDB, user_auth: Form<Client>) -> Status {
+    use crate::schema::users::dsl::*;
+    
+    todo!()
 }
 
 #[post("/create/<name>", data = "<user_auth>")]
-fn api_create_user(name: &str, user_auth: Form<Client>) -> Status {
+async fn api_create_user(db: RevzenDB, name: &str, user_auth: Form<Client>) -> Status {
     println!(
         "/create: User: {} running version: {} created with name {}",
         user_auth.user, user_auth.client_version, name
     );
+    let res = db
+        .run(move |c| {
+            insert_into(users::table)
+                .values(&AddUser {
+                    id: user_auth.user,
+                    username: "hi",
+                })
+                .execute(c)
+        })
+        .await;
+    println!("{:?}", res);
     Status::Ok
 }
 
@@ -180,7 +172,7 @@ async fn api_user_stop_revise(
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![index, policy, revising])
+        .mount("/", routes![index, policy])
         .mount(
             "/api",
             routes![
@@ -191,6 +183,7 @@ fn rocket() -> _ {
             ],
         )
         .manage(RwLock::from(RevisionStates::new()))
+        .attach(RevzenDB::fairing())
 }
 
 #[cfg(test)]
