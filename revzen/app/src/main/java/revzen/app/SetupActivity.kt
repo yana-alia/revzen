@@ -28,8 +28,8 @@ class SetupActivity : AppCompatActivity() {
 
     fun goToStudySession(_view: View) {
         val i = Intent(this, StudyActivity::class.java)
-        i.putExtra("studyLength", 2)
-        i.putExtra("breakLength", 1)
+        i.putExtra("studyLength", 1.0)
+        i.putExtra("breakLength", 0.5)
         startActivity(i)
         finish()
     }

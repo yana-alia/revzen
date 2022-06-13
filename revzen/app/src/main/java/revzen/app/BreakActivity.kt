@@ -9,7 +9,7 @@ import android.widget.Chronometer
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
-    private var breakLength = 1
+    private var breakLength = 5.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,11 +17,11 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         val extras = getIntent().extras
         if(extras != null) {
-            breakLength = extras.get("breakLength") as Int
+            breakLength = extras.get("breakLength") as Double
         }
 
         timer = findViewById(R.id.breakTimer)
-        timer.base = SystemClock.elapsedRealtime() + (breakLength * 60000)
+        timer.base = SystemClock.elapsedRealtime() + (breakLength * 60000).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
