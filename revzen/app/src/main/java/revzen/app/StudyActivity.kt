@@ -17,7 +17,6 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private val client = OkHttpClient()
     private lateinit var timer: Chronometer
     private val userID = abs(Random.nextInt()) % 1000
-    private var minutes = 1
     private var studyLength = 60
     private var breakLength = 5
     private var inSession = true
@@ -34,7 +33,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         }
 
         timer = findViewById(R.id.chronometer)
-        timer.base = SystemClock.elapsedRealtime() + (minutes * 60000)
+        timer.base = SystemClock.elapsedRealtime() + (studyLength * 60000)
         timer.onChronometerTickListener = this
         timer.start()
         apiStartRevision()
