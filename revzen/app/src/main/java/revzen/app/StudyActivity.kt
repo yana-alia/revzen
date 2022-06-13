@@ -73,7 +73,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
-        if (elapsedMillis == 0.toLong()){
+        if (elapsedMillis == 0L){
             chronometer.base -= (1000)
         }
         if ((elapsedMillis <= 0) && inSession) {
