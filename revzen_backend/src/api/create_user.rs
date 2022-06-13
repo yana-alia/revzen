@@ -15,7 +15,7 @@
 //! | 200 - OK       | The user was successfully added, can now login. |
 //! | 409 - Conflict | This google account has already added.          |
 //!
-//! ## CURL Example
+//! ## CURL Example:
 //! ```bash
 //! curl -X POST -F 'user_id=301' -F 'version=0' -F 'user_name=ollie' 'http://127.0.0.1:8000/api/create'
 //! ```

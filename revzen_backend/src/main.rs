@@ -6,12 +6,12 @@
 //! - Host a static website for monitoring (debug) and for downloading the android application.
 //!
 //! ## API
-//! The api used to connect to the android application is encapsulated in the [api module](api).
+//! The api used to connect to the android application is encapsulated in the api module.
 //!
 //! ## Database
 //! We make use of Heroku Postgres (hobby plan) to host our data, and [diesel] for ORM, migrations.
-#![doc(html_logo_url = "https://i.imgur.com/82uGv0e.png")]
-#![doc(html_favicon_url = "https://i.imgur.com/82uGv0e.png")]
+#![doc(html_logo_url = "https://i.imgur.com/CgmGXqI.png")]
+#![doc(html_favicon_url = "https://i.imgur.com/CgmGXqI.png")]
 
 #[macro_use]
 extern crate rocket;
@@ -20,21 +20,18 @@ extern crate diesel;
 
 use diesel::{insert_into, prelude::*};
 use models::AddUser;
-use rocket::{
-    form::Form,
-    http::Status,
-};
+use rocket::{form::Form, http::Status};
 
 use rocket_sync_db_pools::database;
 use schema::users;
 
 mod api;
 mod models;
+mod pages;
 mod schema;
-mod static_pages;
 
 use api::{create_user::api_create_user, login_user::api_login};
-use static_pages::{index, page_not_found, policy};
+use pages::{index, internal_error, page_not_found, policy};
 
 /// User Identification type, common to all part of the api
 type UserID = i64;
@@ -52,6 +49,6 @@ fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index, policy])
         .mount("/api", routes![api_login, api_create_user,])
-        .register("/", catchers![page_not_found])
+        .register("/", catchers![page_not_found, internal_error])
         .attach(RevzenDB::fairing())
 }

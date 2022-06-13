@@ -4,6 +4,32 @@
 //!
 //! Using this we can identify login the user and login.
 //!
+//! ## Post Request Fields
+//!
+//! | Key            | Type    | Value                                   |
+//! |----------------|---------|-----------------------------------------|
+//! | user_id        | integer | The google provided 'sub'/subject id.   |
+//! | client_version | integer | The api version being used.             |
+//!
+//! ## Response:
+//!
+//! | Status          | Meaning                                         |
+//! |-----------------|-------------------------------------------------|
+//! | 200 - OK        | The user was successfully added, can now login. |
+//! | 404 - Not Found | No such account exists.                         |
+//!
+//! In event of a 200 - OK the following json is returned
+//! ```json
+//! {
+//!     "friendcode": <friend code: integer>,
+//!     "username": <user's username: string>
+//! }
+//! ```
+//!
+//! ## CURL Example:
+//! ```bash
+//! curl -X POST -F 'user_id=29' -F 'version=0' 'http://127.0.0.1:8000/api/login'
+//! ```
 use rocket::serde::{json::Json, Serialize};
 
 use crate::{models::User, *};
