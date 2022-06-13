@@ -27,7 +27,10 @@ class SetupActivity : AppCompatActivity() {
     // button to return to home menu
 
     fun goToStudySession(_view: View) {
-        startActivity(Intent(this, StudyActivity::class.java))
+        val i = Intent(this, StudyActivity::class.java)
+        i.putExtra("studyLength", 1)
+        i.putExtra("breakLength", 1)
+        startActivity(i)
         finish()
     }
 }
