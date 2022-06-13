@@ -66,9 +66,14 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         finish()
     }
 
+    override fun onBackPressed() {
+        //disable back button by preventing call to super.onBackPressed()
+        return
+    }
+
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
-        if (elapsedMillis.equals(-0)){
+        if (elapsedMillis == 0.toLong()){
             chronometer.base -= (1000)
         }
         if ((elapsedMillis <= 0) && inSession) {

@@ -23,6 +23,9 @@ class SetupActivity : AppCompatActivity() {
         breakSpinner.adapter = adapter
     }
 
+    //do not override onBackPressed() since this page should allow the back
+    // button to return to home menu
+
     fun goToStudySession(_view: View) {
         startActivity(Intent(this, StudyActivity::class.java))
         finish()

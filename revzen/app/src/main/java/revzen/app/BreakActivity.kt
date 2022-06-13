@@ -21,6 +21,11 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timer.start()
     }
 
+    override fun onBackPressed() {
+        //disable back button by preventing call to super.onBackPressed()
+        return
+    }
+
     fun keepStudying(_view : View) {
         startActivity(Intent(this, SetupActivity::class.java))
         finish()
