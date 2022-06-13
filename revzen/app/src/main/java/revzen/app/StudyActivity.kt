@@ -69,7 +69,9 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         }
         super.onUserLeaveHint()
         timer.stop()
-        startActivity(Intent(this, FailActivity::class.java))
+        val i = Intent(this, FailActivity::class.java)
+        i.putExtra("reason", "leaveApp")
+        startActivity(i)
         finish()
     }
 
@@ -111,9 +113,13 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         //leaving via button is considered valid. Leaving by home button is invalid
 
         if (inSession) {
-            startActivity(Intent(this, FailActivity::class.java))
+            val i = Intent(this, FailActivity::class.java)
+            i.putExtra("reason", "giveUp")
+            startActivity(i)
         } else {
-            startActivity(Intent(this, BreakActivity::class.java))
+            val i = Intent(this, BreakActivity::class.java)
+            i.putExtra("breakLength", breakLength)
+            startActivity(i)
         }
         finish()
     }
