@@ -4,7 +4,7 @@ POSTGRES_CONNS=5
 
 help='
 This is the basic backend utility
--h  Displkay this help text!
+-h  Display this help text!
 -r  Run the server locally (debug) connecting to the database as specified by the variables in util.sh
 -c  Check the repo will past test, lint and format locally before running the gitlab pipeline
 '
@@ -20,17 +20,24 @@ check() {
 }
 
 run() {
+    echo "Running the server on localhost, connected to the dev heroku postgres database."
     cargo build;
-    echo "Creating "
     sensible-browser 'http://127.0.0.1:8000'
     ROCKET_DATABASES="{revzen_db={url=\"$POSTGRES_URL\", timeout=$POSTGRES_TIMEOUT, pool_size=$POSTGRES_CONNS}}" ./target/debug/revzen_backend
 }
 
-while getopts hcr flag;
+doc() {
+    echo "Building and then launching the documentation"
+    cargo doc;
+    sensible-browser 'target/doc/revzen_backend/index.html'
+}
+
+while getopts hcrd flag;
 do
     case "${flag}" in
         h) echo "$help"; exit;;
         c) check;;
         r) run;;
+        d) doc;;
     esac
 done
