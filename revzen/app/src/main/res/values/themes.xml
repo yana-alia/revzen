@@ -10,10 +10,11 @@
         <item name="colorSecondaryVariant">@color/l_light_teal</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
-        <item name="android:colorPrimary">@color/l_medium_purple</item>
-        <item name="android:colorSecondary">@color/l_dark_teal</item>
+        <item name="android:colorPrimary">?attr/colorPrimary</item>
+        <item name="android:colorSecondary">?attr/colorSecondary</item>
         <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/red</item>
     </style>
 </resources>

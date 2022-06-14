@@ -29,7 +29,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="94dp"
-        android:background="?colorSecondary"
+        android:background="?android:colorSecondary"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
             android:layout_height="64dp"
             android:text="XP: +96"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
             android:layout_height="63dp"
             android:text=" FOUND:"
             android:textAlignment="textStart"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
             android:layout_height="79dp"
             android:text="NEW CREATURE!"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
             android:layout_height="104dp"
             android:text="NEW HAT!"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="24sp"
             android:textStyle="bold" />
 

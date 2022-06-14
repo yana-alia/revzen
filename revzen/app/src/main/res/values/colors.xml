@@ -3,8 +3,8 @@
 
     //generic colours
     <color name="black">#FF000000</color>
+    <color name="dark_grey">#2C2F33</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="pale_red">#EA3939</color>
     <color name="red">#EF0E0E</color>
 
     //light theme colours
