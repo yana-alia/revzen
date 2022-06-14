@@ -5,4 +5,5 @@
 //! - [Getting user friendcode and username data](login_user)
 
 pub mod create_user;
+pub mod log_session;
 pub mod login_user;

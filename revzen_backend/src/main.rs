@@ -30,7 +30,7 @@ mod models;
 mod pages;
 mod schema;
 
-use api::{create_user::api_create_user, login_user::api_login};
+use api::{create_user::api_create_user, log_session::api_log_session, login_user::api_login};
 use pages::{index, internal_error, page_not_found, policy};
 
 /// User Identification type, common to all part of the api
@@ -51,7 +51,7 @@ struct RevzenDB(diesel::PgConnection);
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index, policy])
-        .mount("/api", routes![api_login, api_create_user,])
+        .mount("/api", routes![api_login, api_create_user, api_log_session])
         .register("/", catchers![page_not_found, internal_error])
         .attach(RevzenDB::fairing())
 }

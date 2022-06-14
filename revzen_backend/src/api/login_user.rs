@@ -28,7 +28,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=29' -F 'version=0' 'http://127.0.0.1:8000/api/login'
+//! curl -X POST -F 'user_id=29' -F 'version=1' 'http://127.0.0.1:8000/api/login'
 //! ```
 use rocket::serde::{json::Json, Serialize};
 
