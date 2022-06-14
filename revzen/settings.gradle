@@ -12,5 +12,11 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+buildCache {
+    local {
+        // Set local build cache directory.
+        directory = "${settingsDir}/build-cache"
+    }
+}
 rootProject.name = "revzen"
 include ':app'
