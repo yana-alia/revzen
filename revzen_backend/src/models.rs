@@ -1,5 +1,7 @@
 //! Models used to extract from and insert into the database.
-use crate::schema::users;
+use std::time::SystemTime;
+
+use crate::schema::{histories, users};
 
 /// User struct representing a record in the users table
 #[derive(Identifiable, Queryable)]
@@ -16,4 +18,16 @@ pub struct User {
 pub struct AddUser {
     pub id: i64,
     pub username: String,
+}
+
+/// Data required to add a user session to the histories table
+#[derive(Insertable)]
+#[table_name = "histories"]
+pub struct AddSession {
+    pub sub: i64,
+    pub session_time: SystemTime,
+    pub plan_study_time: i32,
+    pub plan_break_time: i32,
+    pub study_time: i32,
+    pub break_time: i32,
 }
