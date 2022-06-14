@@ -37,8 +37,11 @@ use pages::{index, internal_error, page_not_found, policy};
 type UserID = i64;
 
 /// The version type, used to check the clients and backend are using compatible versions.
+///
+/// When an incorrect version is used, the client will get a 422 - Unprocessable Entity
+/// Status returned (and hence knows to inform the user they must update their application).
 type AppVer = u32;
-const BACKEND_VERSION: AppVer = 0;
+const BACKEND_VERSION: AppVer = 1;
 
 /// The revzen database type, which will hold the connection pool used by the application.
 #[database("revzen_db")]

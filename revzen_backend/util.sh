@@ -7,6 +7,7 @@ This is the basic backend utility
 -h  Display this help text!
 -r  Run the server locally (debug) connecting to the database as specified by the variables in util.sh
 -c  Check the repo will past test, lint and format locally before running the gitlab pipeline
+-d  Build, then open the documentation in the browser.
 '
 
 check() {

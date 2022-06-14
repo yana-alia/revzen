@@ -70,5 +70,12 @@ Note that the pool size is very important. Heroku's postgres hobby plan (which w
 ## Utility
 The basic `util.sh` bash script can be used for checking the backend passes test, lint checks as well as running the server locally (with database connection) for testing.
 
-## Launch
-Rather than store the web start command in heroku, it is now part of the `launch.sh` file, called to in the Procfile.
+```bash
+./util.sh -h
+
+'This is the basic backend utility
+-h  Display this help text!
+-r  Run the server locally (debug) connecting to the database as specified by the variables in util.sh
+-c  Check the repo will past test, lint and format locally before running the gitlab pipeline
+-d  Build, then open the documentation in the browser.'
+```
