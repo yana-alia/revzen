@@ -11,6 +11,11 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
     }
 
+    override fun onBackPressed() {
+        //disable back button by preventing call to super.onBackPressed()
+        return
+    }
+
     fun goToSessionSetup(_view: View) {
         startActivity(Intent(this, SetupActivity::class.java))
     }

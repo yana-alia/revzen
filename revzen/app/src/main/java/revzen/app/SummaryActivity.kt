@@ -10,6 +10,11 @@ class SummaryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_summary)
     }
 
+    override fun onBackPressed() {
+        //disable back button by preventing call to super.onBackPressed()
+        return
+    }
+
     fun goToMenu(_view: View) {
         finish()
     }

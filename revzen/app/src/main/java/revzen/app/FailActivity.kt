@@ -11,6 +11,11 @@ class FailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fail)
     }
 
+    override fun onBackPressed() {
+        //disable back button by preventing call to super.onBackPressed()
+        return
+    }
+
     fun goToSummary(_view: View) {
         startActivity(Intent(this, SummaryActivity::class.java))
         finish()
