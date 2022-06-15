@@ -27,7 +27,7 @@ use std::time::SystemTime;
 
 use diesel::{dsl::exists, select};
 
-use crate::{models::AddSession, schema::histories, *};
+use crate::{models::Session, schema::histories, *};
 
 #[derive(FromForm)]
 pub(crate) struct LogSession {
@@ -61,7 +61,7 @@ pub(crate) async fn api_log_session(db: RevzenDB, session_data: Form<LogSession>
         {
             if user {
                 if insert_into(histories::table)
-                    .values(&AddSession {
+                    .values(&Session {
                         sub: session_data.user,
                         session_time: SystemTime::now(),
                         plan_study_time: session_data.planned_study_time,

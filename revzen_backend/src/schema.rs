@@ -2,11 +2,11 @@ table! {
     histories (id) {
         id -> Int4,
         sub -> Int8,
-        session_time -> Nullable<Timestamp>,
-        plan_study_time -> Nullable<Int4>,
-        plan_break_time -> Nullable<Int4>,
-        study_time -> Nullable<Int4>,
-        break_time -> Nullable<Int4>,
+        session_time -> Timestamp,
+        plan_study_time -> Int4,
+        plan_break_time -> Int4,
+        study_time -> Int4,
+        break_time -> Int4,
     }
 }
 

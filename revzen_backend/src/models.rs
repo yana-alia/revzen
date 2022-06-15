@@ -21,9 +21,21 @@ pub struct AddUser {
 }
 
 /// Data required to add a user session to the histories table
-#[derive(Insertable)]
+#[derive(Insertable, Queryable)]
 #[table_name = "histories"]
-pub struct AddSession {
+pub struct Session {
+    pub sub: i64,
+    pub session_time: SystemTime,
+    pub plan_study_time: i32,
+    pub plan_break_time: i32,
+    pub study_time: i32,
+    pub break_time: i32,
+}
+
+#[derive(Identifiable, Queryable)]
+#[table_name = "histories"]
+pub struct History {
+    pub id: i32,
     pub sub: i64,
     pub session_time: SystemTime,
     pub plan_study_time: i32,
