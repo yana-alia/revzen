@@ -17,9 +17,37 @@
 //! | 200 - OK        | The user was successfully added, can now login. |
 //! | 404 - Not Found | No such account exists.                         |
 //!
+//! 
+//! ## CURL Example:
+//! ```bash
+//! curl -X POST -F 'user_id=301' -F 'version=1' 'http://127.0.0.1:8000/api/get_history'
+//! ```
+//! 
 //! In event of a 200 - OK the following json is returned
 //! ```json
-//!
+//! [
+//!     {
+//!         "time": {"secs_since_epoch":1655317746,"nanos_since_epoch":717077000},
+//!         "planned_study_time":3600,
+//!         "planned_break_time":60,
+//!         "study_time":3000,
+//!         "break_time":120
+//!     },
+//!     {
+//!         "time": {"secs_since_epoch":1655317761,"nanos_since_epoch":265490000},
+//!         "planned_study_time":3600,
+//!         "planned_break_time":60,
+//!         "study_time":3000,
+//!         "break_time":120
+//!     },
+//!     {
+//!         "time": {"secs_since_epoch":1655317763,"nanos_since_epoch":70545000},
+//!         "planned_study_time":3600,
+//!         "planned_break_time":60,
+//!         "study_time":3000,
+//!         "break_time":120
+//!     }
+//! ]
 //! ```
 
 use std::time::SystemTime;
@@ -28,7 +56,7 @@ use diesel::{dsl::exists, select};
 use rocket::serde::{json::Json, Serialize};
 
 use crate::{
-    models::{History, Session},
+    models::History,
     *,
 };
 
@@ -86,7 +114,6 @@ pub(crate) async fn api_get_history(
                 None
             }
         } else {
-            // Database has failed to respond
             None
         }
     })
