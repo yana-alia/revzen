@@ -103,8 +103,7 @@ deploy-backend-prod:
   cache:
     key: android-frontend-$CI_COMMIT_SHA
     paths:
-      - .m2/
-      - .gradle/
+      - build-cache/
   only:
     changes:
       - revzen/**/*
@@ -114,7 +113,7 @@ build-android:
     .android-run
   stage: build
   script:
-    - ./gradlew assembleDebug
+    - ./gradlew --no-daemon assembleDebug
   artifacts:
     paths:
       - revzen/app/build/outputs/apk/debug/app-debug.apk
@@ -124,7 +123,7 @@ test-android:
     .android-run
   stage: test
   script:
-    - ./gradlew test
+    - ./gradlew --no-daemon test
 
 # Run a linting pass, creating an artifact of the results if the lint fails.
 lint-android:
@@ -132,7 +131,7 @@ lint-android:
     .android-run
   stage: lint
   script:
-    - ./gradlew lint
+    - ./gradlew --no-daemon lint
   allow_failure: true
   artifacts:
     when: on_failure
@@ -146,7 +145,7 @@ deploy-android-dev:
     .android-run
   stage: deploy
   script:
-    - ./gradlew assembleDev
+    - ./gradlew --no-daemon assembleDev
   artifacts:
     paths:
       - revzen/app/build/outputs/apk/dev/app-dev.apk
@@ -158,7 +157,7 @@ deploy-android-prod:
     .android-run
   stage: deploy
   script:
-    - ./gradlew assembleProd
+    - ./gradlew --no-daemon assembleProd
   artifacts:
     paths:
       - revzen/app/build/outputs/apk/prod/app-prod.apk
@@ -172,7 +171,7 @@ pages:
     - .android-run
   stage: deploy
   script:
-    - ./gradlew assembleDebug
+    - ./gradlew --no-daemon assembleDebug
     - mkdir ../public
     - mkdir ../public/android_app
     - mv app/build/outputs/apk/debug/app-debug.apk ../public/app.apk
