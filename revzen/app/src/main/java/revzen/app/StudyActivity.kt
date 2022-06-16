@@ -14,9 +14,7 @@ import java.lang.Math.abs
 import kotlin.random.Random
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
-    private val client = OkHttpClient()
     private lateinit var timer: Chronometer
-    private val userID = kotlin.math.abs(Random.nextInt()) % 1000
     private var studyLength = 60.0
     private var breakLength = 15.0
     private var inSession = true
@@ -36,34 +34,9 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timer.base = SystemClock.elapsedRealtime() + (studyLength * 60000).toLong()
         timer.onChronometerTickListener = this
         timer.start()
-        apiStartRevision()
-    }
-
-    private fun apiStartRevision() {
-        val requestBody =
-            FormBody.Builder().add("user_id", userID.toString()).add("version", "0")
-                .add("rev_time", "3").build()
-        val request =
-            Request.Builder().url(BuildConfig.API + "api/revise").post(requestBody).build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {call.cancel()}
-            override fun onResponse(call: Call, response: Response) {
-            }
-        })
-
-    }
-
-    private fun apiEndRevision() {
-        val requestBody = FormBody.Builder().add("user_id", userID.toString()).add("version", "0").build()
-        val request = Request.Builder().url(BuildConfig.API + "api/stop_revise").post(requestBody).build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) {}
-        })
     }
 
     override fun onUserLeaveHint() {
-//        apiEndRevision()
         if(validLeave){
             return
         }
@@ -82,7 +55,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
-        if (elapsedMillis == 0L){
+        if (elapsedMillis == 0L) {
             chronometer.base -= (1000)
         }
         if ((elapsedMillis <= 0) && inSession) {
@@ -108,7 +81,6 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun goToEndSession(_view: View) {
-        apiEndRevision()
         validLeave = true
         //leaving via button is considered valid. Leaving by home button is invalid
 
