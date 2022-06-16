@@ -113,7 +113,7 @@ build-android:
     .android-run
   stage: build
   script:
-    - ./gradlew --no-daemon assembleDebug
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m --no-daemon assembleDebug
   artifacts:
     paths:
       - revzen/app/build/outputs/apk/debug/app-debug.apk
@@ -123,7 +123,7 @@ test-android:
     .android-run
   stage: test
   script:
-    - ./gradlew --no-daemon test
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m --no-daemon test
 
 # Run a linting pass, creating an artifact of the results if the lint fails.
 lint-android:
@@ -131,7 +131,7 @@ lint-android:
     .android-run
   stage: lint
   script:
-    - ./gradlew --no-daemon lint
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m --no-daemon lint
   allow_failure: true
   artifacts:
     when: on_failure
@@ -145,7 +145,7 @@ deploy-android-dev:
     .android-run
   stage: deploy
   script:
-    - ./gradlew --no-daemon assembleDev
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m --no-daemon assembleDev
   artifacts:
     paths:
       - revzen/app/build/outputs/apk/dev/app-dev.apk
@@ -157,7 +157,7 @@ deploy-android-prod:
     .android-run
   stage: deploy
   script:
-    - ./gradlew --no-daemon assembleProd
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m --no-daemon assembleProd
   artifacts:
     paths:
       - revzen/app/build/outputs/apk/prod/app-prod.apk
@@ -171,7 +171,7 @@ pages:
     - .android-run
   stage: deploy
   script:
-    - ./gradlew --no-daemon assembleDebug
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m --no-daemon assembleDebug
     - mkdir ../public
     - mkdir ../public/android_app
     - mv app/build/outputs/apk/debug/app-debug.apk ../public/app.apk
