@@ -45,4 +45,13 @@
     <string name="revzen_menu_social">Social Dashboard</string>
     <string name="revzen_history_menu">Study Histroy</string>
     <string name="revzen_account_menu">Account Settings</string>
+    <string name="create_account">Create Account</string>
+    <string name="subject_id_text">Enter Subject ID</string>
+    <string name="login_failure_no_such_user">There is not an account for this user</string>
+    <string name="login_failure_outdated_api">App out of date, too old for API</string>
+    <string name="login_failure_unspecified_api_error">Something went wrong</string>
+    <string name="create_account_enter_subject">Enter Subject ID</string>
+    <string name="create_account_enter_username">Enter username</string>
+    <string name="create_account_user_exists">You appear to have previously created an account (same subject id)</string>
+    <string name="create_account_button">Create Account</string>
 </resources>
