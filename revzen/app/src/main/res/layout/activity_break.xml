@@ -6,41 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".BreakActivity">
 
+    <ImageView
+        android:id="@+id/petView2"
+        android:layout_width="261dp"
+        android:layout_height="235dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="96dp"
+        android:contentDescription="@string/pet_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.681"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakWarning"
+        app:srcCompat="@drawable/petbreak" />
+
+    <TextView
+        android:id="@+id/breakWarning"
+        android:layout_width="369dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="472dp"
+        android:text="@string/break_warning"
+        android:textAlignment="center"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakTimer" />
+
     <Button
         android:id="@+id/endBreakSessionButton"
-        android:layout_width="166dp"
-        android:layout_height="142dp"
+        android:layout_width="225dp"
+        android:layout_height="100dp"
         android:layout_marginStart="144dp"
         android:layout_marginEnd="145dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="40dp"
         android:onClick="endSession"
         android:text="@string/end_session_button"
         android:textSize="24sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/continueStudyButton"
-        android:layout_width="166dp"
-        android:layout_height="142dp"
+        android:layout_width="225dp"
+        android:layout_height="100dp"
         android:layout_marginStart="144dp"
         android:layout_marginEnd="145dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="12dp"
         android:onClick="keepStudying"
         android:text="@string/keep_studying_button"
         android:textSize="24sp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/endBreakSessionButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Chronometer
         android:id="@+id/breakTimer"
         android:layout_width="315dp"
         android:layout_height="85dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="16dp"
         android:countDown="true"
         android:format="%s"
         android:textAlignment="center"
@@ -67,4 +101,5 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

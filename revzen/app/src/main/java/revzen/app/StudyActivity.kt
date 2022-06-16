@@ -17,7 +17,8 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private val client = OkHttpClient()
     private lateinit var timer: Chronometer
     private val userID = abs(Random.nextInt()) % 1000
-    private var studyLength = 60.0
+    private val MINSTOMILLIS = 60000
+    private var studyLength = 60.0 //default values, will be overwritten in onCreate
     private var breakLength = 5.0
     private var inSession = true
     private var validLeave = false
@@ -33,7 +34,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         }
 
         timer = findViewById(R.id.chronometer)
-        timer.base = SystemClock.elapsedRealtime() + (studyLength * 60000).toLong()
+        timer.base = SystemClock.elapsedRealtime() + (studyLength * MINSTOMILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
         apiStartRevision()
@@ -91,7 +92,24 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if ((elapsedMillis > 0) && !inSession) {
             setTimerView()
             inSession = true
+        } else if (elapsedMillis < -30 * MINSTOMILLIS) {
+            timer.stop()
+            val i = Intent(this, FailActivity::class.java)
+            i.putExtra("reason", "studyTimeout")
+            startActivity(i)
+            finish()
+        } else if (elapsedMillis < -20 * MINSTOMILLIS) {
+            setWarningView()
         }
+
+    }
+
+    private fun setTimerView() {
+        findViewById<TextView>(R.id.studyTitleText).text =
+            resources.getString(R.string.session_title)
+        findViewById<TextView>(R.id.warningView).text = resources.getString(R.string.warning_title1)
+        findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
+        findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.end_session_button)
     }
 
     private fun setBreakView() {
@@ -100,11 +118,9 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.break_button)
     }
 
-    private fun setTimerView() {
-        findViewById<TextView>(R.id.studyTitleText).text =
-            resources.getString(R.string.session_title)
+    private fun setWarningView() {
+        findViewById<TextView>(R.id.warningView).text = resources.getString(R.string.warning_title2)
         findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
-        findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.end_session_button)
     }
 
     fun goToEndSession(_view: View) {

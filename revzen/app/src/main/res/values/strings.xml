@@ -23,7 +23,10 @@
     <string name="break_title">Take a Break!</string>
     <string name="keep_studying_button">Continue Studying</string>
     <string name="break_button">Break!</string>
-    <string name="warning_title">Breaking a streak will lose your progress!</string>
+    <string name="warning_title1">Ending a session early or leaving the app will hurt your pet!</string>
+    <string name="warning_title2">You should take a break. If you wait too long, your session will end due to inactivity!</string>
+    <string name="break_warning">Your break is up. You should return to studying now or end session and collect your rewards!</string>
+
 
     <string name="fail_title1">Oh no!</string>
     <string name="fail_title2">You broke your study session</string>
