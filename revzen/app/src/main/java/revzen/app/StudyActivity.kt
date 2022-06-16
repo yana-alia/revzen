@@ -17,7 +17,8 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private val client = OkHttpClient()
     private lateinit var timer: Chronometer
     private val userID = abs(Random.nextInt()) % 1000
-    private var minutes = 1
+    private var studyLength = 60.0
+    private var breakLength = 5.0
     private var inSession = true
     private var validLeave = false
 
@@ -25,8 +26,14 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study)
 
+        val extras = getIntent().extras
+        if(extras != null) {
+            studyLength = extras.get("studyLength") as Double
+            breakLength = extras.get("breakLength") as Double
+        }
+
         timer = findViewById(R.id.chronometer)
-        timer.base = SystemClock.elapsedRealtime() + (minutes * 60000)
+        timer.base = SystemClock.elapsedRealtime() + (studyLength * 60000).toLong()
         timer.onChronometerTickListener = this
         timer.start()
         apiStartRevision()
@@ -62,7 +69,9 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         }
         super.onUserLeaveHint()
         timer.stop()
-        startActivity(Intent(this, FailActivity::class.java))
+        val i = Intent(this, FailActivity::class.java)
+        i.putExtra("reason", "leaveApp")
+        startActivity(i)
         finish()
     }
 
@@ -104,9 +113,13 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         //leaving via button is considered valid. Leaving by home button is invalid
 
         if (inSession) {
-            startActivity(Intent(this, FailActivity::class.java))
+            val i = Intent(this, FailActivity::class.java)
+            i.putExtra("reason", "giveUp")
+            startActivity(i)
         } else {
-            startActivity(Intent(this, BreakActivity::class.java))
+            val i = Intent(this, BreakActivity::class.java)
+            i.putExtra("breakLength", breakLength)
+            startActivity(i)
         }
         finish()
     }
