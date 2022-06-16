@@ -11,3 +11,6 @@ pub mod log_session;
 pub mod login_user;
 pub mod start_revising;
 pub mod stop_revising;
+pub mod friend_accept;
+pub mod friend_request;
+pub mod get_live_friends;
