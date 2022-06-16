@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.widget.Chronometer
+import android.widget.TextView
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
-    private var breakLength = 5.0
+    private var breakLength = 5.0 //default values, will be overwritten in onCreate
+    private val MINSTOMILLIS = 60000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +23,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         }
 
         timer = findViewById(R.id.breakTimer)
-        timer.base = SystemClock.elapsedRealtime() + (breakLength * 60000).toLong()
+        timer.base = SystemClock.elapsedRealtime() + (breakLength * MINSTOMILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
@@ -41,7 +43,17 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         finish()
     }
 
-    override fun onChronometerTick(chronometer: Chronometer?) {
-        //SHOW WARNING
+    override fun onChronometerTick(chronometer: Chronometer) {
+        val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
+        if (elapsedMillis == 0L){
+            chronometer.base -= (1000)
+        } else if (elapsedMillis < -5 * MINSTOMILLIS) {
+            val i = Intent(this, FailActivity::class.java)
+            i.putExtra("reason", "breakTimeout")
+            startActivity(i)
+            finish()
+        } else if (elapsedMillis < 0) {
+            findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
+        }
     }
 }
