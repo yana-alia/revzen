@@ -7,9 +7,16 @@ import android.view.View
 import android.widget.ImageView
 
 class FailActivity : AppCompatActivity() {
+    private var studyList = ArrayList<Pair<Int,Long>>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fail)
+
+        val extras = getIntent().extras
+        if(extras != null) {
+            studyList = extras.get("studyList") as ArrayList<Pair<Int,Long>>
+        }
 
         //API call to set health variable
         val health = 2
@@ -30,7 +37,9 @@ class FailActivity : AppCompatActivity() {
     }
 
     fun goToSummary(_view: View) {
-        startActivity(Intent(this, SummaryActivity::class.java))
+        val i = Intent(this, SummaryActivity::class.java)
+        i.putExtra("studyList", studyList)
+        startActivity(i)
         finish()
     }
 }

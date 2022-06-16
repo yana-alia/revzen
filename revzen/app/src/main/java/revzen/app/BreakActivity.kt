@@ -12,6 +12,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var timer: Chronometer
     private var breakLength = 5.0 //default values, will be overwritten in onCreate
     private val MINSTOMILLIS = 60000
+    private var studyList = ArrayList<Pair<Int,Long>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         val extras = getIntent().extras
         if(extras != null) {
             breakLength = extras.get("breakLength") as Double
+            studyList = extras.get("studyList") as ArrayList<Pair<Int,Long>>
         }
 
         timer = findViewById(R.id.breakTimer)
@@ -34,12 +36,16 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun keepStudying(_view : View) {
-        startActivity(Intent(this, SetupActivity::class.java))
+        val i = Intent(this, SetupActivity::class.java)
+        i.putExtra("studyList", studyList)
+        startActivity(i)
         finish()
     }
 
     fun endSession(_view : View) {
-        startActivity(Intent(this, SummaryActivity::class.java))
+        val i = Intent(this, SummaryActivity::class.java)
+        i.putExtra("studyList", studyList)
+        startActivity(i)
         finish()
     }
 

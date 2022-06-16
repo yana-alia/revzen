@@ -31,13 +31,13 @@
     <string name="fail_title1">Oh no!</string>
     <string name="fail_title2">You broke your study session</string>
     <string name="summary_button">OK</string>
-    <string name="health_bar">❤ ❤ ❤</string>
 
     <string name="summary_title">Summary</string>
+    <string name="summary_xp">Gained XP:</string>
 
     <string name="sample_text">Lorem Ipsum</string>
     <string name="revzen_welcome">Welcome to revzen!</string>
     <string name="revzen_menu_social">Social Dashboard</string>
-    <string name="revzen_history_menu">Study Histroy</string>
+    <string name="revzen_history_menu">Study History</string>
     <string name="revzen_account_menu">Account Settings</string>
 </resources>

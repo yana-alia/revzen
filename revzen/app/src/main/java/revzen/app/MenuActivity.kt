@@ -17,6 +17,9 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun goToSessionSetup(_view: View) {
+        val i = Intent(this, SetupActivity::class.java)
+        i.putExtra("studyList", ArrayList<Pair<Double,Double>>())
+        startActivity(i)
         startActivity(Intent(this, SetupActivity::class.java))
     }
 }

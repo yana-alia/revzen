@@ -10,6 +10,7 @@ import android.widget.Spinner
 class SetupActivity : AppCompatActivity() {
     private var studyLengths = listOf(30, 45, 60, 90, 120)
     private var breakLengths = listOf(5, 10, 15, 20, 25, 30)
+    private var studyList = ArrayList<Pair<Double,Double>>()
     private lateinit var studySpinner: Spinner
     private lateinit var breakSpinner: Spinner
 
@@ -18,6 +19,11 @@ class SetupActivity : AppCompatActivity() {
         val breakStrings = breakLengths.map { t -> timeFormat(t) }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)
+
+        val extras = getIntent().extras
+        if(extras != null) {
+            studyList = extras.get("studyList") as ArrayList<Pair<Double,Double>>
+        }
 
         studySpinner = findViewById(R.id.studyLengthSpinner)
         breakSpinner = findViewById(R.id.breakLengthSpinner)
@@ -34,6 +40,7 @@ class SetupActivity : AppCompatActivity() {
         val i = Intent(this, StudyActivity::class.java)
         i.putExtra("studyLength", studyLengths[studySpinner.selectedItemId.toInt()].toDouble())
         i.putExtra("breakLength", breakLengths[breakSpinner.selectedItemId.toInt()].toDouble())
+        i.putExtra("studyList", studyList)
         startActivity(i)
         finish()
     }

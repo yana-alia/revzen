@@ -17,9 +17,11 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private val client = OkHttpClient()
     private lateinit var timer: Chronometer
     private val userID = abs(Random.nextInt()) % 1000
+    private var elapsedMillis = 0L
     private val MINSTOMILLIS = 60000
     private var studyLength = 60.0 //default values, will be overwritten in onCreate
     private var breakLength = 5.0
+    private var studyList = ArrayList<Pair<Int,Long>>()
     private var inSession = true
     private var validLeave = false
 
@@ -31,6 +33,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         if(extras != null) {
             studyLength = extras.get("studyLength") as Double
             breakLength = extras.get("breakLength") as Double
+            studyList = extras.get("studyList") as ArrayList<Pair<Int,Long>>
         }
 
         timer = findViewById(R.id.chronometer)
@@ -72,6 +75,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timer.stop()
         val i = Intent(this, FailActivity::class.java)
         i.putExtra("reason", "leaveApp")
+        i.putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS) as Int, elapsedMillis)))
         startActivity(i)
         finish()
     }
@@ -82,7 +86,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     override fun onChronometerTick(chronometer: Chronometer) {
-        val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
+        elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
         if (elapsedMillis == 0L){
             chronometer.base -= (1000)
         }
@@ -96,6 +100,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             timer.stop()
             val i = Intent(this, FailActivity::class.java)
             i.putExtra("reason", "studyTimeout")
+            i.putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS) as Int, elapsedMillis)))
             startActivity(i)
             finish()
         } else if (elapsedMillis < -20 * MINSTOMILLIS) {
@@ -131,10 +136,12 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         if (inSession) {
             val i = Intent(this, FailActivity::class.java)
             i.putExtra("reason", "giveUp")
+            i.putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS) as Int, elapsedMillis)))
             startActivity(i)
         } else {
             val i = Intent(this, BreakActivity::class.java)
             i.putExtra("breakLength", breakLength)
+            i.putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS) as Int, elapsedMillis)))
             startActivity(i)
         }
         finish()
