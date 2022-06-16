@@ -16,9 +16,9 @@ import kotlin.random.Random
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private val client = OkHttpClient()
     private lateinit var timer: Chronometer
-    private val userID = abs(Random.nextInt()) % 1000
+    private val userID = kotlin.math.abs(Random.nextInt()) % 1000
     private var studyLength = 60.0
-    private var breakLength = 5.0
+    private var breakLength = 15.0
     private var inSession = true
     private var validLeave = false
 
@@ -26,7 +26,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study)
 
-        val extras = getIntent().extras
+        val extras = intent.extras
         if(extras != null) {
             studyLength = extras.get("studyLength") as Double
             breakLength = extras.get("breakLength") as Double
