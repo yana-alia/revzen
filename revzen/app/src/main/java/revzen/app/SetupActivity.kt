@@ -64,6 +64,9 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun startSession(studyTime: Int, breakTime: Int) {
+
+        apiHandler.startLiveRevision({}, {_ -> })
+
         startActivity(Intent(this, StudyActivity::class.java).apply {
             putExtra("handler", apiHandler)
             putExtra("timeTracker", SessionData(0, 0, studyTime * 60, breakTime * 60))

@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                     else -> R.string.login_failure_unspecified_api_error
                 }
             )
-            setPositiveButton("Ok") { _, _ -> finish()}
+            setPositiveButton("Ok") { _, _ -> finish() }
             create()
             show()
         }

@@ -30,7 +30,7 @@ class ApiHandler(
         on_success: (Array<HistoryResponse>) -> Any,
         on_failure: (ApiError) -> Any
     ) {
-        val handler: Handler = Handler(Looper.getMainLooper())
+        val handler = Handler(Looper.getMainLooper())
         buildRequest("get_history", emptyList(), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 handler.post { on_failure(ApiError.API_FAILURE) }
@@ -39,7 +39,6 @@ class ApiHandler(
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
                     200 -> {
-
                         val history = Gson().fromJson(
                             response.body.string(),
                             Array<HistoryResponse>::class.java
@@ -63,7 +62,7 @@ class ApiHandler(
         on_success: () -> Any,
         on_failure: (ApiError) -> Any
     ) {
-        val handler: Handler = Handler(Looper.getMainLooper())
+        val handler = Handler(Looper.getMainLooper())
         buildRequest(
             "log_session",
             listOf(
@@ -86,5 +85,60 @@ class ApiHandler(
                     }
                 }
             })
+    }
+
+    fun startLiveRevision(on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        apiEmptyPost("start_revising", on_success, on_failure)
+    }
+
+    fun stopLiveRevision(on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        apiEmptyPost("stop_revising", on_success, on_failure)
+    }
+
+    private fun apiEmptyPost(method: String, on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest(method, emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> handler.post { on_success() }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+            }
+        })
+    }
+
+    fun getLiveRevision(
+        on_success: (Array<LiveRevisionResponse>) -> Any,
+        on_failure: (ApiError) -> Any
+    ) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("get_revising", emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val liveUsers = Gson().fromJson(
+                            response.body.string(),
+                            Array<LiveRevisionResponse>::class.java
+                        )
+                        handler.post {
+                            on_success(liveUsers)
+                        }
+                    }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+            }
+        })
     }
 }
