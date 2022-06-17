@@ -18,8 +18,7 @@ class LiveRevisionActivity : AppCompatActivity() {
     private val updateTask: Runnable = object : Runnable {
         override fun run() {
             pollLiveRevisers()
-            println("polling live")
-            handler.postDelayed(this, 2000)
+            handler.postDelayed(this, 1000)
         }
     }
 
@@ -36,7 +35,6 @@ class LiveRevisionActivity : AppCompatActivity() {
     }
 
     private fun successGetRevisers(revisers: Array<LiveRevisionResponse>) {
-        println("hello")
         adapter = LiveRevisionAdapter(this, revisers)
         studyList.adapter = adapter
     }
