@@ -14,6 +14,7 @@ class FailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fail)
         apiHandler = intent.extras?.getParcelable("handler")!!
+        apiHandler.stopLiveRevision({}, { _ -> })
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
     }
 
@@ -23,7 +24,13 @@ class FailActivity : AppCompatActivity() {
     }
 
     fun goToSummary(_view: View) {
-        apiHandler.logSession(timeTracker.planned_study_time, timeTracker.planned_break_time, timeTracker.study_time, timeTracker.break_time, {}, { _ ->})
+        apiHandler.logSession(
+            timeTracker.planned_study_time,
+            timeTracker.planned_break_time,
+            timeTracker.study_time,
+            timeTracker.break_time,
+            {},
+            { _ -> })
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
         })
