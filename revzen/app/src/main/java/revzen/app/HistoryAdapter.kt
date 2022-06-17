@@ -4,13 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.View.inflate
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.android.material.timepicker.TimeFormat
 import revzen.app.api.HistoryResponse
-import java.util.zip.Inflater
 
 class HistoryAdapter(private val context: Context,
                      private val dataSource: Array<HistoryResponse>) : BaseAdapter() {

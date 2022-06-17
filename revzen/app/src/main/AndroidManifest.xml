@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Revzen"
         tools:targetApi="31">
         <activity
+            android:name=".LiveRevisionActivity"
+            android:exported="false" />
+        <activity
             android:name=".StudyHistoryActivity"
             android:exported="false" />
         <activity

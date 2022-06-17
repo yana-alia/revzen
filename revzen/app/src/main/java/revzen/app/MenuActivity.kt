@@ -41,4 +41,13 @@ class MenuActivity : AppCompatActivity() {
             )
         })
     }
+
+    fun goToLiveRevision(_view: View) {
+        startActivity(Intent(this, LiveRevisionActivity::class.java).apply {
+            putExtra(
+                "handler",
+                apiHandler
+            )
+        })
+    }
 }

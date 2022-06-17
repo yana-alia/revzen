@@ -50,15 +50,17 @@
         app:srcCompat="@drawable/petlogo" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/menu_live_study"
         android:layout_width="300dp"
         android:layout_height="66dp"
         android:layout_marginStart="55dp"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="32dp"
+        android:onClick="goToLiveRevision"
         android:text="@string/revzen_menu_social"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dashboardText" />
 
@@ -67,23 +69,25 @@
         android:layout_width="300dp"
         android:layout_height="66dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="56dp"
         android:onClick="goToRevisionHistory"
         android:text="@string/revzen_history_menu"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/menu_live_study" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="300dp"
         android:layout_height="66dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="56dp"
         android:text="@string/revzen_account_menu"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 

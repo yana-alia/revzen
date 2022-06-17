@@ -3,7 +3,6 @@
 //! Used for getting the most recent session's details and for displaying user's revision history.
 //!
 //! ## Post Request Fields
-//! ## Post Request Fields
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
