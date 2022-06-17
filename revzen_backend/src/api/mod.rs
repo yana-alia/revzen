@@ -8,3 +8,4 @@ pub mod create_user;
 pub mod get_history;
 pub mod log_session;
 pub mod login_user;
+pub mod start_revising;

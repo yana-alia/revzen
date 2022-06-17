@@ -18,9 +18,11 @@ extern crate rocket;
 #[macro_use]
 extern crate diesel;
 
+use std::collections::HashMap;
+
 use diesel::{insert_into, prelude::*};
 use models::AddUser;
-use rocket::{form::Form, http::Status};
+use rocket::{form::Form, http::Status, tokio::sync::RwLock};
 
 use rocket_sync_db_pools::database;
 use schema::users;
@@ -32,7 +34,7 @@ mod schema;
 
 use api::{
     create_user::api_create_user, get_history::api_get_history, log_session::api_log_session,
-    login_user::api_login,
+    login_user::api_login, start_revising::api_start_revising
 };
 use pages::{index, internal_error, page_not_found, policy};
 
@@ -46,6 +48,9 @@ type UserID = i64;
 type AppVer = u32;
 const BACKEND_VERSION: AppVer = 1;
 
+/// Managing live user's revising
+struct StudyState (RwLock<HashMap<UserID, (i32, String)>>);
+
 /// The revzen database type, which will hold the connection pool used by the application.
 #[database("revzen_db")]
 struct RevzenDB(diesel::PgConnection);
@@ -56,8 +61,9 @@ fn rocket() -> _ {
         .mount("/", routes![index, policy])
         .mount(
             "/api",
-            routes![api_login, api_create_user, api_log_session, api_get_history],
+            routes![api_login, api_create_user, api_log_session, api_get_history, api_start_revising],
         )
         .register("/", catchers![page_not_found, internal_error])
         .attach(RevzenDB::fairing())
+        .manage(StudyState(RwLock::from(HashMap::new())))
 }
