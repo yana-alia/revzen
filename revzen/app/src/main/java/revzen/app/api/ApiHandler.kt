@@ -39,7 +39,6 @@ class ApiHandler(
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
                     200 -> {
-
                         val history = Gson().fromJson(
                             response.body.string(),
                             Array<HistoryResponse>::class.java
@@ -98,7 +97,7 @@ class ApiHandler(
 
     private fun apiEmptyPost(method: String, on_success: () -> Any, on_failure: (ApiError) -> Any) {
         val handler = Handler(Looper.getMainLooper())
-        buildRequest(method, emptyList(), object : Callback{
+        buildRequest(method, emptyList(), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 handler.post { on_failure(ApiError.API_FAILURE) }
             }
@@ -114,9 +113,12 @@ class ApiHandler(
         })
     }
 
-    fun getLiveRevision(on_success: (Array<LiveRevisionResponse>) -> Any, on_failure: (ApiError) -> Any) {
+    fun getLiveRevision(
+        on_success: (Array<LiveRevisionResponse>) -> Any,
+        on_failure: (ApiError) -> Any
+    ) {
         val handler = Handler(Looper.getMainLooper())
-        buildRequest("get_revising", emptyList(), object : Callback{
+        buildRequest("get_revising", emptyList(), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 handler.post { on_failure(ApiError.API_FAILURE) }
             }
@@ -125,7 +127,7 @@ class ApiHandler(
                 when (response.code) {
                     200 -> {
                         val liveUsers = Gson().fromJson(
-                            response.body.toString(),
+                            response.body.string(),
                             Array<LiveRevisionResponse>::class.java
                         )
                         handler.post {

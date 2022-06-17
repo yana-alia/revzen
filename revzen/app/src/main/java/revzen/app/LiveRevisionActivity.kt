@@ -18,7 +18,8 @@ class LiveRevisionActivity : AppCompatActivity() {
     private val updateTask: Runnable = object : Runnable {
         override fun run() {
             pollLiveRevisers()
-            handler.postDelayed(this, 100)
+            println("polling live")
+            handler.postDelayed(this, 2000)
         }
     }
 
@@ -27,7 +28,7 @@ class LiveRevisionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_live_revision)
         apiHandler = intent.extras?.getParcelable("handler")!!
         studyList = findViewById(R.id.live_revisers_list)
-        pollLiveRevisers()
+        handler.post(updateTask)
     }
 
     private fun pollLiveRevisers() {
@@ -35,6 +36,7 @@ class LiveRevisionActivity : AppCompatActivity() {
     }
 
     private fun successGetRevisers(revisers: Array<LiveRevisionResponse>) {
+        println("hello")
         adapter = LiveRevisionAdapter(this, revisers)
         studyList.adapter = adapter
     }

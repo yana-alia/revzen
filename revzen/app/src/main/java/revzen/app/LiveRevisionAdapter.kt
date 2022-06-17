@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class LiveRevisionAdapter(private val context: Context,
-                     private val dataSource: Array<LiveRevisionResponse>) : BaseAdapter() {
+class LiveRevisionAdapter(
+    private val context: Context,
+    private val dataSource: Array<LiveRevisionResponse>
+) : BaseAdapter() {
 
     override fun getCount(): Int {
         return dataSource.size
@@ -28,7 +30,8 @@ class LiveRevisionAdapter(private val context: Context,
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val liveReviser = getItem(position) as LiveRevisionResponse
         val view =
-            convertView ?: LayoutInflater.from(context).inflate(R.layout.live_revision_row, parent, false)
+            convertView ?: LayoutInflater.from(context)
+                .inflate(R.layout.live_revision_row, parent, false)
 
         val title: TextView = view.findViewById(R.id.live_user_name)
         val description: TextView = view.findViewById(R.id.live_user_friendcode)

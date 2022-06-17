@@ -9,8 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import revzen.app.api.HistoryResponse
 
-class HistoryAdapter(private val context: Context,
-                     private val dataSource: Array<HistoryResponse>) : BaseAdapter() {
+class HistoryAdapter(
+    private val context: Context,
+    private val dataSource: Array<HistoryResponse>
+) : BaseAdapter() {
 
     override fun getCount(): Int {
         return dataSource.size
@@ -40,8 +42,11 @@ class HistoryAdapter(private val context: Context,
         val description: TextView = view.findViewById(R.id.session_description)
         val icon: ImageView = view.findViewById(R.id.session_icon)
 
-        title.text = "Studied for ${timeFormat(session.study_time)}, with ${timeFormat(session.break_time)} break."
-        description.text = "Planned to study for ${timeFormat(session.planned_study_time)} with ${timeFormat(session.planned_break_time)} break."
+        title.text =
+            "Studied for ${timeFormat(session.study_time)}, with ${timeFormat(session.break_time)} break."
+        description.text = "Planned to study for ${timeFormat(session.planned_study_time)} with ${
+            timeFormat(session.planned_break_time)
+        } break."
 
         if (session.study_time >= session.planned_study_time) {
             icon.setImageResource(R.drawable.petsession)
