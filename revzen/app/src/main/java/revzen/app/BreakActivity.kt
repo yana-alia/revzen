@@ -59,6 +59,9 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun endSession(_view : View) {
+
+        apiHandler.stopLiveRevision({}, {_ -> })
+
         timer.stop()
         updateTimeTracker()
 

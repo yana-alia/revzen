@@ -14,6 +14,9 @@ class FailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fail)
         apiHandler = intent.extras?.getParcelable("handler")!!
+
+        apiHandler.stopLiveRevision({}, {_ -> })
+
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
     }
 
