@@ -24,8 +24,8 @@ class LoginActivity : AppCompatActivity() {
 
     fun attempt_login(_view: View) {
         loading.visibility = View.VISIBLE
-        val subject_id = Integer.parseInt(subjectID.text.toString()).toLong()
-        loginUser(subject_id, this::successful_login, this::login_failure)
+        val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
+        loginUser(subjectID, this::successful_login, this::login_failure)
     }
 
     fun successful_login(handler: ApiHandler) {
@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                     else -> R.string.login_failure_unspecified_api_error
                 }
             )
-            setPositiveButton("Ok") { _, _ -> }
+            setPositiveButton("Ok") { _, _ -> finish()}
             create()
             show()
         }

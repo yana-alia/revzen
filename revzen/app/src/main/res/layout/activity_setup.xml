@@ -30,6 +30,7 @@
         android:textColor="?android:colorSecondary"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/startStudyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.625"
@@ -111,6 +112,7 @@
         android:backgroundTint="?android:colorSecondary"
         android:onClick="startSessionWithRecent"
         android:textSize="16sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/setupBreakButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -124,6 +126,7 @@
         android:backgroundTint="?android:colorSecondary"
         android:onClick="startSessionWithRecent"
         android:textSize="16sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/startStudyButton"
         app:layout_constraintEnd_toEndOf="parent" />
 

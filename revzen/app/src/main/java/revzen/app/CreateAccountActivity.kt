@@ -10,9 +10,9 @@ import revzen.app.api.ApiError
 import revzen.app.api.create_user
 
 class CreateAccountActivity : AppCompatActivity() {
-    lateinit var loading: ProgressBar
-    lateinit var subjectID: EditText
-    lateinit var username: EditText
+    private lateinit var loading: ProgressBar
+    private lateinit var subjectID: EditText
+    private lateinit var username: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +24,10 @@ class CreateAccountActivity : AppCompatActivity() {
 
     fun attempt_create_account(_view: View) {
         loading.visibility = View.VISIBLE
-        val subject_id = Integer.parseInt(subjectID.text.toString()).toLong()
+        val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
         val username = username.text.toString()
         create_user(
-            subject_id,
+            subjectID,
             username,
             this::successful_account_create,
             this::account_create_failure
@@ -57,7 +57,7 @@ class CreateAccountActivity : AppCompatActivity() {
                     else -> R.string.login_failure_unspecified_api_error
                 }
             )
-            setPositiveButton("Ok") { _, _ -> }
+            setPositiveButton("Ok") { _, _ -> finish()}
             create()
             show()
         }
