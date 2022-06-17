@@ -34,7 +34,7 @@ mod schema;
 
 use api::{
     create_user::api_create_user, get_history::api_get_history, log_session::api_log_session,
-    login_user::api_login, start_revising::api_start_revising
+    login_user::api_login, start_revising::api_start_revising, stop_revising::api_stop_revising
 };
 use pages::{index, internal_error, page_not_found, policy};
 
@@ -61,7 +61,7 @@ fn rocket() -> _ {
         .mount("/", routes![index, policy])
         .mount(
             "/api",
-            routes![api_login, api_create_user, api_log_session, api_get_history, api_start_revising],
+            routes![api_login, api_create_user, api_log_session, api_get_history, api_start_revising, api_stop_revising],
         )
         .register("/", catchers![page_not_found, internal_error])
         .attach(RevzenDB::fairing())
