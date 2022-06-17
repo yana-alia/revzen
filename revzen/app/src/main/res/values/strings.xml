@@ -1,8 +1,11 @@
 <resources>
+    // GENERAL //
     <string name="app_name">revzen</string>
 
+    // MAIN ACTIVITY //
     <string name="login_button">Login</string>
 
+    // MENU ACTIVITY //
     <string name="start_session_button">Start Session</string>
     <string name="dashboard_title">Dashboard</string>
 
@@ -11,11 +14,14 @@
     <string name="trophy_description">Trophies</string>
     <string name="pet_description">Your trusty pal</string>
 
+    // SETUP ACTIVITY //
     <string name="setup_title">Select your Study Plan</string>
     <string name="study_length_title">Study Length</string>
     <string name="break_length_title">Break Length</string>
     <string name="recent_title">Recent</string>
     <string name="start_study_button">Go</string>
+    <string name="studySpinner_contentDesc">Study Length options</string>
+    <string name="breakSpinner_contentDesc">Break Length options</string>
 
     <string name="session_title">Keep Studying!</string>
     <string name="end_session_button">End Session</string>
@@ -30,11 +36,22 @@
     <string name="summary_button">OK</string>
     <string name="health_bar">❤ ❤ ❤</string>
 
+
     <string name="summary_title">Summary</string>
 
     <string name="sample_text">Lorem Ipsum</string>
+
     <string name="revzen_welcome">Welcome to revzen!</string>
     <string name="revzen_menu_social">Social Dashboard</string>
     <string name="revzen_history_menu">Study Histroy</string>
     <string name="revzen_account_menu">Account Settings</string>
+    <string name="create_account">Create Account</string>
+    <string name="subject_id_text">Enter Subject ID</string>
+    <string name="login_failure_no_such_user">There is not an account for this user</string>
+    <string name="login_failure_outdated_api">App out of date, too old for API</string>
+    <string name="login_failure_unspecified_api_error">Something went wrong</string>
+    <string name="create_account_enter_subject">Enter Subject ID</string>
+    <string name="create_account_enter_username">Enter username</string>
+    <string name="create_account_user_exists">You appear to have previously created an account (same subject id)</string>
+    <string name="create_account_button">Create Account</string>
 </resources>
