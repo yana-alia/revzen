@@ -9,70 +9,63 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import okhttp3.*
+import revzen.app.api.ApiHandler
 import java.io.IOException
 import java.lang.Math.abs
 import kotlin.random.Random
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
-    private val client = OkHttpClient()
     private lateinit var timer: Chronometer
-    private val userID = abs(Random.nextInt()) % 1000
+    private lateinit var apiHandler: ApiHandler
+    private lateinit var timeTracker: SessionData
     private var studyLength = 60.0
-    private var breakLength = 5.0
+    private var breakLength = 15.0
     private var inSession = true
     private var validLeave = false
+    private var originalTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study)
 
-        val extras = getIntent().extras
-        if(extras != null) {
-            studyLength = extras.get("studyLength") as Double
-            breakLength = extras.get("breakLength") as Double
+        val extras = intent.extras
+        if (extras != null) {
+            studyLength = extras.getDouble("studyLength")
+            breakLength = extras.getDouble("breakLength")
         }
 
+        // updating getting the api handler
+        apiHandler = intent.extras?.getParcelable("handler")!!
+        timeTracker = intent.extras?.getParcelable("timeTracker")!!
+
         timer = findViewById(R.id.chronometer)
-        timer.base = SystemClock.elapsedRealtime() + (studyLength * 60000).toLong()
+        originalTime = SystemClock.elapsedRealtime()
+        timer.base = originalTime + (studyLength * 60000).toLong()
         timer.onChronometerTickListener = this
         timer.start()
-        apiStartRevision()
     }
 
-    private fun apiStartRevision() {
-        val requestBody =
-            FormBody.Builder().add("user_id", userID.toString()).add("version", "0")
-                .add("rev_time", "3").build()
-        val request =
-            Request.Builder().url(BuildConfig.API + "api/revise").post(requestBody).build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {call.cancel()}
-            override fun onResponse(call: Call, response: Response) {
-            }
-        })
+    private fun getElapsedTime(): Int =
+        ((SystemClock.elapsedRealtime() - originalTime) / 1000).toInt()
 
-    }
-
-    private fun apiEndRevision() {
-        val requestBody = FormBody.Builder().add("user_id", userID.toString()).add("version", "0").build()
-        val request = Request.Builder().url(BuildConfig.API + "api/stop_revise").post(requestBody).build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) {}
-        })
+    private fun updateTimeTracker() {
+        timeTracker.study_time += getElapsedTime()
     }
 
     override fun onUserLeaveHint() {
-//        apiEndRevision()
-        if(validLeave){
-            return
+        if (!validLeave) {
+            super.onUserLeaveHint()
+            timer.stop()
+            updateTimeTracker()
+
+            startActivity(Intent(this, FailActivity::class.java).apply {
+                putExtra("reason", "leaveApp")
+                putExtra("handler", apiHandler)
+                putExtra("timeTracker", timeTracker)
+            })
+
+            finish()
         }
-        super.onUserLeaveHint()
-        timer.stop()
-        val i = Intent(this, FailActivity::class.java)
-        i.putExtra("reason", "leaveApp")
-        startActivity(i)
-        finish()
     }
 
     override fun onBackPressed() {
@@ -82,7 +75,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
-        if (elapsedMillis == 0L){
+        if (elapsedMillis == 0L) {
             chronometer.base -= (1000)
         }
         if ((elapsedMillis <= 0) && inSession) {
@@ -97,30 +90,36 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private fun setBreakView() {
         findViewById<TextView>(R.id.studyTitleText).text = resources.getString(R.string.break_title)
         findViewById<TextView>(R.id.warningView).visibility = View.INVISIBLE
-        findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.break_button)
+        findViewById<Button>(R.id.endSessionButton).text =
+            resources.getString(R.string.break_button)
     }
 
     private fun setTimerView() {
         findViewById<TextView>(R.id.studyTitleText).text =
             resources.getString(R.string.session_title)
         findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
-        findViewById<Button>(R.id.endSessionButton).text = resources.getString(R.string.end_session_button)
+        findViewById<Button>(R.id.endSessionButton).text =
+            resources.getString(R.string.end_session_button)
     }
 
     fun goToEndSession(_view: View) {
-        apiEndRevision()
         validLeave = true
-        //leaving via button is considered valid. Leaving by home button is invalid
+        timer.stop()
+        updateTimeTracker()
 
-        if (inSession) {
-            val i = Intent(this, FailActivity::class.java)
-            i.putExtra("reason", "giveUp")
-            startActivity(i)
+        startActivity(if (inSession) {
+            Intent(this, FailActivity::class.java).apply {
+                putExtra("reason", "giveUp")
+                putExtra("handler", apiHandler)
+                putExtra("timeTracker", timeTracker)
+            }
         } else {
-            val i = Intent(this, BreakActivity::class.java)
-            i.putExtra("breakLength", breakLength)
-            startActivity(i)
-        }
+            Intent(this, BreakActivity::class.java).apply {
+                putExtra("breakLength", breakLength)
+                putExtra("handler", apiHandler)
+                putExtra("timeTracker", timeTracker)
+            }
+        })
         finish()
     }
 }

@@ -17,7 +17,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=0' -F 'user_name=ollie' 'http://127.0.0.1:8000/api/create'
+//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'user_name=ollie' 'http://127.0.0.1:8000/api/create'
 //! ```
 
 use crate::*;
