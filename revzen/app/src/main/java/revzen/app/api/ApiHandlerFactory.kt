@@ -1,6 +1,5 @@
 package revzen.app.api
 
-import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import com.google.gson.Gson
@@ -8,7 +7,7 @@ import okhttp3.*
 import revzen.app.BuildConfig
 import java.io.IOException
 
-fun build_request(
+fun buildRequest(
     client: OkHttpClient,
     subject_id: Long,
     method: String,
@@ -22,16 +21,13 @@ fun build_request(
             }
         }.build()
     val request = Request.Builder().url(BuildConfig.API + "api/" + method).post(requestBody).build()
-    println("making api call")
-    println(BuildConfig.API + "api/" + method)
     client.newCall(request).enqueue(callback)
-    println("enqueued api call")
 }
 
 fun loginUser(subject_id: Long, on_success: (ApiHandler) -> Any, on_failure: (ApiError) -> Any) {
     val client = OkHttpClient()
     val handler: Handler = Handler(Looper.getMainLooper())
-    build_request(client, subject_id, "login", emptyList(), object : Callback {
+    buildRequest(client, subject_id, "login", emptyList(), object : Callback {
         override fun onFailure(call: Call, e: IOException) {
             handler.post { on_failure(ApiError.API_FAILURE) }
         }
@@ -59,7 +55,7 @@ fun loginUser(subject_id: Long, on_success: (ApiHandler) -> Any, on_failure: (Ap
     })
 }
 
-fun create_user(
+fun createUser(
     subject_id: Long,
     username: String,
     on_success: () -> Any,
@@ -67,7 +63,7 @@ fun create_user(
 ) {
     val client = OkHttpClient()
     val handler: Handler = Handler(Looper.getMainLooper())
-    build_request(
+    buildRequest(
         client,
         subject_id,
         "create",
@@ -84,5 +80,6 @@ fun create_user(
                     else -> handler.post { on_failure(ApiError.API_FAILURE) }
                 }
             }
-        })
+        }
+    )
 }

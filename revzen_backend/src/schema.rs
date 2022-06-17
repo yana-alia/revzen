@@ -1,4 +1,12 @@
 table! {
+    friends (user_a, user_b) {
+        user_a -> Int8,
+        user_b -> Int8,
+        friend_status -> Int4,
+    }
+}
+
+table! {
     histories (id) {
         id -> Int4,
         sub -> Int8,
@@ -18,4 +26,4 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(histories, users,);
+allow_tables_to_appear_in_same_query!(friends, histories, users,);

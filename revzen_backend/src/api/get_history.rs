@@ -17,12 +17,12 @@
 //! | 200 - OK        | The user was successfully added, can now login. |
 //! | 404 - Not Found | No such account exists.                         |
 //!
-//! 
+//!
 //! ## CURL Example:
 //! ```bash
 //! curl -X POST -F 'user_id=301' -F 'version=1' 'http://127.0.0.1:8000/api/get_history'
 //! ```
-//! 
+//!
 //! In event of a 200 - OK the following json is returned
 //! ```json
 //! [
@@ -55,10 +55,7 @@ use std::time::SystemTime;
 use diesel::{dsl::exists, select};
 use rocket::serde::{json::Json, Serialize};
 
-use crate::{
-    models::History,
-    *,
-};
+use crate::{models::History, *};
 
 /// Used to identify a client (with version number for compatability check)
 #[derive(FromForm)]
@@ -100,16 +97,18 @@ pub(crate) async fn api_get_history(
                 .order(session_time)
                 .load::<History>(c)
             {
-                Some(Json(hists
-                    .into_iter()
-                    .map(|entry| StudySession {
-                        time: entry.session_time,
-                        planned_study_time: entry.plan_study_time,
-                        planned_break_time: entry.plan_break_time,
-                        study_time: entry.study_time,
-                        break_time: entry.break_time,
-                    })
-                    .collect::<Vec<_>>()))
+                Some(Json(
+                    hists
+                        .into_iter()
+                        .map(|entry| StudySession {
+                            time: entry.session_time,
+                            planned_study_time: entry.plan_study_time,
+                            planned_break_time: entry.plan_break_time,
+                            study_time: entry.study_time,
+                            break_time: entry.break_time,
+                        })
+                        .collect::<Vec<_>>(),
+                ))
             } else {
                 None
             }

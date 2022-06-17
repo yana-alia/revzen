@@ -10,6 +10,7 @@
         android:id="@+id/subject_id"
         android:layout_width="213dp"
         android:layout_height="46dp"
+        android:autofillHints="@string/subject_id_text"
         android:ems="10"
         android:hint="@string/subject_id_text"
         android:inputType="number"

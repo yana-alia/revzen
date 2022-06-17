@@ -104,6 +104,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     fun goToEndSession(_view: View) {
         validLeave = true
+        timer.stop()
         updateTimeTracker()
 
         startActivity(if (inSession) {

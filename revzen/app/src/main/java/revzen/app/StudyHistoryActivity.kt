@@ -3,7 +3,6 @@ package revzen.app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +23,7 @@ class StudyHistoryActivity : AppCompatActivity() {
         studyList = findViewById(R.id.revision_history_list)
         apiHandler = intent.extras?.getParcelable("handler")!!
 
-        apiHandler.get_history(this::successGotHistory, this::historyFailure)
+        apiHandler.getHistory(this::successGotHistory, this::historyFailure)
     }
 
     private fun historyFailure(error: ApiError) {

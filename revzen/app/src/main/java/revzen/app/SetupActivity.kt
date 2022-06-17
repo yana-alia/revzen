@@ -39,7 +39,7 @@ class SetupActivity : AppCompatActivity() {
         // Get the api handler
         apiHandler = intent.extras?.getParcelable("handler")!!
 
-        apiHandler.get_history(this::successGotHistory, this::historyFailure)
+        apiHandler.getHistory(this::successGotHistory, this::historyFailure)
 
         studySpinner = findViewById(R.id.studyLengthSpinner)
         breakSpinner = findViewById(R.id.breakLengthSpinner)
@@ -66,7 +66,7 @@ class SetupActivity : AppCompatActivity() {
     private fun startSession(studyTime: Int, breakTime: Int) {
         startActivity(Intent(this, StudyActivity::class.java).apply {
             putExtra("handler", apiHandler)
-            putExtra("timeTracker", SessionData(0, 0, studyTime, breakTime))
+            putExtra("timeTracker", SessionData(0, 0, studyTime * 60, breakTime * 60))
             putExtra("breakLength", breakTime.toDouble())
             putExtra("studyLength", studyTime.toDouble())
         })
@@ -77,14 +77,14 @@ class SetupActivity : AppCompatActivity() {
         val hours = time / 60
         val mins = time % 60
         return if (hours < 1) {
-            "$mins MINS"
+            "$mins mins"
         } else {
-            var hourRep = "HOURS"
+            var hourRep = "hours"
             if (hours == 1) {
-                hourRep = "HOUR"
+                hourRep = "hour"
             }
             if (mins > 0) {
-                "$hours $hourRep $mins MINS"
+                "$hours $hourRep $mins mins"
             } else {
                 "$hours $hourRep"
             }
@@ -94,11 +94,11 @@ class SetupActivity : AppCompatActivity() {
     private fun successGotHistory(history: Array<HistoryResponse>) {
 
         if (history.isNotEmpty()) {
-            recentStudy = history[0].study_time / 60
-            recentBreak = history[0].break_time / 60
+            recentStudy = history[0].planned_study_time / 60
+            recentBreak = history[0].planned_break_time / 60
 
             studyButton.text = "Study: ${timeFormat(recentStudy)}"
-            studyButton.text = "Study: ${timeFormat(recentBreak)}"
+            breakButton.text = "Break: ${timeFormat(recentBreak)}"
 
             studyButton.visibility = View.VISIBLE
             breakButton.visibility = View.VISIBLE

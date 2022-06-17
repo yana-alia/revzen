@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import revzen.app.api.ApiError
-import revzen.app.api.create_user
+import revzen.app.api.createUser
 
 class CreateAccountActivity : AppCompatActivity() {
     private lateinit var loading: ProgressBar
@@ -26,7 +26,7 @@ class CreateAccountActivity : AppCompatActivity() {
         loading.visibility = View.VISIBLE
         val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
         val username = username.text.toString()
-        create_user(
+        createUser(
             subjectID,
             username,
             this::successful_account_create,

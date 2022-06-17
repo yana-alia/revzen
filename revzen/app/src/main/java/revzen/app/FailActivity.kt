@@ -23,7 +23,7 @@ class FailActivity : AppCompatActivity() {
     }
 
     fun goToSummary(_view: View) {
-        apiHandler.log_session(timeTracker.planned_study_time, timeTracker.planned_break_time, timeTracker.study_time, timeTracker.break_time, {}, {_ ->})
+        apiHandler.logSession(timeTracker.planned_study_time, timeTracker.planned_break_time, timeTracker.study_time, timeTracker.break_time, {}, { _ ->})
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
         })
