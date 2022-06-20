@@ -10,13 +10,14 @@
         android:id="@+id/failSessionButton"
         android:layout_width="122dp"
         android:layout_height="76dp"
+        android:layout_marginBottom="16dp"
         android:onClick="goToSummary"
         android:text="@string/summary_button"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/healthBar" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/failTitleText"
@@ -34,20 +35,6 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/healthBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/health_bar"
-        android:textAllCaps="true"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/failTitleText2"
@@ -74,6 +61,16 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.455"
-        app:srcCompat="@drawable/petbroken" />
+        app:layout_constraintVertical_bias="0.383"
+        app:srcCompat="@drawable/petfail" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="288dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toTopOf="@+id/failSessionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@drawable/heart3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
