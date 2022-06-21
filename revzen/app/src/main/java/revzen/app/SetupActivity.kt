@@ -14,8 +14,8 @@ import revzen.app.api.ApiHandler
 import revzen.app.api.HistoryResponse
 
 class SetupActivity : AppCompatActivity() {
-    private val studyLengths = listOf(-29, -19, 1, 30, 45, 60, 90, 120)
-    private val breakLengths = listOf(-4, 1, 5, 10, 15, 20, 25, 30)
+    private val studyLengths = listOf(5, 10, 15, 30, 45, 60, 90, 120)
+    private val breakLengths = listOf(1, 5, 10, 15, 20, 25, 30)
 
     private var studyList = ArrayList<Pair<Int,Int>>()
 
