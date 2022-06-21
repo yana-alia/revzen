@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.widget.Chronometer
+import android.widget.TextView
 import revzen.app.api.ApiHandler
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
     private var breakLength = 5.0
+    private val MINSTOMILLIS = 60000
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
+    private var studyList = ArrayList<Pair<Int,Int>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,14 +25,16 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
+        //todo refactor get extra
         val extras = intent.extras
         if(extras != null) {
             breakLength = extras.getDouble("breakLength")
+            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
         }
 
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()
-        timer.base = originalTime + (breakLength * 60000).toLong()
+        timer.base = originalTime + (breakLength * MINSTOMILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
@@ -54,6 +59,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
+            putExtra("studyList", studyList)
         })
         finish()
     }
@@ -70,11 +76,25 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
+            putExtra("studyList", studyList)
         })
         finish()
     }
 
-    override fun onChronometerTick(chronometer: Chronometer?) {
-        //SHOW WARNING
+    override fun onChronometerTick(chronometer: Chronometer) {
+        val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
+        if (elapsedMillis == 0L){
+            chronometer.base -= (1000)
+        } else if (elapsedMillis < -5 * MINSTOMILLIS) {
+            startActivity(Intent(this, FailActivity::class.java).apply {
+                putExtra("reason", "giveUp")
+                putExtra("handler", apiHandler)
+                putExtra("timeTracker", timeTracker)
+                putExtra("studyList", studyList)
+            })
+            finish()
+        } else if (elapsedMillis < 0) {
+            findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
+        }
     }
 }
