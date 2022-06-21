@@ -43,6 +43,7 @@ pub struct History {
     pub study_time: i32,
     pub break_time: i32,
 }
+
 /// Data required to insert a new friend request into the friends table
 #[derive(Insertable, Identifiable, Queryable)]
 #[primary_key(user_a, user_b)]
