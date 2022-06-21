@@ -18,7 +18,7 @@
 //! ```bash
 //! curl -X POST -F 'user_id=301' -F 'version=1' 'http://127.0.0.1:8000/api/get_revising'
 //! ```
-//! 
+//!
 //! ## Json
 //! In the event of a 200 - Ok the following kind of structure of json is returned
 //! ```json
@@ -33,18 +33,7 @@ use rocket::{
     State,
 };
 
-use crate::*;
-
-/// Used to identify a client (with version number for compatability check)
-#[derive(FromForm)]
-pub struct Client {
-    #[field(name = uncased("user_id"))]
-    _user: UserID,
-
-    #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
-    #[allow(dead_code)]
-    client_version: AppVer,
-}
+use crate::{api::Client, *};
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]

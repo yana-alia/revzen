@@ -1,7 +1,7 @@
 //! Models used to extract from and insert into the database.
 use std::time::SystemTime;
 
-use crate::schema::{histories,friends, users};
+use crate::schema::{friends, histories, users};
 
 /// User struct representing a record in the users table
 #[derive(Identifiable, Queryable)]

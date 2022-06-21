@@ -26,8 +26,4 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(
-    friends,
-    histories,
-    users,
-);
+allow_tables_to_appear_in_same_query!(friends, histories, users,);

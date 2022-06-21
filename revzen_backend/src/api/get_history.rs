@@ -54,18 +54,7 @@ use std::time::SystemTime;
 use diesel::{dsl::exists, select};
 use rocket::serde::{json::Json, Serialize};
 
-use crate::{models::History, *};
-
-/// Used to identify a client (with version number for compatability check)
-#[derive(FromForm)]
-pub struct Client {
-    #[field(name = uncased("user_id"))]
-    user: UserID,
-
-    #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
-    #[allow(dead_code)]
-    client_version: AppVer,
-}
+use crate::{api::Client, models::History, *};
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
