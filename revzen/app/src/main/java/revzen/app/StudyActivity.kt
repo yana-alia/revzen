@@ -90,11 +90,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             inSession = true
         } else if (elapsedMillis < -30 * MINSTOMILLIS) {
             timer.stop()
-            val i = Intent(this, FailActivity::class.java)
-            i.putExtra("reason", "studyTimeout")
-            i.putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
-            startActivity(i)
-            finish()
+            goToFail()
         } else if (elapsedMillis < -20 * MINSTOMILLIS) {
             setWarningView()
         }
@@ -118,6 +114,18 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private fun setWarningView() {
         findViewById<TextView>(R.id.warningView).text = resources.getString(R.string.warning_title2)
         findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
+    }
+
+    private fun goToFail(){
+        validLeave = true
+        startActivity(Intent(this, FailActivity::class.java).apply {
+            putExtra("reason", "studyTimeout")
+            putExtra("handler", apiHandler)
+            putExtra("timeTracker", timeTracker)
+            putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
+        })
+
+        finish()
     }
 
     fun goToEndSession(_view: View) {

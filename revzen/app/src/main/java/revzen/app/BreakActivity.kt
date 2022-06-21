@@ -86,9 +86,12 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         if (elapsedMillis == 0L){
             chronometer.base -= (1000)
         } else if (elapsedMillis < -5 * MINSTOMILLIS) {
-            val i = Intent(this, FailActivity::class.java)
-            i.putExtra("reason", "breakTimeout")
-            startActivity(i)
+            startActivity(Intent(this, FailActivity::class.java).apply {
+                putExtra("reason", "giveUp")
+                putExtra("handler", apiHandler)
+                putExtra("timeTracker", timeTracker)
+                putExtra("studyList", studyList)
+            })
             finish()
         } else if (elapsedMillis < 0) {
             findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
