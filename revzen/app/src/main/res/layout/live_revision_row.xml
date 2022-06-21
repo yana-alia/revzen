@@ -13,7 +13,7 @@
         android:layout_marginTop="0dp"
         android:layout_marginRight="6dip"
         android:contentDescription="TODO"
-        android:src="@drawable/petbroken" />
+        android:src="@drawable/petfail" />
 
     <TextView
         android:id="@+id/live_user_friendcode"

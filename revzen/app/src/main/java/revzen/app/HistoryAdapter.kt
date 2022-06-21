@@ -49,9 +49,9 @@ class HistoryAdapter(
         } break."
 
         if (session.study_time >= session.planned_study_time) {
-            icon.setImageResource(R.drawable.petsession)
+            icon.setImageResource(R.drawable.petstudy)
         } else {
-            icon.setImageResource(R.drawable.petbroken)
+            icon.setImageResource(R.drawable.petfail)
         }
 
         return view
