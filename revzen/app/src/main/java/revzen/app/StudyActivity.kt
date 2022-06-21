@@ -19,10 +19,12 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var studyLength = 60.0
-    private var breakLength = 15.0
+    private var breakLength = 10.0
+    private var studyList = ArrayList<Pair<Int,Int>>()
     private var inSession = true
     private var validLeave = false
     private var originalTime = 0L
+    private val MINSTOMILLIS = 60000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         if (extras != null) {
             studyLength = extras.getDouble("studyLength")
             breakLength = extras.getDouble("breakLength")
+            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
         }
 
         // updating getting the api handler
@@ -40,7 +43,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         timer = findViewById(R.id.chronometer)
         originalTime = SystemClock.elapsedRealtime()
-        timer.base = originalTime + (studyLength * 60000).toLong()
+        timer.base = originalTime + (studyLength * MINSTOMILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
@@ -62,6 +65,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "leaveApp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
+                putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
             })
 
             finish()
@@ -84,6 +88,15 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if ((elapsedMillis > 0) && !inSession) {
             setTimerView()
             inSession = true
+        } else if (elapsedMillis < -30 * MINSTOMILLIS) {
+            timer.stop()
+            val i = Intent(this, FailActivity::class.java)
+            i.putExtra("reason", "studyTimeout")
+            i.putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
+            startActivity(i)
+            finish()
+        } else if (elapsedMillis < -20 * MINSTOMILLIS) {
+            setWarningView()
         }
     }
 
@@ -102,6 +115,11 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             resources.getString(R.string.end_session_button)
     }
 
+    private fun setWarningView() {
+        findViewById<TextView>(R.id.warningView).text = resources.getString(R.string.warning_title2)
+        findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
+    }
+
     fun goToEndSession(_view: View) {
         validLeave = true
         timer.stop()
@@ -112,12 +130,14 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
+                putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
             }
         } else {
             Intent(this, BreakActivity::class.java).apply {
                 putExtra("breakLength", breakLength)
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
+                putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
             }
         })
         finish()

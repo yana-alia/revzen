@@ -17,6 +17,8 @@ class SetupActivity : AppCompatActivity() {
     private val studyLengths = listOf(1, 30, 45, 60, 90, 120)
     private val breakLengths = listOf(1, 5, 10, 15, 20, 25, 30)
 
+    private var studyList = ArrayList<Pair<Int,Int>>()
+
     private lateinit var apiHandler: ApiHandler
 
     private var recentStudy = 0
@@ -35,6 +37,12 @@ class SetupActivity : AppCompatActivity() {
 
         val studyStrings = studyLengths.map { t -> timeFormat(t) }
         val breakStrings = breakLengths.map { t -> timeFormat(t) }
+
+        //todo refactor getting studyList
+        val extras = getIntent().extras
+        if(extras != null) {
+            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
+        }
 
         // Get the api handler
         apiHandler = intent.extras?.getParcelable("handler")!!
@@ -72,6 +80,7 @@ class SetupActivity : AppCompatActivity() {
             putExtra("timeTracker", SessionData(0, 0, studyTime * 60, breakTime * 60))
             putExtra("breakLength", breakTime.toDouble())
             putExtra("studyLength", studyTime.toDouble())
+            putExtra("studyList", studyList)
         })
         finish()
     }
@@ -80,14 +89,14 @@ class SetupActivity : AppCompatActivity() {
         val hours = time / 60
         val mins = time % 60
         return if (hours < 1) {
-            "$mins mins"
+            "$mins minutes"
         } else {
             var hourRep = "hours"
             if (hours == 1) {
                 hourRep = "hour"
             }
             if (mins > 0) {
-                "$hours $hourRep $mins mins"
+                "$hours $hourRep $mins minutes"
             } else {
                 "$hours $hourRep"
             }

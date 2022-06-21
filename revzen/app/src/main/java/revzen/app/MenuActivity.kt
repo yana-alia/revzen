@@ -30,6 +30,7 @@ class MenuActivity : AppCompatActivity() {
                 "handler",
                 apiHandler
             )
+            putExtra("studyList", ArrayList<Pair<Int,Int>>())
         })
     }
 
