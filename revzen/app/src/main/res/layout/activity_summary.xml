@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/summarybg"
-        android:layout_width="340dp"
-        android:layout_height="426dp"
-        android:layout_marginTop="160dp"
+        android:layout_width="339dp"
+        android:layout_height="595dp"
+        android:layout_marginTop="88dp"
         android:background="?colorPrimaryVariant"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,8 +36,8 @@
         android:id="@+id/summaryXPTitle"
         android:layout_width="156dp"
         android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:background="?colorPrimaryVariant"
         android:text="@string/summary_xp"
         android:textAllCaps="true"
@@ -52,7 +52,7 @@
         android:layout_width="156dp"
         android:layout_height="40dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="?colorPrimaryVariant"
         android:text=""
         android:textAllCaps="true"
@@ -61,6 +61,88 @@
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="@+id/summarybg"
         app:layout_constraintTop_toBottomOf="@+id/summaryXPTitle" />
+
+    <TextView
+        android:id="@+id/summaryTotalStudyTitle"
+        android:layout_width="306dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_total_study"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toBottomOf="@+id/summaryXP" />
+
+    <TextView
+        android:id="@+id/summaryTotalBreakTitle"
+        android:layout_width="305dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_total_break"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudy" />
+
+    <TextView
+        android:id="@+id/summaryRatioTitle"
+        android:layout_width="305dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_ratio"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreak" />
+
+    <TextView
+        android:id="@+id/summaryTotalStudy"
+        android:layout_width="279dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudyTitle" />
+
+
+    <TextView
+        android:id="@+id/summaryRatio"
+        android:layout_width="279dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toBottomOf="@+id/summaryRatioTitle" />
+
+    <TextView
+        android:id="@+id/summaryTotalBreak"
+        android:layout_width="279dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreakTitle" />
 
     <Button
         android:id="@+id/okButton"

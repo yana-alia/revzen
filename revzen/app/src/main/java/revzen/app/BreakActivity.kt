@@ -55,6 +55,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
+            studyList.add(timeTracker)
             putExtra("studyList", studyList)
         })
         finish()
@@ -72,6 +73,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
+            studyList.add(timeTracker)
             putExtra("studyList", studyList)
         })
         finish()
@@ -86,6 +88,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
+                studyList.add(timeTracker)
                 putExtra("studyList", studyList)
             })
             finish()

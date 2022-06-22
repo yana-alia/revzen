@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import java.lang.Integer.max
+import kotlin.math.roundToInt
 
 class SummaryActivity : AppCompatActivity() {
     private var studyList = ArrayList<SessionData>()
@@ -48,7 +49,20 @@ class SummaryActivity : AppCompatActivity() {
         val xpStr = "+" + xp.toString()
         findViewById<TextView>(R.id.summaryXP).text = xpStr
 
-        //api post request to give database xp
+        val totalStudy = studyList.sumOf { sessionData -> sessionData.study_time }
+        findViewById<TextView>(R.id.summaryTotalStudy).text = timeFormat(totalStudy)
+        val totalBreak = studyList.sumOf { sessionData -> sessionData.break_time }
+        findViewById<TextView>(R.id.summaryTotalBreak).text = timeFormat(totalBreak)
+
+        if(totalBreak == 0){
+            findViewById<TextView>(R.id.summaryRatio).text = "N/A"
+        } else {
+            val ratio: Double = totalStudy.toDouble() / totalBreak.toDouble()
+            val roundRatio: Double = (ratio * 100.0).roundToInt() / 100.0
+            findViewById<TextView>(R.id.summaryRatio).text = roundRatio.toString()
+        }
+
+        //todo api post request to give database xp
     }
 
     override fun onBackPressed() {
@@ -58,5 +72,21 @@ class SummaryActivity : AppCompatActivity() {
 
     fun goToMenu(_view: View) {
         finish()
+    }
+
+    private fun timeFormat(time: Int): String {
+        val hours = time / 3600
+        val mins = (time % 3600) / 60
+        val secs = (time % 3600) % 60
+
+        return if(hours == 0){
+            if(mins == 0){
+                "$secs seconds"
+            } else {
+                "$mins minutes $secs seconds"
+            }
+        } else {
+            "$hours hours $mins minutes $secs seconds"
+        }
     }
 }

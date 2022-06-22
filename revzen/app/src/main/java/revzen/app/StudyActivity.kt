@@ -63,7 +63,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "leaveApp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
-                studyList.add(SessionData(getElapsedTime(),0,studyLength * MINSTOSEC,breakLength * MINSTOSEC))
+                studyList.add(timeTracker)
                 putExtra("studyList", studyList)
             })
 
@@ -121,7 +121,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             putExtra("reason", "studyTimeout")
             putExtra("handler", apiHandler)
             putExtra("timeTracker", timeTracker)
-            studyList.add(SessionData(getElapsedTime(),0,studyLength * MINSTOSEC,breakLength * MINSTOSEC))
+            studyList.add(timeTracker)
             putExtra("studyList", studyList)
         })
 
@@ -138,7 +138,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
-                studyList.add(SessionData(getElapsedTime(),0,studyLength * MINSTOSEC,breakLength * MINSTOSEC))
+                studyList.add(timeTracker)
                 putExtra("studyList", studyList)
             }
         } else {
@@ -146,7 +146,6 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("breakLength", breakLength)
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
-                studyList.add(SessionData(getElapsedTime(),0,studyLength * MINSTOSEC,breakLength * MINSTOSEC))
                 putExtra("studyList", studyList)
             }
         })
