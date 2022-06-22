@@ -27,13 +27,21 @@ class SummaryActivity : AppCompatActivity() {
                 val maxXp = setTime
 
                 if(actualTime < setTime/2) {
-                    xp -= maxXp / 2
+                    xp += 0
                 } else if (actualTime < setTime) {
-                    xp += 0 //todo exponential increase
+                    val m = maxXp / (setTime /2)
+                    xp += m*(actualTime - (setTime/2))
+                    //y - y1 = m*(x - x1)
+                    //(x1,y1) = (setTime/2,0) is a point on the line
+
                 } else if (actualTime < setTime + 5) {
                     xp += maxXp
+                    //todo add chance of getting new pet
                 } else if (actualTime < setTime + 30) {
-                    xp += 0 //todo slow polynomial decrease
+                    val m = -maxXp/2   //maxXp/2 - maxXp
+                    xp += m*(actualTime - (setTime+5)) + maxXp
+                    //y - y1 = m*(x - x1)
+                    //(x1,y1) = (setTime+5,maxXp) is a point on the line
                 } else {
                     xp -= maxXp / 2
                 }
@@ -41,9 +49,6 @@ class SummaryActivity : AppCompatActivity() {
             if (xp < 0) {
                 xp = 0
             }
-
-            //todo placeholder, remove when implemented properly
-            xp = 100
         }
 
         val xpStr = "+" + xp.toString()
