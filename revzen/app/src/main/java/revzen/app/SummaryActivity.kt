@@ -8,7 +8,6 @@ import java.lang.Integer.max
 
 class SummaryActivity : AppCompatActivity() {
     private var studyList = ArrayList<SessionData>()
-    private val MILLISTOMINS = 60000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,14 +16,10 @@ class SummaryActivity : AppCompatActivity() {
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
 
         var xp = 0
-
-
         for (session in studyList) {
-            println(session)
-            println(" ")
-            val setTime = session.planned_study_time / MILLISTOMINS
-            val actualTime = session.study_time / MILLISTOMINS
-            val maxXp = setTime
+            val setTime = session.planned_study_time
+            val actualTime = session.study_time
+            val maxXp = setTime / 10
 
             if(actualTime < setTime/2) {
                 xp += 0

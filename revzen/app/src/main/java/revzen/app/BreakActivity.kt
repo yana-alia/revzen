@@ -11,7 +11,7 @@ import revzen.app.api.ApiHandler
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
-    private var breakLength = 5.0
+    private var breakLength = 5
     private val MINSTOMILLIS = 60000
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
@@ -25,12 +25,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
-
-        //todo refactor get extra
-        val extras = intent.extras
-        if(extras != null) {
-            breakLength = extras.getDouble("breakLength")
-        }
+        breakLength = intent.extras?.getInt("breakLength")!!
 
 
         timer = findViewById(R.id.breakTimer)
