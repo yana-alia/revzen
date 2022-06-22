@@ -32,16 +32,13 @@ mod models;
 mod pages;
 mod schema;
 
-use api::{
-    api_create_user, api_get_follows, api_get_history, api_get_revising, api_log_session,
-    api_login, api_manage_friend, api_start_revising, api_stop_revising,
-};
+use api::*;
 use pages::{index, internal_error, page_not_found, policy};
 
 /// User Identification type, common to all part of the api
 type UserID = i64;
 
-// Friend code type (a non-secret user identifier)
+/// Friend code type (a non-secret user identifier)
 type FriendCode = i32;
 
 /// The version type, used to check the clients and backend are using compatible versions.
@@ -49,6 +46,8 @@ type FriendCode = i32;
 /// When an incorrect version is used, the client will get a 422 - Unprocessable Entity
 /// Status returned (and hence knows to inform the user they must update their application).
 type AppVer = u32;
+
+/// The current backend version.
 const BACKEND_VERSION: AppVer = 1;
 
 /// Managing live user's revising
@@ -74,6 +73,7 @@ fn rocket() -> _ {
                 api_get_revising,
                 api_manage_friend,
                 api_get_follows,
+                api_get_user,
             ],
         )
         .register("/", catchers![page_not_found, internal_error])
