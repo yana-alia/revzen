@@ -8,7 +8,8 @@
 //! - [Sending user study session history to the database](log_session)
 //! - [Retrieving a user's study history](get_history)
 
-use crate::{AppVer, UserID, BACKEND_VERSION};
+use crate::{AppVer, FriendCode, UserID, BACKEND_VERSION};
+use rocket::serde::Serialize;
 
 /// Used to identify a client (with version number for compatability check)
 #[derive(FromForm)]
@@ -19,6 +20,23 @@ pub struct Client {
     #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
     #[allow(dead_code)]
     client_version: AppVer,
+}
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct FollowDetails {
+    friendcode: FriendCode,
+    username: String,
+}
+
+pub(self) fn map_to_details(tuples: Vec<(String, FriendCode)>) -> Vec<FollowDetails> {
+    tuples
+        .into_iter()
+        .map(|(username, friendcode)| FollowDetails {
+            friendcode,
+            username,
+        })
+        .collect()
 }
 
 mod create_user;

@@ -28,34 +28,52 @@
 //! ]
 //! ```
 
-use rocket::{
-    serde::{json::Json, Serialize},
-    State,
+use rocket::{serde::json::Json, State};
+
+use crate::{
+    api::{Client, FollowDetails},
+    *,
 };
 
-use crate::{api::Client, *};
-
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-pub struct LiveStudy {
-    friendcode: i32,
-    username: String,
-}
-
-#[post("/get_revising", data = "<_user_auth>")]
+#[post("/get_revising", data = "<user_auth>")]
 pub(crate) async fn api_get_revising(
+    db: RevzenDB,
     state: &State<StudyState>,
-    _user_auth: Form<Client>,
-) -> Option<Json<Vec<LiveStudy>>> {
+    user_auth: Form<Client>,
+) -> Option<Json<Vec<FollowDetails>>> {
+    use crate::schema::{follows::dsl::*, users::dsl::*};
     // again we assume the user is valid
-    let read_state = state.0.read().await;
-    Some(Json(
-        read_state
-            .iter()
-            .map(|(_, (friendcode, username))| LiveStudy {
-                friendcode: *friendcode,
-                username: username.clone(),
-            })
-            .collect::<Vec<_>>(),
-    ))
+    #[allow(unused_variables)]
+    let Client {
+        user,
+        client_version,
+    } = user_auth.into_inner();
+
+    if let Ok(following) = db
+        .run(move |c| {
+            users
+                .inner_join(
+                    follows.on(id
+                        .eq(follower)
+                        .and(followee.eq(user).and(accepted.eq(true)))),
+                )
+                .select((id, username, friendcode))
+                .get_results::<(UserID, String, FriendCode)>(c)
+        })
+        .await
+    {
+        let read_state = state.0.read().await;
+        Some(Json(
+            following
+                .into_iter()
+                .filter(|(user_id, _, _)| read_state.contains_key(user_id))
+                .map(|(_, name, code)| FollowDetails {
+                    friendcode: code,
+                    username: name,
+                })
+                .collect(),
+        ))
+    } else {
+        None
+    }
 }

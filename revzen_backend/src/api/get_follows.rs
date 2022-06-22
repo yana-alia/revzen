@@ -65,16 +65,12 @@
 //! curl -X POST -F 'user_id=560' -F 'version=1' 'http://127.0.0.1:8000/api/get_follows'
 //! ```
 
-use crate::{api::Client, *};
+use crate::{
+    api::{map_to_details, Client, FollowDetails},
+    *,
+};
 use diesel::{dsl::exists, select};
 use rocket::serde::{json::Json, Serialize};
-
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-pub struct FollowDetails {
-    friendcode: FriendCode,
-    username: String,
-}
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
@@ -83,16 +79,6 @@ pub struct FollowResponse {
     requested: Vec<FollowDetails>,
     following: Vec<FollowDetails>,
     followers: Vec<FollowDetails>,
-}
-
-fn map_to_details(tuples: Vec<(String, FriendCode)>) -> Vec<FollowDetails> {
-    tuples
-        .into_iter()
-        .map(|(username, friendcode)| FollowDetails {
-            friendcode,
-            username,
-        })
-        .collect()
 }
 
 #[post("/get_follows", data = "<user_auth>")]
