@@ -1,7 +1,6 @@
 //! Models used to extract from and insert into the database.
+use crate::schema::{follows, histories, users};
 use std::time::SystemTime;
-
-use crate::schema::{friends, histories, users};
 
 /// User struct representing a record in the users table
 #[derive(Identifiable, Queryable)]
@@ -46,9 +45,9 @@ pub struct History {
 
 /// Data required to insert a new friend request into the friends table
 #[derive(Insertable, Identifiable, Queryable)]
-#[primary_key(user_a, user_b)]
-pub struct Friend {
-    pub user_a: i64,
-    pub user_b: i64,
-    pub friend_status: i32,
+#[primary_key(followee, follower)]
+pub struct Follow {
+    pub followee: i64,
+    pub follower: i64,
+    pub accepted: bool,
 }

@@ -33,9 +33,8 @@ mod pages;
 mod schema;
 
 use api::{
-    create_user::api_create_user, get_history::api_get_history, get_revising::api_get_revising,
-    log_session::api_log_session, login_user::api_login, manage_friends::api_manage_friend,
-    start_revising::api_start_revising, stop_revising::api_stop_revising,
+    api_create_user, api_get_follows, api_get_history, api_get_revising, api_log_session,
+    api_login, api_manage_friend, api_start_revising, api_stop_revising,
 };
 use pages::{index, internal_error, page_not_found, policy};
 
@@ -73,7 +72,8 @@ fn rocket() -> _ {
                 api_start_revising,
                 api_stop_revising,
                 api_get_revising,
-                api_manage_friend
+                api_manage_friend,
+                api_get_follows,
             ],
         )
         .register("/", catchers![page_not_found, internal_error])
