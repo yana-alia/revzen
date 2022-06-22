@@ -20,11 +20,8 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
-<<<<<<< HEAD
     private var studyList = ArrayList<SessionData>()
-=======
     private val CHANNELID = "BREAK_NOTIFICATION"
-    private var studyList = ArrayList<Pair<Int,Int>>()
     private val notificationId = 1
     private var notified = false
     private var builder = NotificationCompat.Builder(this, CHANNELID)
@@ -37,7 +34,6 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         .setCategory(NotificationCompat.CATEGORY_REMINDER)
         .setVisibility(VISIBILITY_PUBLIC)
         .setAutoCancel(true)
->>>>>>> 4b855c3... reminds user to go back to the app with a notification when break is over [dam20, ac320]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
