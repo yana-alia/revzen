@@ -1,6 +1,5 @@
 package revzen.app
 
-import android.app.NotificationManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,10 +27,12 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private var studyList = ArrayList<Pair<Int,Int>>()
     private val notificationId = 1
     private var notified = false
-    var builder = NotificationCompat.Builder(this, CHANNELID)
-        .setSmallIcon(R.drawable.logo)
+    private var builder = NotificationCompat.Builder(this, CHANNELID)
+        .setSmallIcon(R.drawable.notif_icon)
         .setContentTitle("Return to your pet!")
         .setContentText("You have to return within 5 minutes or you will break your session!")
+        .setStyle(NotificationCompat.BigTextStyle()
+            .bigText("You have to return within 5 minutes or you will break your session!"))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setCategory(NotificationCompat.CATEGORY_REMINDER)
         .setVisibility(VISIBILITY_PUBLIC)
