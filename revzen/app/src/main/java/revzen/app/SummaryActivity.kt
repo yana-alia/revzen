@@ -19,7 +19,7 @@ class SummaryActivity : AppCompatActivity() {
             //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
             //testing
             studyList.add(Pair(120*60000, 120*60000)) //+120 xp
-            studyList.add(Pair(30*60000, 61*60000)) //-15 xp
+            studyList.add(Pair(30*60000, 60*60000)) //-15 xp
 
             for (pair in studyList) {
                 val setTime = pair.first / MILLISTOMINS
