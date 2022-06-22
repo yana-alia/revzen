@@ -10,20 +10,16 @@ import revzen.app.api.ApiHandler
 class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
-    private var studyList = ArrayList<Pair<Int,Long>>()
+    private var studyList = ArrayList<SessionData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fail)
+        studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
         apiHandler.stopLiveRevision({}, { _ -> })
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
-        //todo refactor get extra
-        val extras = getIntent().extras
-        if(extras != null) {
-            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Long>>
-        }
 
         //API call to set health variable
         val health = 2

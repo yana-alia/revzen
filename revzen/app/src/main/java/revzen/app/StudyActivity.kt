@@ -18,9 +18,9 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var timer: Chronometer
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
-    private var studyLength = 60.0
-    private var breakLength = 10.0
-    private var studyList = ArrayList<Pair<Int,Int>>()
+    private var studyLength = 60
+    private var breakLength = 10
+    private var studyList = ArrayList<SessionData>()
     private var inSession = true
     private var validLeave = false
     private var originalTime = 0L
@@ -32,10 +32,12 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         val extras = intent.extras
         if (extras != null) {
-            studyLength = extras.getDouble("studyLength")
-            breakLength = extras.getDouble("breakLength")
-            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
+            studyLength = extras.getInt("studyLength")
+            breakLength = extras.getInt("breakLength")
         }
+
+        studyList = intent.extras?.getParcelableArrayList("studyList")!!
+        println(studyList)
 
         // updating getting the api handler
         apiHandler = intent.extras?.getParcelable("handler")!!
@@ -65,7 +67,8 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "leaveApp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
-                putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
+                studyList.add(SessionData(getElapsedTime(),0,studyLength,breakLength))
+                putExtra("studyList", studyList)
             })
 
             finish()
@@ -122,7 +125,8 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             putExtra("reason", "studyTimeout")
             putExtra("handler", apiHandler)
             putExtra("timeTracker", timeTracker)
-            putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
+            studyList.add(SessionData(getElapsedTime(),0,studyLength,breakLength))
+            putExtra("studyList", studyList)
         })
 
         finish()
@@ -138,14 +142,16 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
-                putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
+                studyList.add(SessionData(getElapsedTime(),0,studyLength,breakLength))
+                putExtra("studyList", studyList)
             }
         } else {
             Intent(this, BreakActivity::class.java).apply {
                 putExtra("breakLength", breakLength)
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
-                putExtra("studyList", studyList.add(Pair((studyLength * MINSTOMILLIS).toInt(), getElapsedTime())))
+                studyList.add(SessionData(getElapsedTime(),0,studyLength,breakLength))
+                putExtra("studyList", studyList)
             }
         })
         finish()

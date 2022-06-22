@@ -45,7 +45,7 @@ class StudyHistoryActivity : AppCompatActivity() {
     private fun successGotHistory(history: Array<HistoryResponse>) {
 
         loading.visibility = View.INVISIBLE
-        adapter = HistoryAdapter(this, history)
+        adapter = HistoryAdapter(this, history) //todo try history.reverse
         studyList.adapter = adapter
     }
 }

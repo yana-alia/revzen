@@ -16,12 +16,13 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
-    private var studyList = ArrayList<Pair<Int,Int>>()
+    private var studyList = ArrayList<SessionData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_break)
 
+        studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
@@ -29,8 +30,8 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         val extras = intent.extras
         if(extras != null) {
             breakLength = extras.getDouble("breakLength")
-            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
         }
+
 
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()
