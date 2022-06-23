@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Revzen"
         tools:targetApi="31">
         <activity
+            android:name=".FollowActivity"
+            android:exported="false" />
+        <activity
             android:name=".LiveRevisionActivity"
             android:exported="false" />
         <activity
