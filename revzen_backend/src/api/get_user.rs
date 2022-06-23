@@ -28,7 +28,7 @@
 //! curl -X POST -F 'user_id=301' -F 'version=1' -F 'friendcode=2' 'http://127.0.0.1:8000/api/get_user'
 //! ```
 
-use crate::{*, models::User};
+use crate::{models::User, *};
 use rocket::serde::{json::Json, Serialize};
 
 #[derive(FromForm)]
@@ -58,9 +58,17 @@ pub(crate) async fn api_get_user(
     use crate::schema::users::dsl::{friendcode as friend_code, username, users};
 
     #[allow(unused_variables)]
-    let GetUserRequest { user, client_version, friendcode } = user_req.into_inner();
+    let GetUserRequest {
+        user,
+        client_version,
+        friendcode,
+    } = user_req.into_inner();
 
-    if db.run(move |c| users.find(user).first::<User>(c)).await.is_ok() {
+    if db
+        .run(move |c| users.find(user).first::<User>(c))
+        .await
+        .is_ok()
+    {
         if let Ok(name) = db
             .run(move |c| {
                 users

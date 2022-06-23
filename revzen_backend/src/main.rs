@@ -33,7 +33,7 @@ mod pages;
 mod schema;
 
 use api::*;
-use pages::{index, internal_error, page_not_found, policy};
+use pages::*;
 
 /// User Identification type, common to all part of the api
 type UserID = i64;

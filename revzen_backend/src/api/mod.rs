@@ -55,7 +55,7 @@ mod stop_revising;
 /// Re-Export the api methods to be used by rocket
 pub(crate) use self::{
     create_user::api_create_user, get_follows::api_get_follows, get_history::api_get_history,
-    get_revising::api_get_revising, log_session::api_log_session, login_user::api_login,
-    manage_follows::api_manage_friend, start_revising::api_start_revising,
-    stop_revising::api_stop_revising, get_user::api_get_user,
+    get_revising::api_get_revising, get_user::api_get_user, log_session::api_log_session,
+    login_user::api_login, manage_follows::api_manage_friend, start_revising::api_start_revising,
+    stop_revising::api_stop_revising,
 };
