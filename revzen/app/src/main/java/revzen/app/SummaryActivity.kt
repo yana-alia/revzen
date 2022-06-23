@@ -18,8 +18,8 @@ class SummaryActivity : AppCompatActivity() {
 
         var xp = 0
         for (session in studyList) {
-            val setTime = session.planned_study_time
-            val actualTime = session.study_time
+            val setTime = session.planned_study_time //in seconds
+            val actualTime = session.study_time //in seconds
             val maxXp = setTime / 10
 
             if(actualTime < setTime/2) {
@@ -30,14 +30,14 @@ class SummaryActivity : AppCompatActivity() {
                 //y - y1 = m*(x - x1)
                 //(x1,y1) = (setTime/2,0) is a point on the line
 
-            } else if (actualTime < setTime + 5) {
+            } else if (actualTime < setTime + 5*60) {
                 xp += maxXp
                 //todo add chance of getting new pet
-            } else if (actualTime < setTime + 30) {
+            } else if (actualTime < setTime + 30*60) {
                 val m = -maxXp/2   //maxXp/2 - maxXp
-                xp += m*(actualTime - (setTime+5)) + maxXp
+                xp += m*(actualTime - (setTime+5*60)) + maxXp
                 //y - y1 = m*(x - x1)
-                //(x1,y1) = (setTime+5,maxXp) is a point on the line
+                //(x1,y1) = (setTime+5*60,maxXp) is a point on the line
 
             } else {
                 xp -= maxXp / 2
