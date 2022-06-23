@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.681"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/breakWarning"
-        app:srcCompat="@drawable/petbreak" />
+        app:srcCompat="@drawable/petbreak_shiba" />
 
     <TextView
         android:id="@+id/breakWarning"

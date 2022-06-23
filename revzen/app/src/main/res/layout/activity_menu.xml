@@ -49,7 +49,7 @@
         app:layout_constraintEnd_toStartOf="@+id/startSessionButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/petlogo" />
+        app:srcCompat="@drawable/petlogo_shiba" />
 
     <Button
         android:id="@+id/button3"
