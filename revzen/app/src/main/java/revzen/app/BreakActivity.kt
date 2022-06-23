@@ -14,13 +14,13 @@ import revzen.app.api.ApiHandler
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
-    private var breakLength = 5.0
+    private var breakLength = 5
     private val MINSTOMILLIS = 60000
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
     private val CHANNELID = "BREAK_NOTIFICATION"
-    private var studyList = ArrayList<Pair<Int,Int>>()
+    private var studyList = ArrayList<SessionData>()
     private val notificationId = 1
     private var notified = false
     private var builder = NotificationCompat.Builder(this, CHANNELID)
@@ -34,19 +34,16 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         .setVisibility(VISIBILITY_PUBLIC)
         .setAutoCancel(true)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_break)
 
+        studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
+        breakLength = intent.extras?.getInt("breakLength")!!
 
-        //todo refactor get extra
-        val extras = intent.extras
-        if(extras != null) {
-            breakLength = extras.getDouble("breakLength")
-            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
-        }
 
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()
@@ -75,6 +72,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
+            studyList.add(timeTracker)
             putExtra("studyList", studyList)
         })
         finish()
@@ -92,6 +90,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
+            studyList.add(timeTracker)
             putExtra("studyList", studyList)
         })
         finish()
@@ -106,6 +105,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
+                studyList.add(timeTracker)
                 putExtra("studyList", studyList)
             })
             finish()
