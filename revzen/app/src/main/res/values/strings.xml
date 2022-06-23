@@ -39,12 +39,15 @@
 
     <string name="summary_title">Summary</string>
     <string name="summary_xp">Gained XP:</string>
+    <string name="summary_total_study">Total time studied:</string>
+    <string name="summary_total_break">Total time on break:</string>
+    <string name="summary_ratio">Study:Break ratio:</string>
 
     <string name="sample_text">Lorem Ipsum</string>
 
     <string name="revzen_welcome">Welcome to revzen!</string>
     <string name="revzen_menu_social">Live Revision</string>
-    <string name="revzen_history_menu">Study Histroy</string>
+    <string name="revzen_history_menu">Study History</string>
     <string name="revzen_account_menu">Account Settings</string>
     <string name="create_account">Create Account</string>
     <string name="subject_id_text">Enter Subject ID</string>
