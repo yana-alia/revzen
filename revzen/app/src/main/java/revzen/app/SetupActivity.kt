@@ -17,7 +17,7 @@ class SetupActivity : AppCompatActivity() {
     private val studyLengths = listOf(5, 10, 15, 30, 45, 60, 90, 120)
     private val breakLengths = listOf(1, 5, 10, 15, 20, 25, 30)
 
-    private var studyList = ArrayList<Pair<Int,Int>>()
+    private var studyList = ArrayList<SessionData>()
 
     private lateinit var apiHandler: ApiHandler
 
@@ -38,11 +38,7 @@ class SetupActivity : AppCompatActivity() {
         val studyStrings = studyLengths.map { t -> timeFormat(t) }
         val breakStrings = breakLengths.map { t -> timeFormat(t) }
 
-        //todo refactor getting studyList
-        val extras = getIntent().extras
-        if(extras != null) {
-            //studyList = extras.get("studyList") as ArrayList<Pair<Int,Int>>
-        }
+        studyList = intent.extras?.getParcelableArrayList("studyList")!!
 
         // Get the api handler
         apiHandler = intent.extras?.getParcelable("handler")!!
@@ -78,8 +74,8 @@ class SetupActivity : AppCompatActivity() {
         startActivity(Intent(this, StudyActivity::class.java).apply {
             putExtra("handler", apiHandler)
             putExtra("timeTracker", SessionData(0, 0, studyTime * 60, breakTime * 60))
-            putExtra("breakLength", breakTime.toDouble())
-            putExtra("studyLength", studyTime.toDouble())
+            putExtra("breakLength", breakTime)
+            putExtra("studyLength", studyTime)
             putExtra("studyList", studyList)
         })
         finish()
