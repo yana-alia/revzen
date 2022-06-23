@@ -4,6 +4,8 @@
 
     // MAIN ACTIVITY //
     <string name="login_button">Login</string>
+    <string name="break_notification">Break Notification</string>
+    <string name="break_description">Notifies when your break is ending</string>
 
     // MENU ACTIVITY //
     <string name="start_session_button">Start Session</string>
