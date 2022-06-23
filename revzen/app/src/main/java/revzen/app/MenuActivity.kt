@@ -53,7 +53,15 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun goToFollowScreen(_view: View) {
-        startActivity(Intent(this, FollowActivity::class.java).apply {
+        startActivity(Intent(this, FollowActivity::class.java).apply {putExtra(
+                "handler",
+                apiHandler
+            )
+        })
+    }
+
+    fun goToPetSelect(_view: View) {
+        startActivity(Intent(this, PetSelectActivity::class.java).apply {
             putExtra(
                 "handler",
                 apiHandler

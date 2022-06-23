@@ -23,6 +23,9 @@
             android:name=".FollowActivity"
             android:exported="false" />
         <activity
+            android:name=".PetSelectActivity"
+            android:exported="false" />
+        <activity
             android:name=".LiveRevisionActivity"
             android:exported="false" />
         <activity
