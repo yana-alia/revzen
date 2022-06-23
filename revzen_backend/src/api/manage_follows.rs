@@ -21,7 +21,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'friend_code=2' -F 'action=request' 'http://127.0.0.1:8000/api/manage_friend'
+//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'friend_code=2' -F 'action=request' 'http://127.0.0.1:8000/api/manage_follows'
 //! ```
 
 use diesel::{delete, update};
@@ -71,7 +71,7 @@ pub(crate) struct ManageFriendship {
 }
 
 /// This function is far more repetitive than I would like, couldnt think of a nice abstraction to take care of the reversed positions of key and the friend statuses
-#[post("/manage_friend", data = "<manage_data>")]
+#[post("/manage_follows", data = "<manage_data>")]
 pub(crate) async fn api_manage_friend(db: RevzenDB, manage_data: Form<ManageFriendship>) -> Status {
     // check the requesting user exists
     use crate::schema::{follows::dsl::*, users::dsl::*};
