@@ -19,48 +19,62 @@
         <service
             android:name=".BgBreakService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
         <activity
             android:name=".FollowRequestActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".FollowActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PetSelectActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".LiveRevisionActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".StudyHistoryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name=".CreateAccountActivity
+            android:screenOrientation="portrait""
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".FailActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".BreakActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SummaryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".StudyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SetupActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MenuActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,3 +83,4 @@
             </intent-filter>
         </activity>
     </application>
+</manifest>
