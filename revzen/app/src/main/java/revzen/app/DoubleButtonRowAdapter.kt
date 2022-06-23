@@ -32,7 +32,7 @@ class DoubleButtonRowAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view =
-            convertView ?: LayoutInflater.from(context).inflate(R.layout.single_button_row, parent, false)
+            convertView ?: LayoutInflater.from(context).inflate(R.layout.two_button_row, parent, false)
 
         val user = getItem(position) as UserDetails
 

@@ -16,7 +16,7 @@ class FollowActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
     lateinit var tabLayout: TabLayout
     lateinit var viewPager: ViewPager2
-    lateinit var pageAdapter: FollowPageAdapter
+    private lateinit var pageAdapter: FollowPageAdapter
 
     private val handler = Handler()
 
@@ -25,6 +25,11 @@ class FollowActivity : AppCompatActivity() {
             updateFollowData()
             handler.postDelayed(this, 1000)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(updateTask)
     }
 
     private fun updateFollowData() {
@@ -82,17 +87,35 @@ class FollowActivity : AppCompatActivity() {
         handler.post(updateTask)
     }
 
+    private fun manageFollow(friendcode: Int, requestType: ApiHandler.SocialAction, successMessage: String) {
+        apiHandler.manageFollower(friendcode, requestType, {
+            AlertDialog.Builder(this).apply {
+                setTitle("Success")
+                setMessage(successMessage)
+                setPositiveButton("Ok") { _, _ -> }
+                create()
+                show()
+            }
+        },  {
+            AlertDialog.Builder(this).apply {
+                setTitle("Error")
+                setMessage("An error occured")
+                setPositiveButton("Ok") { _, _ -> }
+                create()
+                show()
+            }
+        })
+    }
+
     fun rejectUser(user: UserDetails) {
-        println("reject user")
+        manageFollow(user.friendcode, ApiHandler.SocialAction.REJECT, "Rejected ${user.username}")
     }
     fun acceptUser(user: UserDetails) {
-        println("accept user")
+        manageFollow(user.friendcode, ApiHandler.SocialAction.ACCEPT, "Accepted ${user.username}")
     }
-    fun followUser(user: UserDetails) {
-        println("follow user")
-    }
+
     fun unfollowUser(user: UserDetails) {
-        println("Unfollowed user call here")
+        manageFollow(user.friendcode, ApiHandler.SocialAction.UNFOLLOW, "Unfollowed ${user.username}")
     }
     fun newFriend() {
         println("new_friend")

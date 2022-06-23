@@ -57,8 +57,8 @@ class LiveRevisionActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         handler.removeCallbacks(updateTask)
     }
 }

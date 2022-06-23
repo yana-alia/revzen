@@ -23,7 +23,7 @@ class RequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestsList = view.findViewById(R.id.requested_list)
+        requestsList = view.findViewById(R.id.requests_list)
         viewModel.socialData.observe(viewLifecycleOwner, Observer { set ->
             adapter = DoubleButtonRowAdapter(
                 requireContext(),

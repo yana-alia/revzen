@@ -9,8 +9,8 @@
 
     <Button
         android:id="@+id/d_row_button_two"
-        android:layout_width="75dp"
-        android:layout_height="33dp"
+        android:layout_width="126dp"
+        android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/d_row_description"
@@ -34,8 +34,8 @@
 
     <TextView
         android:id="@+id/d_row_description"
-        android:layout_width="249dp"
-        android:layout_height="25dp"
+        android:layout_width="184dp"
+        android:layout_height="26dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="4dp"
@@ -50,8 +50,8 @@
 
     <TextView
         android:id="@+id/d_row_title"
-        android:layout_width="250dp"
-        android:layout_height="26dp"
+        android:layout_width="183dp"
+        android:layout_height="25dp"
         android:layout_alignWithParentIfMissing="true"
         android:layout_above="@id/d_row_description"
         android:layout_alignParentTop="true"
@@ -67,15 +67,15 @@
 
     <Button
         android:id="@+id/d_row_button_one"
-        android:layout_width="77dp"
-        android:layout_height="34dp"
+        android:layout_width="126dp"
+        android:layout_height="39dp"
         android:layout_below="@+id/d_row_button_two"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/d_row_description"
         android:text="Button"
         app:layout_constraintBottom_toTopOf="@+id/d_row_button_two"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toEndOf="@+id/d_row_description"
         app:layout_constraintTop_toTopOf="parent" />
 
