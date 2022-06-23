@@ -168,4 +168,29 @@ class ApiHandler(
             }
         })
     }
+
+    fun getFollows(on_success: (FollowersResponse) -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("get_follows", emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE)}
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val followers = Gson().fromJson(
+                            response.body.string(),
+                            FollowersResponse::class.java
+                        )
+                        handler.post {
+                            on_success(followers)
+                        }
+                    }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER)}
+                    else -> handler.post {on_failure(ApiError.API_FAILURE)}
+                }
+            }
+        })
+    }
 }
