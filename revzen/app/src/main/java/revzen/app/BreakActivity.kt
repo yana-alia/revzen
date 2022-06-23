@@ -21,19 +21,6 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
     private var studyList = ArrayList<SessionData>()
-    private val CHANNELID = "BREAK_NOTIFICATION"
-    private val notificationId = 1
-    private var notified = false
-    private var builder = NotificationCompat.Builder(this, CHANNELID)
-        .setSmallIcon(R.drawable.notif_icon)
-        .setContentTitle("Return to your pet!")
-        .setContentText("You have to return within 5 minutes or you will break your session!")
-        .setStyle(NotificationCompat.BigTextStyle()
-            .bigText("You have to return within 5 minutes or you will break your session!"))
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setCategory(NotificationCompat.CATEGORY_REMINDER)
-        .setVisibility(VISIBILITY_PUBLIC)
-        .setAutoCancel(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +40,9 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             Pet.ROCK -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_rock)
         }
 
+        startService(Intent(this, BgBreakService::class.java).apply {
+            putExtra("breakLength", breakLength)
+        })
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()
         timer.base = originalTime + (breakLength * MINSTOMILLIS).toLong()
@@ -119,14 +109,6 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             finish()
         } else if (elapsedMillis < 0) {
             findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
-            // reminds user to go back to the app with a notification when break is over
-            if (!notified) {
-                with(NotificationManagerCompat.from(this)) {
-                    // notificationId is a unique int for each notification that you must define
-                    notify(notificationId, builder.build())
-                }
-                notified = true
-            }
         }
     }
 }
