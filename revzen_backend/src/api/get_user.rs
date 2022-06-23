@@ -14,7 +14,7 @@
 //! |-------------------|-------------------------------------|
 //! | 200 - OK          | Session was successfully added      |
 //! | 404 - Not Found   | No such user was found.             |
-//! | 409 - Conflict    | No user has that friendcode         |
+//! | 410 - Gone        | No user has that friendcode         |
 //!
 //! In event of a 200 - OK the following json is returned
 //! ```json
@@ -44,17 +44,12 @@ pub struct GetUserRequest {
     friendcode: FriendCode,
 }
 
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-pub struct UserData {
-    username: String,
-}
 
 #[post("/get_user", data = "<user_req>")]
 pub(crate) async fn api_get_user(
     db: RevzenDB,
     user_req: Form<GetUserRequest>,
-) -> Result<Json<UserData>, Status> {
+) -> Result<Json<FollowDetails>, Status> {
     use crate::schema::users::dsl::{friendcode as friend_code, username, users};
 
     #[allow(unused_variables)]
@@ -78,9 +73,9 @@ pub(crate) async fn api_get_user(
             })
             .await
         {
-            Ok(Json(UserData { username: name }))
+            Ok(Json(FollowDetails { friendcode: friendcode, username: name }))
         } else {
-            Err(Status::Conflict)
+            Err(Status::Gone)
         }
     } else {
         Err(Status::NotFound)
