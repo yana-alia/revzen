@@ -1,14 +1,12 @@
 package revzen.app
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ListView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 
 
 class FollowingFragment : Fragment() {
@@ -25,7 +23,7 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         followingList = view.findViewById(R.id.following_list)
-        viewModel.socialData.observe(viewLifecycleOwner, Observer { set ->
+        viewModel.socialData.observe(viewLifecycleOwner) { set ->
             adapter = SingleButtonRowAdapter(
                 requireContext(),
                 set.followers,
@@ -33,6 +31,6 @@ class FollowingFragment : Fragment() {
                 "unfollow"
             )
             followingList.adapter = adapter
-        })
+        }
     }
 }

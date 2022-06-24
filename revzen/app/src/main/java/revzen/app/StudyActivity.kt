@@ -4,13 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.widget.Chronometer
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import okhttp3.*
+import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
+import revzen.app.api.PetResponse
 import java.io.IOException
 import java.lang.Math.abs
 import kotlin.random.Random
@@ -26,7 +26,6 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private var validLeave = false
     private var originalTime = 0L
     private val MINSTOMILLIS = 60000
-    private val MINSTOSEC = 60
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +40,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
         //api request to get main pet
-        val mainPet = Pet.HUSKY
-        when (mainPet) {
-            Pet.SHIBA -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_shiba)
-            Pet.HUSKY -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_husky)
-            Pet.CALICO -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_calico)
-            Pet.ROCK -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_rock)
-        }
+        apiHandler.getPetInfo(this::successGet, this::failGet)
 
         timer = findViewById(R.id.chronometer)
         originalTime = SystemClock.elapsedRealtime()
@@ -160,5 +153,14 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             }
         })
         finish()
+    }
+
+    private fun successGet(info: PetResponse) {
+        findViewById<ImageView>(R.id.petView).setImageResource(info.selectedPet.studyImage)
+        findViewById<ImageView>(R.id.petView).visibility = View.VISIBLE
+    }
+
+    private fun failGet(error: ApiError) {
+        findViewById<ImageView>(R.id.petView).visibility = View.INVISIBLE
     }
 }

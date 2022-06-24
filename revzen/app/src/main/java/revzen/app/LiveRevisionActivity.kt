@@ -51,7 +51,8 @@ class LiveRevisionActivity : AppCompatActivity() {
                 }
             )
             setPositiveButton("Ok") { _, _ ->
-                finish() }
+                finish()
+            }
             create()
             show()
         }
