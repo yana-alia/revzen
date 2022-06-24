@@ -14,6 +14,8 @@
     <string name="trophy_description">Trophies</string>
     <string name="pet_description">Your trusty pal</string>
 
+    <string name="pet_select_title">Choose your pet!</string>
+
     // SETUP ACTIVITY //
     <string name="setup_title">Select your Study Plan</string>
     <string name="study_length_title">Study Length</string>

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import revzen.app.api.ApiHandler
 
@@ -22,6 +23,19 @@ class MenuActivity : AppCompatActivity() {
         friendcodeText = findViewById(R.id.menu_friendcode)
         usernameText.text = apiHandler.username
         friendcodeText.text = apiHandler.friendcode.toString()
+
+        //api request to get main pet
+        val mainPet = Pet.HUSKY
+        when (mainPet) {
+            Pet.SHIBA -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_shiba)
+            Pet.HUSKY -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_husky)
+            Pet.CALICO -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_calico)
+            Pet.ROCK -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_rock)
+        }
+    }
+
+    private fun setPet(){
+
     }
 
     fun goToSessionSetup(_view: View) {
