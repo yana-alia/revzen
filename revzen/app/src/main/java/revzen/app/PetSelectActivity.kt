@@ -12,16 +12,16 @@ class PetSelectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pet_select)
-        findViewById<ImageView>(R.id.shiba).setBackgroundColor(R.color.transparent_grey)
-        findViewById<ImageView>(R.id.husky).setBackgroundColor(R.color.transparent_grey)
-        findViewById<ImageView>(R.id.calico).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(R.color.transparent_grey)
 
         //val petData = api request
         val mainPet = Pet.HUSKY //from petData
         when (mainPet) {
-            Pet.SHIBA -> findViewById<ImageView>(R.id.shiba).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
-            Pet.HUSKY -> findViewById<ImageView>(R.id.husky).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
-            Pet.CALICO -> findViewById<ImageView>(R.id.calico).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+            Pet.SHIBA -> findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+            Pet.HUSKY -> findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+            Pet.CALICO -> findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
             Pet.ROCK -> popup()
 
         }
@@ -42,23 +42,23 @@ class PetSelectActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceAsColor")
     fun selectShiba(_view: View) {
-        findViewById<ImageView>(R.id.shiba).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
-        findViewById<ImageView>(R.id.husky).setBackgroundColor(R.color.transparent_grey)
-        findViewById<ImageView>(R.id.calico).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+        findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(R.color.transparent_grey)
     }
 
     @SuppressLint("ResourceAsColor")
     fun selectHusky(_view: View) {
-        findViewById<ImageView>(R.id.shiba).setBackgroundColor(R.color.transparent_grey)
-        findViewById<ImageView>(R.id.husky).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
-        findViewById<ImageView>(R.id.calico).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+        findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(R.color.transparent_grey)
     }
 
     @SuppressLint("ResourceAsColor")
     fun selectCalico(_view: View) {
-        findViewById<ImageView>(R.id.shiba).setBackgroundColor(R.color.transparent_grey)
-        findViewById<ImageView>(R.id.husky).setBackgroundColor(R.color.transparent_grey)
-        findViewById<ImageView>(R.id.calico).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+        findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(R.color.transparent_grey)
+        findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
     }
 
     fun confirmChoice(_view: View){

@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/shiba"
+        android:id="@+id/shibaImage"
         android:layout_width="150dp"
         android:layout_height="153dp"
         android:layout_marginStart="40dp"
@@ -53,7 +53,7 @@
         app:srcCompat="@drawable/petlogo_shiba" />
 
     <ImageView
-        android:id="@+id/husky"
+        android:id="@+id/huskyImage"
         android:layout_width="150dp"
         android:layout_height="153dp"
         android:layout_marginTop="84dp"
@@ -67,7 +67,7 @@
         app:srcCompat="@drawable/petlogo_husky" />
 
     <ImageView
-        android:id="@+id/calico"
+        android:id="@+id/calicoImage"
         android:layout_width="150dp"
         android:layout_height="153dp"
         android:layout_marginTop="268dp"
