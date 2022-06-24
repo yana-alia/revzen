@@ -15,8 +15,6 @@ class FollowingFragment : Fragment() {
     private val viewModel: SocialViewModel by activityViewModels()
     private lateinit var followingList: ListView
     private lateinit var adapter: SingleButtonRowAdapter
-    private lateinit var newFriendButton: Button
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,13 +24,11 @@ class FollowingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newFriendButton = view.findViewById(R.id.new_friend)
-        newFriendButton.setOnClickListener { (activity as FollowActivity)::newFriend }
         followingList = view.findViewById(R.id.following_list)
         viewModel.socialData.observe(viewLifecycleOwner, Observer { set ->
             adapter = SingleButtonRowAdapter(
                 requireContext(),
-                set.following,
+                set.followers,
                 (activity as FollowActivity)::unfollowUser,
                 "unfollow"
             )

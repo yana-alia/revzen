@@ -29,7 +29,7 @@
 //! ```
 
 use crate::{models::User, *};
-use rocket::serde::{json::Json, Serialize};
+use rocket::serde::json::Json;
 
 #[derive(FromForm)]
 pub struct GetUserRequest {
@@ -43,7 +43,6 @@ pub struct GetUserRequest {
     #[field(name = uncased("friendcode"))]
     friendcode: FriendCode,
 }
-
 
 #[post("/get_user", data = "<user_req>")]
 pub(crate) async fn api_get_user(
@@ -73,7 +72,10 @@ pub(crate) async fn api_get_user(
             })
             .await
         {
-            Ok(Json(FollowDetails { friendcode: friendcode, username: name }))
+            Ok(Json(FollowDetails {
+                friendcode,
+                username: name,
+            }))
         } else {
             Err(Status::Gone)
         }

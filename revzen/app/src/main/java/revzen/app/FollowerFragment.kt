@@ -27,7 +27,7 @@ class FollowerFragment : Fragment() {
         viewModel.socialData.observe(viewLifecycleOwner, Observer { set ->
             adapter = SingleButtonRowAdapter(
                 requireContext(),
-                set.followers,
+                set.following,
                 (activity as FollowActivity)::rejectUser,
                 "reject"
             )

@@ -1,8 +1,10 @@
 package revzen.app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.viewpager2.widget.ViewPager2
@@ -108,16 +110,24 @@ class FollowActivity : AppCompatActivity() {
     }
 
     fun rejectUser(user: UserDetails) {
+        println("reject here")
         manageFollow(user.friendcode, ApiHandler.SocialAction.REJECT, "Rejected ${user.username}")
     }
     fun acceptUser(user: UserDetails) {
+        println("accept here")
         manageFollow(user.friendcode, ApiHandler.SocialAction.ACCEPT, "Accepted ${user.username}")
     }
 
     fun unfollowUser(user: UserDetails) {
+        println("unfollow here")
         manageFollow(user.friendcode, ApiHandler.SocialAction.UNFOLLOW, "Unfollowed ${user.username}")
     }
-    fun newFriend() {
-        println("new_friend")
+    fun followRequest(_view: View) {
+        startActivity(Intent(this, FollowRequestActivity::class.java).apply {
+            putExtra(
+                "handler",
+                apiHandler
+            )
+        })
     }
 }

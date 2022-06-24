@@ -158,7 +158,8 @@ class ApiHandler(
 
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
-                    200 -> handler.post { on_success() }
+                    200 -> handler.post { println("success")
+                        on_success() }
                     410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT)}
                     404 -> handler.post { on_failure(ApiError.NO_SUCH_USER)}
                     400 -> handler.post { on_failure(ApiError.SELF_FRIEND)}
@@ -196,7 +197,7 @@ class ApiHandler(
 
     fun getUser(friend_code: Int, on_success: (UserDetails) -> Any, on_failure: (ApiError) -> Any) {
         val handler = Handler(Looper.getMainLooper())
-        buildRequest("get_user", listOf(Pair("friend_code", friend_code.toString())) , object : Callback {
+        buildRequest("get_user", listOf(Pair("friendcode", friend_code.toString())) , object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 handler.post { on_failure(ApiError.API_FAILURE)}
             }
