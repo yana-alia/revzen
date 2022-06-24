@@ -8,6 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class PetSelectActivity : AppCompatActivity() {
+    var mainPet = Pet.SHIBA
+
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,7 @@ class PetSelectActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceAsColor")
     fun selectShiba(_view: View) {
+        mainPet = Pet.SHIBA
         findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
         findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(R.color.transparent_grey)
         findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(R.color.transparent_grey)
@@ -49,6 +52,7 @@ class PetSelectActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceAsColor")
     fun selectHusky(_view: View) {
+        mainPet = Pet.HUSKY
         findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(R.color.transparent_grey)
         findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
         findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(R.color.transparent_grey)
@@ -56,6 +60,7 @@ class PetSelectActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceAsColor")
     fun selectCalico(_view: View) {
+        mainPet = Pet.CALICO
         findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(R.color.transparent_grey)
         findViewById<ImageView>(R.id.huskyImage).setBackgroundColor(R.color.transparent_grey)
         findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
