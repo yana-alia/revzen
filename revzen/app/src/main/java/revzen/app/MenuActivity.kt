@@ -12,6 +12,7 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var usernameText: TextView
     private lateinit var friendcodeText: TextView
     private lateinit var apiHandler: ApiHandler
+    private lateinit var petImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +26,17 @@ class MenuActivity : AppCompatActivity() {
         friendcodeText.text = apiHandler.friendcode.toString()
 
         //api request to get main pet
+        petImage = findViewById(R.id.petImage)
+
+        // will be fetched with api
         val mainPet = Pet.HUSKY
-        when (mainPet) {
-            Pet.SHIBA -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_shiba)
-            Pet.HUSKY -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_husky)
-            Pet.CALICO -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_calico)
-            Pet.ROCK -> findViewById<ImageView>(R.id.petImage).setImageResource(R.drawable.petlogo_rock)
-        }
-    }
 
-    private fun setPet(){
-
+        petImage.setImageResource(when (mainPet) {
+            Pet.SHIBA -> R.drawable.petlogo_shiba
+            Pet.HUSKY -> R.drawable.petlogo_husky
+            Pet.CALICO -> R.drawable.petlogo_calico
+            Pet.ROCK -> R.drawable.petlogo_rock
+        })
     }
 
     fun goToSessionSetup(_view: View) {

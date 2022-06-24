@@ -235,7 +235,7 @@ class ApiHandler(
             })
     }
 
-    //todo stub for testing, implement properly
+    // todo make use of stubs and integrate pets
     fun getMainPet(
         on_success: (Pet) -> Any,
         on_failure: (ApiError) -> Any
@@ -243,6 +243,18 @@ class ApiHandler(
         val handler = Handler(Looper.getMainLooper())
         handler.post {
             on_success(Pet.SHIBA)
+        }
+    }
+
+    // todo make use of stubs and integrate pets
+    fun setMainPet(
+        pet: Pet,
+        on_success: () -> Any,
+        on_failure: (ApiError) -> Any
+    ) {
+        val handler = Handler(Looper.getMainLooper())
+        handler.post {
+            on_success()
         }
     }
 }
