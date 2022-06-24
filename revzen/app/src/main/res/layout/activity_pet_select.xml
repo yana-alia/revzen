@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".PetSelectActivity">
 
+    <Button
+        android:id="@+id/okButton2"
+        android:layout_width="103dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="60dp"
+        android:onClick="confirmChoice"
+        android:text="OK"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/breakTitleText2"
         android:layout_width="wrap_content"
@@ -59,8 +71,8 @@
         android:layout_width="150dp"
         android:layout_height="153dp"
         android:layout_marginTop="268dp"
-        android:clickable="true"
         android:background="@color/transparent_grey"
+        android:clickable="true"
         android:contentDescription="@string/pet_description"
         android:onClick="selectCalico"
         app:layout_constraintEnd_toEndOf="parent"

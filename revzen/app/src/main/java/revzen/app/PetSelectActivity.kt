@@ -23,6 +23,7 @@ class PetSelectActivity : AppCompatActivity() {
             Pet.HUSKY -> findViewById<ImageView>(R.id.husky).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
             Pet.CALICO -> findViewById<ImageView>(R.id.calico).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
             Pet.ROCK -> popup()
+
         }
 
         //api post request
@@ -58,5 +59,10 @@ class PetSelectActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.shiba).setBackgroundColor(R.color.transparent_grey)
         findViewById<ImageView>(R.id.husky).setBackgroundColor(R.color.transparent_grey)
         findViewById<ImageView>(R.id.calico).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+    }
+
+    fun confirmChoice(_view: View){
+        //api post request
+        finish()
     }
 }
