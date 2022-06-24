@@ -58,4 +58,13 @@
     <string name="create_account_enter_username">Enter username</string>
     <string name="create_account_user_exists">You appear to have previously created an account (same subject id)</string>
     <string name="create_account_button">Create Account</string>
+    <string name="follow_screen_followers">followers</string>
+    <string name="follow_screen_following">following</string>
+    <string name="follow_screen_requests">requests</string>
+    <string name="follow_screen_requested">requested</string>
+    <string name="menu_follow_screen">Social</string>
+    <string name="follow_screen_new_friend">Get New Friends!</string>
+    <string name="follow_request_screen_instructions">To send a follow request to a new friend, simply type their friendcode!</string>
+    <string name="follow_request_screen_button_prompt">Send Request</string>
+    <string name="follow_request_screen_number_pad">Friendcode here!</string>
 </resources>

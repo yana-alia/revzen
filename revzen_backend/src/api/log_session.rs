@@ -13,10 +13,10 @@
 //!
 //! ## Response:
 //!
-//! | Status          | Meaning                        |
-//! |-----------------|--------------------------------|
-//! | 200 - OK        | Session was successfully added |
-//! | 404 - Not Found | No such user was found.        |
+//! | Status            | Meaning                             |
+//! |-------------------|-------------------------------------|
+//! | 200 - OK          | Session was successfully added      |
+//! | 404 - Not Found   | No such user was found.             |
 //!
 //! ## CURL Example:
 //! ```bash

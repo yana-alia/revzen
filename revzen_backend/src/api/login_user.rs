@@ -32,23 +32,12 @@
 //! ```
 use rocket::serde::{json::Json, Serialize};
 
-use crate::{models::User, *};
-
-/// Used to identify a client (with version number for compatability check)
-#[derive(FromForm)]
-pub struct Client {
-    #[field(name = uncased("user_id"))]
-    user: UserID,
-
-    #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
-    #[allow(dead_code)]
-    client_version: AppVer,
-}
+use crate::{api::Client, models::User, *};
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct UserData {
-    friendcode: i32,
+    friendcode: FriendCode,
     username: String,
 }
 
@@ -57,12 +46,7 @@ pub(crate) async fn api_login(db: RevzenDB, user_auth: Form<Client>) -> Option<J
     use crate::schema::users::dsl::*;
 
     match db
-        .run(move |c| {
-            users
-                .filter(id.eq(user_auth.user))
-                .find(id)
-                .first::<User>(c)
-        })
+        .run(move |c| users.find(user_auth.user).first::<User>(c))
         .await
     {
         Ok(user_data) => Some(Json(UserData {

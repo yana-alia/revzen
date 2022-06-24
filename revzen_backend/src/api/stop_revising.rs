@@ -21,18 +21,7 @@
 
 use rocket::State;
 
-use crate::*;
-
-/// Used to identify a client (with version number for compatability check)
-#[derive(FromForm)]
-pub struct Client {
-    #[field(name = uncased("user_id"))]
-    user: UserID,
-
-    #[field(name = uncased("version"), validate = eq(BACKEND_VERSION))]
-    #[allow(dead_code)]
-    client_version: AppVer,
-}
+use crate::{api::Client, *};
 
 #[post("/stop_revising", data = "<user_auth>")]
 pub(crate) async fn api_stop_revising(

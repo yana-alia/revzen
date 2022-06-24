@@ -141,4 +141,83 @@ class ApiHandler(
             }
         })
     }
+
+    enum class SocialAction(val apicode: String) {
+        REQUEST("request"),
+        ACCEPT("accept"),
+        REJECT("reject"),
+        UNFOLLOW("unfollow"),
+    }
+
+    fun manageFollower(friend_code: Int, action: SocialAction, on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("manage_follows", listOf(Pair("friend_code", friend_code.toString()), Pair("action", action.apicode)), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE)}
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> handler.post { println("success")
+                        on_success() }
+                    410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT)}
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER)}
+                    400 -> handler.post { on_failure(ApiError.SELF_FRIEND)}
+                    409 -> handler.post { on_failure(ApiError.CONFLICTING_DATA) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+            }
+        })
+    }
+
+    fun getFollows(on_success: (FollowersResponse) -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("get_follows", emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE)}
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val followers = Gson().fromJson(
+                            response.body.string(),
+                            FollowersResponse::class.java
+                        )
+                        handler.post {
+                            on_success(followers)
+                        }
+                    }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER)}
+                    else -> handler.post {on_failure(ApiError.API_FAILURE)}
+                }
+            }
+        })
+    }
+
+    fun getUser(friend_code: Int, on_success: (UserDetails) -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("get_user", listOf(Pair("friendcode", friend_code.toString())) , object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE)}
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val user = Gson().fromJson(
+                            response.body.string(),
+                            UserDetails::class.java
+                        )
+                        handler.post {
+                            on_success(user)
+                        }
+                    }
+                    410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT) }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE)}
+                }
+            }
+        })
+    }
 }
