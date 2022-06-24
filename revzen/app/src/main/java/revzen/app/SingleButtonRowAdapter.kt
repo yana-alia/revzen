@@ -39,7 +39,7 @@ class SingleButtonRowAdapter(
         val icon: ImageView = view.findViewById(R.id.row_icon)
         val button: Button = view.findViewById(R.id.row_button)
 
-        icon.setImageResource(R.drawable.petstudy)
+        icon.setImageResource(R.drawable.petstudy_shiba)
         title.text = user.username
         description.text = "friendcode: " + user.friendcode
         button.text = buttontext

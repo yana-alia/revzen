@@ -4,6 +4,7 @@
     //generic colours
     <color name="black">#FF000000</color>
     <color name="dark_grey">#2C2F33</color>
+    <color name="transparent_grey">#2C2F33A0</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#EF0E0E</color>
 

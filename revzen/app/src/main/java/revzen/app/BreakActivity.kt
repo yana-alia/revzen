@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.widget.Chronometer
+import android.widget.ImageView
 import android.widget.TextView
 import revzen.app.api.ApiHandler
 
@@ -27,6 +28,14 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
         breakLength = intent.extras?.getInt("breakLength")!!
 
+        //api request to get main pet
+        val mainPet = Pet.HUSKY
+        when (mainPet) {
+            Pet.SHIBA -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_shiba)
+            Pet.HUSKY -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_husky)
+            Pet.CALICO -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_calico)
+            Pet.ROCK -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_rock)
+        }
 
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()

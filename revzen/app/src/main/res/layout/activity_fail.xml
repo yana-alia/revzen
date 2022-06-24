@@ -62,7 +62,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.383"
-        app:srcCompat="@drawable/petfail" />
+        app:srcCompat="@drawable/petfail_shiba" />
 
     <ImageView
         android:id="@+id/imageView2"

@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/summarybg"
         android:layout_width="339dp"
-        android:layout_height="595dp"
+        android:layout_height="570dp"
         android:layout_marginTop="88dp"
         android:background="?colorPrimaryVariant"
         android:text=""

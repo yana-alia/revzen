@@ -20,6 +20,14 @@ class FailActivity : AppCompatActivity() {
         apiHandler.stopLiveRevision({}, { _ -> })
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
+        //api request to get main pet
+        val mainPet = Pet.HUSKY
+        when (mainPet) {
+            Pet.SHIBA -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_shiba)
+            Pet.HUSKY -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_husky)
+            Pet.CALICO -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_calico)
+            Pet.ROCK -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_rock)
+        }
 
         //API call to set health variable
         val health = 2

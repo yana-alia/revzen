@@ -44,10 +44,12 @@
         android:layout_height="153dp"
         android:layout_marginTop="144dp"
         android:contentDescription="@string/pet_description"
+        android:clickable="true"
+        android:onClick="goToPetSelect"
         app:layout_constraintEnd_toStartOf="@+id/startSessionButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/petlogo" />
+        app:srcCompat="@drawable/petlogo_shiba" />
 
     <Button
         android:id="@+id/button3"

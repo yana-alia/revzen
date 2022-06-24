@@ -42,7 +42,7 @@ class DoubleButtonRowAdapter(
         val buttonOne: Button = view.findViewById(R.id.d_row_button_one)
         val buttonTwo: Button = view.findViewById(R.id.d_row_button_two)
 
-        icon.setImageResource(R.drawable.petstudy)
+        icon.setImageResource(R.drawable.petstudy_shiba)
         title.text = user.username
         description.text = "friendcode: " + user.friendcode
         buttonOne.text = buttonOneText
