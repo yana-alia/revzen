@@ -32,7 +32,8 @@ class DoubleButtonRowAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view =
-            convertView ?: LayoutInflater.from(context).inflate(R.layout.two_button_row, parent, false)
+            convertView ?: LayoutInflater.from(context)
+                .inflate(R.layout.two_button_row, parent, false)
 
         val user = getItem(position) as UserDetails
 
@@ -44,11 +45,12 @@ class DoubleButtonRowAdapter(
 
         icon.setImageResource(R.drawable.petstudy_shiba)
         title.text = user.username
-        description.text = "friendcode: " + user.friendcode
+        val friendcodeText = "friendcode: " + user.friendcode
+        description.text = friendcodeText
         buttonOne.text = buttonOneText
         buttonTwo.text = buttonTwoText
-        buttonOne.setOnClickListener {buttonOneFun(user)}
-        buttonTwo.setOnClickListener {buttonTwoFun(user)}
+        buttonOne.setOnClickListener { buttonOneFun(user) }
+        buttonTwo.setOnClickListener { buttonTwoFun(user) }
 
         return view
     }

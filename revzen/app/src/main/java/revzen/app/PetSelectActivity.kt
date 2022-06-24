@@ -1,14 +1,11 @@
 package revzen.app
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import revzen.app.api.ApiError
+import androidx.appcompat.app.AppCompatActivity
 
 class PetSelectActivity : AppCompatActivity() {
     @SuppressLint("ResourceAsColor")
@@ -32,7 +29,7 @@ class PetSelectActivity : AppCompatActivity() {
 
     }
 
-    private fun popup(){
+    private fun popup() {
         AlertDialog.Builder(this).apply {
             setTitle("OH NO!")
             setMessage("All your pets ran away. But don't worry, Rocky is here to help you out!")

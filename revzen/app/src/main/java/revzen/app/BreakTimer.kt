@@ -7,10 +7,10 @@ import androidx.core.app.NotificationManagerCompat
 
 class BreakTimer(millisInFuture: Long, countDownInterval: Long, private val context: Context) : CountDownTimer(millisInFuture,
     countDownInterval) {
-    private val CHANNELID = "BREAK_NOTIFICATION"
+    private val CHANNEL_ID = "BREAK_NOTIFICATION"
     private val notificationId = 1
     private var notified = false
-    private var builder = NotificationCompat.Builder(context, CHANNELID)
+    private var builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.notif_icon)
         .setContentTitle("Return to your pet!")
         .setContentText("You have to return within 5 minutes or you will break your session!")

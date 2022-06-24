@@ -17,7 +17,7 @@ class FailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fail)
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
-        apiHandler.stopLiveRevision({}, { _ -> })
+        apiHandler.stopLiveRevision({}, { })
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
         //api request to get main pet
@@ -32,7 +32,7 @@ class FailActivity : AppCompatActivity() {
         //API call to set health variable
         val health = 2
         val healthBar = findViewById<ImageView>(R.id.imageView2)
-        val image = when (health){
+        val image = when (health) {
             3 -> R.drawable.heart3
             2 -> R.drawable.heart2
             1 -> R.drawable.heart1
@@ -54,7 +54,7 @@ class FailActivity : AppCompatActivity() {
             timeTracker.study_time,
             timeTracker.break_time,
             {},
-            { _ -> })
+            { })
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
             putExtra("studyList", studyList)

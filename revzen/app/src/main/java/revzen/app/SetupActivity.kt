@@ -69,7 +69,7 @@ class SetupActivity : AppCompatActivity() {
 
     private fun startSession(studyTime: Int, breakTime: Int) {
 
-        apiHandler.startLiveRevision({}, {_ -> })
+        apiHandler.startLiveRevision({}, { })
 
         startActivity(Intent(this, StudyActivity::class.java).apply {
             putExtra("handler", apiHandler)
@@ -105,8 +105,10 @@ class SetupActivity : AppCompatActivity() {
             recentStudy = history[0].planned_study_time / 60
             recentBreak = history[0].planned_break_time / 60
 
-            studyButton.text = "Study: ${timeFormat(recentStudy)}"
-            breakButton.text = "Break: ${timeFormat(recentBreak)}"
+            val studyText = "Study: ${timeFormat(recentStudy)}"
+            val breakText = "Break: ${timeFormat(recentBreak)}"
+            studyButton.text = studyText
+            breakButton.text = breakText
 
             studyButton.visibility = View.VISIBLE
             breakButton.visibility = View.VISIBLE

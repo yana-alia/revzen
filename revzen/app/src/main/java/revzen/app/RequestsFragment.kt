@@ -1,13 +1,12 @@
 package revzen.app
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 
 class RequestsFragment : Fragment() {
     private val viewModel: SocialViewModel by activityViewModels()
@@ -24,7 +23,9 @@ class RequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestsList = view.findViewById(R.id.requests_list)
-        viewModel.socialData.observe(viewLifecycleOwner, Observer { set ->
+        viewModel.socialData.observe(
+            viewLifecycleOwner
+        ) { set ->
             adapter = DoubleButtonRowAdapter(
                 requireContext(),
                 set.requests,
@@ -35,6 +36,5 @@ class RequestsFragment : Fragment() {
             )
             requestsList.adapter = adapter
         }
-        )
     }
 }

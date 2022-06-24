@@ -35,9 +35,10 @@ class LiveRevisionAdapter(
 
         val title: TextView = view.findViewById(R.id.live_user_name)
         val description: TextView = view.findViewById(R.id.live_user_friendcode)
-
-        title.text = "User: ${liveReviser.username} currently revising."
-        description.text = "FriendCode: ${liveReviser.friendcode}"
+        val titleText = "User: ${liveReviser.username} currently revising."
+        val descriptionText = "FriendCode: ${liveReviser.friendcode}"
+        title.text = titleText
+        description.text = descriptionText
 
         return view
     }
