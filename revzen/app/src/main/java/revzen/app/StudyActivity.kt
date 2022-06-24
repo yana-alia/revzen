@@ -7,6 +7,7 @@ import android.os.SystemClock
 import android.widget.Chronometer
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import okhttp3.*
 import revzen.app.api.ApiHandler
@@ -38,6 +39,15 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         // updating getting the api handler
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
+
+        //api request to get main pet
+        val mainPet = Pet.HUSKY
+        when (mainPet) {
+            Pet.SHIBA -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_shiba)
+            Pet.HUSKY -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_husky)
+            Pet.CALICO -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_calico)
+            Pet.ROCK -> findViewById<ImageView>(R.id.petView).setImageResource(R.drawable.petstudy_rock)
+        }
 
         timer = findViewById(R.id.chronometer)
         originalTime = SystemClock.elapsedRealtime()
