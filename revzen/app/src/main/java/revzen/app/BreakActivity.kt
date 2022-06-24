@@ -8,7 +8,9 @@ import android.widget.Chronometer
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
+import revzen.app.api.PetResponse
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
@@ -28,14 +30,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
         breakLength = intent.extras?.getInt("breakLength")!!
 
-        //api request to get main pet
-        val mainPet = Pet.HUSKY
-        when (mainPet) {
-            Pet.SHIBA -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_shiba)
-            Pet.HUSKY -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_husky)
-            Pet.CALICO -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_calico)
-            Pet.ROCK -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_rock)
-        }
+        apiHandler.getPetInfo(this::successGet, this::failGet)
 
         startService(Intent(this, BgBreakService::class.java).apply {
             putExtra("breakLength", breakLength)
@@ -120,5 +115,14 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if (elapsedMillis < 0) {
             findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
         }
+    }
+
+    private fun successGet(info: PetResponse) {
+        findViewById<ImageView>(R.id.petView).setImageResource(info.selectedPet.breakImage)
+        findViewById<ImageView>(R.id.petView).visibility = View.VISIBLE
+    }
+
+    private fun failGet(error: ApiError) {
+        findViewById<ImageView>(R.id.petView).visibility = View.INVISIBLE
     }
 }

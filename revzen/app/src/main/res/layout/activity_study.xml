@@ -85,6 +85,7 @@
         android:layout_width="229dp"
         android:layout_height="218dp"
         android:contentDescription="@string/pet_description"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/endSessionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

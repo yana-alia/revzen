@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 import com.google.gson.Gson
 import okhttp3.*
 import okio.IOException
+import revzen.app.Health
 import revzen.app.Pet
 
 @Parcelize
@@ -241,10 +242,13 @@ class ApiHandler(
     ) {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            on_success(PetResponse(Pet.CALICO,
-                ArrayList<PetInfo>().apply { add(PetInfo(Pet.SHIBA,3,69))
-                    add(PetInfo(Pet.HUSKY,0,0))
-                    add(PetInfo(Pet.CALICO,2,420))}))
+            on_success(PetResponse(Pet.SHIBA,
+                HashMap<Pet,PetInfo>().apply {
+                    put(Pet.SHIBA, PetInfo(Health.THREE, 69))
+                    put(Pet.HUSKY, PetInfo(Health.ZERO, 0))
+                    put(Pet.CALICO, PetInfo(Health.ONE, 420))
+                }
+            ))
         }
     }
 

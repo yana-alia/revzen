@@ -1,15 +1,15 @@
 package revzen.app.api
 
+import revzen.app.Health
 import revzen.app.Pet
 
 class PetInfo(
-    val pet: Pet,
-    val health: Int,
+    val health: Health,
     val xp: Int,
 )
 
 class PetResponse (
     val selectedPet: Pet,
-    val allPets: ArrayList<PetInfo>
+    val allPets: HashMap<Pet, PetInfo>
 
 )

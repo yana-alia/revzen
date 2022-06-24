@@ -44,6 +44,7 @@
         android:layout_height="153dp"
         android:layout_marginTop="144dp"
         android:contentDescription="@string/pet_description"
+        android:visibility="invisible"
         android:clickable="true"
         android:onClick="goToPetSelect"
         app:layout_constraintEnd_toStartOf="@+id/startSessionButton"
