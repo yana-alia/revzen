@@ -38,18 +38,49 @@ class PetSelectActivity : AppCompatActivity() {
         val huskyHealth = info.allPets[Pet.HUSKY]?.health
         val calicoHealth = info.allPets[Pet.CALICO]?.health
 
-        findViewById<ImageView>(R.id.shibaHealth).setImageResource(
-            shibaHealth?.image ?: R.drawable.heart0)
-        findViewById<TextView>(R.id.shibaXP).text = info.allPets[Pet.SHIBA]?.xp.toString() + " XP"
+        if(shibaHealth == Health.ZERO){
+            findViewById<ImageView>(R.id.shibaImage).setImageResource(Pet.SHIBA.greyImage)
+            findViewById<ImageView>(R.id.shibaHealth).setBackgroundColor(androidx.appcompat.R.attr.background)
+            findViewById<ImageView>(R.id.shibaImage).setOnClickListener {} //disable clicking
 
-        findViewById<ImageView>(R.id.huskyHealth).setImageResource(
-            huskyHealth?.image ?: R.drawable.heart0)
-        findViewById<TextView>(R.id.huskyXP).text = info.allPets[Pet.HUSKY]?.xp.toString() + " XP"
+        } else {
+            findViewById<ImageView>(R.id.shibaHealth).setImageResource(
+                shibaHealth?.image ?: R.drawable.heart0)
+            findViewById<TextView>(R.id.shibaXP).text =
+                info.allPets[Pet.SHIBA]?.xp.toString() + " XP"
 
-        findViewById<ImageView>(R.id.calicoHealth).setImageResource(
-            calicoHealth?.image ?: R.drawable.heart0)
-        findViewById<TextView>(R.id.calicoXP).text = info.allPets[Pet.CALICO]?.xp.toString() + " XP"
+            findViewById<ImageView>(R.id.shibaHealth).visibility = View.VISIBLE
+        }
 
+        if(huskyHealth == Health.ZERO){
+            findViewById<ImageView>(R.id.huskyImage).setImageResource(Pet.HUSKY.greyImage)
+            findViewById<ImageView>(R.id.huskyHealth).setBackgroundColor(androidx.appcompat.R.attr.background)
+            findViewById<ImageView>(R.id.huskyImage).setOnClickListener {} //disable clicking
+        } else {
+            findViewById<ImageView>(R.id.huskyHealth).setImageResource(
+                huskyHealth?.image ?: R.drawable.heart0)
+            findViewById<TextView>(R.id.huskyXP).text =
+                info.allPets[Pet.HUSKY]?.xp.toString() + " XP"
+
+            findViewById<ImageView>(R.id.huskyHealth).visibility = View.VISIBLE
+        }
+
+        if(calicoHealth == Health.ZERO){
+            findViewById<ImageView>(R.id.calicoImage).setImageResource(Pet.CALICO.greyImage)
+            findViewById<ImageView>(R.id.calicoHealth).setBackgroundColor(androidx.appcompat.R.attr.background)
+            findViewById<ImageView>(R.id.calicoImage).setOnClickListener {} //disable clicking
+        } else {
+            findViewById<ImageView>(R.id.calicoHealth).setImageResource(
+                calicoHealth?.image ?: R.drawable.heart0)
+            findViewById<TextView>(R.id.calicoXP).text =
+                info.allPets[Pet.CALICO]?.xp.toString() + " XP"
+
+            findViewById<ImageView>(R.id.calicoHealth).visibility = View.VISIBLE
+        }
+
+        findViewById<ImageView>(R.id.shibaImage).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.huskyImage).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.calicoImage).visibility = View.VISIBLE
 
         when (mainPet) {
             Pet.SHIBA -> findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
@@ -58,12 +89,6 @@ class PetSelectActivity : AppCompatActivity() {
             Pet.ROCK -> popup()
         }
 
-        findViewById<ImageView>(R.id.shibaImage).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.huskyImage).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.calicoImage).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.shibaHealth).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.huskyHealth).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.calicoHealth).visibility = View.VISIBLE
     }
 
     private fun failInfo(error: ApiError) {
