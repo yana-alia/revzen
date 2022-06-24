@@ -8,6 +8,9 @@ import android.view.View
 import android.widget.Chronometer
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
+import androidx.core.app.NotificationManagerCompat
 import revzen.app.api.ApiHandler
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
@@ -37,6 +40,9 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             Pet.ROCK -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_rock)
         }
 
+        startService(Intent(this, BgBreakService::class.java).apply {
+            putExtra("breakLength", breakLength)
+        })
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()
         timer.base = originalTime + (breakLength * MINSTOMILLIS).toLong()
