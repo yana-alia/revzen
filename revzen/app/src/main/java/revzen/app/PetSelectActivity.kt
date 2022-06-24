@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
@@ -33,9 +34,22 @@ class PetSelectActivity : AppCompatActivity() {
         findViewById<ProgressBar>(R.id.pet_loading).visibility = View.INVISIBLE
         mainPet = info.selectedPet
 
-        findViewById<ImageView>(R.id.shibaImage).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.huskyImage).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.calicoImage).visibility = View.VISIBLE
+        val shibaHealth = info.allPets[Pet.SHIBA]?.health
+        val huskyHealth = info.allPets[Pet.HUSKY]?.health
+        val calicoHealth = info.allPets[Pet.CALICO]?.health
+
+        findViewById<ImageView>(R.id.shibaHealth).setImageResource(
+            shibaHealth?.image ?: R.drawable.heart0)
+        findViewById<TextView>(R.id.shibaXP).text = info.allPets[Pet.SHIBA]?.xp.toString() + " XP"
+
+        findViewById<ImageView>(R.id.huskyHealth).setImageResource(
+            huskyHealth?.image ?: R.drawable.heart0)
+        findViewById<TextView>(R.id.huskyXP).text = info.allPets[Pet.HUSKY]?.xp.toString() + " XP"
+
+        findViewById<ImageView>(R.id.calicoHealth).setImageResource(
+            calicoHealth?.image ?: R.drawable.heart0)
+        findViewById<TextView>(R.id.calicoXP).text = info.allPets[Pet.CALICO]?.xp.toString() + " XP"
+
 
         when (mainPet) {
             Pet.SHIBA -> findViewById<ImageView>(R.id.shibaImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
@@ -43,6 +57,13 @@ class PetSelectActivity : AppCompatActivity() {
             Pet.CALICO -> findViewById<ImageView>(R.id.calicoImage).setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
             Pet.ROCK -> popup()
         }
+
+        findViewById<ImageView>(R.id.shibaImage).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.huskyImage).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.calicoImage).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.shibaHealth).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.huskyHealth).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.calicoHealth).visibility = View.VISIBLE
     }
 
     private fun failInfo(error: ApiError) {
@@ -92,8 +113,7 @@ class PetSelectActivity : AppCompatActivity() {
     }
 
     fun confirmChoice(_view: View){
-        apiHandler.changePet(mainPet,{},{})
+        apiHandler.changePet(mainPet,{finish()},{})
         println(mainPet)
-        finish()
     }
 }
