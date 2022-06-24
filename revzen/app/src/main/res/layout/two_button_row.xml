@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_button"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
+    android:padding="6dip">
+
+    <Button
+        android:id="@+id/d_row_button_two"
+        android:layout_width="126dp"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/d_row_description"
+        android:minHeight="48dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/d_row_button_one"
+        app:layout_constraintStart_toStartOf="@+id/d_row_button_one"
+        app:layout_constraintTop_toBottomOf="@+id/d_row_button_one" />
+
+    <ImageView
+        android:id="@+id/d_row_icon"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="6dip"
+        android:contentDescription="TODO"
+        android:src="@drawable/petfail" />
+
+    <TextView
+        android:id="@+id/d_row_description"
+        android:layout_width="184dp"
+        android:layout_height="26dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="4dp"
+        android:layout_toRightOf="@id/d_row_icon"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:text="Description"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/d_row_title"
+        app:layout_constraintStart_toEndOf="@+id/d_row_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/d_row_title"
+        android:layout_width="183dp"
+        android:layout_height="25dp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_above="@id/d_row_description"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/d_row_icon"
+        android:gravity="center_vertical"
+        android:text="Example application"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/d_row_description"
+        app:layout_constraintStart_toStartOf="@+id/d_row_description"
+        app:layout_constraintTop_toBottomOf="@+id/d_row_description" />
+
+    <Button
+        android:id="@+id/d_row_button_one"
+        android:layout_width="126dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/d_row_button_two"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/d_row_description"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/d_row_button_two"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toEndOf="@+id/d_row_description"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

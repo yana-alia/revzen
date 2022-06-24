@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.loginUser
+import java.lang.NumberFormatException
 
 class LoginActivity : AppCompatActivity() {
     lateinit var loading: ProgressBar
@@ -23,9 +24,19 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun attempt_login(_view: View) {
-        loading.visibility = View.VISIBLE
-        val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
-        loginUser(subjectID, this::successful_login, this::login_failure)
+        try {
+            val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
+            loading.visibility = View.VISIBLE
+            loginUser(subjectID, this::successful_login, this::login_failure)
+        } catch (e: NumberFormatException) {
+            AlertDialog.Builder(this).apply {
+                setTitle("Error")
+                setMessage("Subject ID needs to be a number")
+                setPositiveButton("Ok") { _, _ -> finish() }
+                create()
+                show()
+            }
+        }
     }
 
     fun successful_login(handler: ApiHandler) {

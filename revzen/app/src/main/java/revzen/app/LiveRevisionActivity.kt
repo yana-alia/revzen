@@ -40,6 +40,7 @@ class LiveRevisionActivity : AppCompatActivity() {
     }
 
     private fun getRevisersFailure(error: ApiError) {
+        handler.removeCallbacksAndMessages(null)
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage(
@@ -49,14 +50,15 @@ class LiveRevisionActivity : AppCompatActivity() {
                     else -> R.string.login_failure_unspecified_api_error
                 }
             )
-            setPositiveButton("Ok") { _, _ -> finish() }
+            setPositiveButton("Ok") { _, _ ->
+                finish() }
             create()
             show()
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         handler.removeCallbacks(updateTask)
     }
 }
