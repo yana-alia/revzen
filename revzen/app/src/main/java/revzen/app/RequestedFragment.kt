@@ -31,7 +31,7 @@ class RequestedFragment : Fragment() {
                 requireContext(),
                 set.requested,
                 (activity as FollowActivity)::unfollowUser,
-                "cancel request"
+                "cancel"
             )
             requestedList.adapter = adapter
         } )
