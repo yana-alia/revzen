@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 import com.google.gson.Gson
 import okhttp3.*
 import okio.IOException
+import revzen.app.Health
 import revzen.app.Pet
 
 @Parcelize
@@ -235,23 +236,44 @@ class ApiHandler(
             })
     }
 
-    // todo make use of stubs and integrate pets
-    fun getMainPet(
-        on_success: (Pet) -> Any,
+    fun getPetInfo(
+        on_success: (PetResponse) -> Any,
         on_failure: (ApiError) -> Any
     ) {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            on_success(Pet.SHIBA)
+            on_success(PetResponse(Pet.SHIBA,
+                HashMap<Pet,PetInfo>().apply {
+                    put(Pet.SHIBA, PetInfo(Health.THREE, 69))
+                    put(Pet.HUSKY, PetInfo(Health.ZERO, 0))
+                    put(Pet.CALICO, PetInfo(Health.ONE, 420))
+                }
+            ))
         }
     }
 
-    // todo make use of stubs and integrate pets
-    fun setMainPet(
+    //update data of given pet
+    fun updatePet(
         pet: Pet,
+        newHealth: Int,
+        newXp: Int,
         on_success: () -> Any,
         on_failure: (ApiError) -> Any
     ) {
+        //todo implement
+        val handler = Handler(Looper.getMainLooper())
+        handler.post {
+            on_success()
+        }
+    }
+
+    //change main pet
+    fun changePet(
+        newPet: Pet,
+        on_success: () -> Any,
+        on_failure: (ApiError) -> Any
+    ) {
+        //todo implement
         val handler = Handler(Looper.getMainLooper())
         handler.post {
             on_success()

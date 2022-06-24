@@ -41,12 +41,15 @@ class HistoryAdapter(
         val title: TextView = view.findViewById(R.id.session_title)
         val description: TextView = view.findViewById(R.id.session_description)
         val icon: ImageView = view.findViewById(R.id.session_icon)
-
-        title.text =
+        val titleText =
             "Studied for ${timeFormat(session.study_time)}, with ${timeFormat(session.break_time)} break."
-        description.text = "Planned to study for ${timeFormat(session.planned_study_time)} with ${
-            timeFormat(session.planned_break_time)
-        } break."
+        val descriptionText =
+            "Planned to study for ${timeFormat(session.planned_study_time)} with ${
+                timeFormat(session.planned_break_time)
+            } break."
+
+        title.text = titleText
+        description.text = descriptionText
 
         if (session.study_time >= session.planned_study_time) {
             icon.setImageResource(R.drawable.petstudy_shiba)

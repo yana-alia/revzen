@@ -13,8 +13,8 @@ import java.lang.NumberFormatException
 
 class FollowRequestActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
-    lateinit var loading: ProgressBar
-    lateinit var friendcodeText: EditText
+    private lateinit var loading: ProgressBar
+    private lateinit var friendcodeText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class FollowRequestActivity : AppCompatActivity() {
         }
     }
 
-    fun userConfirmed(user: UserDetails) {
+    private fun userConfirmed(user: UserDetails) {
         loading.visibility = View.INVISIBLE
         if (user.friendcode == apiHandler.friendcode) {
             AlertDialog.Builder(this).apply {
@@ -56,49 +56,59 @@ class FollowRequestActivity : AppCompatActivity() {
                 setMessage("Are you sure you would like to friend ${user.username}?")
                 setPositiveButton("Ok") { _, _ ->
                     loading.visibility = View.VISIBLE
-                    apiHandler.manageFollower(user.friendcode, ApiHandler.SocialAction.REQUEST, this@FollowRequestActivity::requestSent, this@FollowRequestActivity::requestFailed)}
+                    apiHandler.manageFollower(
+                        user.friendcode,
+                        ApiHandler.SocialAction.REQUEST,
+                        this@FollowRequestActivity::requestSent,
+                        this@FollowRequestActivity::requestFailed
+                    )
+                }
                 create()
                 show()
             }
         }
     }
 
-    fun userFailedConfirmation(error: ApiError) {
+    private fun userFailedConfirmation(error: ApiError) {
         loading.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Error")
-            setMessage(when (error) {
-                ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friendcode"
-                ApiError.WRONG_VERSION -> "Application version incorrect"
-                else -> "An error occured"
-            })
+            setMessage(
+                when (error) {
+                    ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friendcode"
+                    ApiError.WRONG_VERSION -> "Application version incorrect"
+                    else -> "An error occured"
+                }
+            )
             setPositiveButton("Ok") { _, _ -> }
             create()
             show()
         }
     }
 
-    fun requestSent() {
+    private fun requestSent() {
         loading.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Success")
             setMessage("Request sent successfully")
-            setPositiveButton("Ok") { _, _ -> finish()}
+            setPositiveButton("Ok") { _, _ -> finish() }
             create()
             show()
         }
     }
 
-    fun requestFailed(error: ApiError) {
+    private fun requestFailed(error: ApiError) {
         loading.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Error")
-            setMessage(when (error) {
-                ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friendcode"
-                ApiError.WRONG_VERSION -> "Application version incorrect"
-                else -> "An error occured"
-            })
-            setPositiveButton("Ok") { _, _ -> finish()}
+            setMessage(
+                when (error) {
+                    ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friendcode"
+                    ApiError.WRONG_VERSION -> "Application version incorrect"
+                    else -> "An error occured"
+                }
+            )
+            setPositiveButton("Ok") { _, _ -> finish() }
             create()
             show()
         }

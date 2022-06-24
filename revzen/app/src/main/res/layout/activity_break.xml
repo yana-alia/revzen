@@ -7,13 +7,14 @@
     tools:context=".BreakActivity">
 
     <ImageView
-        android:id="@+id/petView2"
+        android:id="@+id/petView"
         android:layout_width="261dp"
         android:layout_height="235dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="96dp"
         android:contentDescription="@string/pet_description"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.681"
         app:layout_constraintStart_toStartOf="parent"

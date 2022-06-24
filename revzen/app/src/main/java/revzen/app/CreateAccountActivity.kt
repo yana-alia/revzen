@@ -22,19 +22,19 @@ class CreateAccountActivity : AppCompatActivity() {
         loading = findViewById(R.id.create_account_loading)
     }
 
-    fun attempt_create_account(_view: View) {
+    fun attemptAccountCreation(_view: View) {
         loading.visibility = View.VISIBLE
         val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
         val username = username.text.toString()
         createUser(
             subjectID,
             username,
-            this::successful_account_create,
-            this::account_create_failure
+            this::successfulAccountCreate,
+            this::failedAccountCreate
         )
     }
 
-    fun successful_account_create() {
+    private fun successfulAccountCreate() {
         loading.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Success")
@@ -45,7 +45,7 @@ class CreateAccountActivity : AppCompatActivity() {
         }
     }
 
-    fun account_create_failure(error: ApiError) {
+    private fun failedAccountCreate(error: ApiError) {
         loading.visibility = View.INVISIBLE
         subjectID.text.clear()
         AlertDialog.Builder(this).apply {
@@ -57,7 +57,7 @@ class CreateAccountActivity : AppCompatActivity() {
                     else -> R.string.login_failure_unspecified_api_error
                 }
             )
-            setPositiveButton("Ok") { _, _ -> finish()}
+            setPositiveButton("Ok") { _, _ -> finish() }
             create()
             show()
         }

@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        val CHANNELID = "BREAK_NOTIFICATION"
+        val channelID = "BREAK_NOTIFICATION"
         val name = getString(R.string.break_notification)
         val descriptionText = getString(R.string.break_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNELID, name, importance).apply {
+        val channel = NotificationChannel(channelID, name, importance).apply {
             description = descriptionText
         }
         // Register the channel with the system

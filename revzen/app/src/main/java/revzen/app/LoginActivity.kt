@@ -13,8 +13,8 @@ import revzen.app.api.loginUser
 import java.lang.NumberFormatException
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var loading: ProgressBar
-    lateinit var subjectID: EditText
+    private lateinit var loading: ProgressBar
+    private lateinit var subjectID: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,11 +23,11 @@ class LoginActivity : AppCompatActivity() {
         loading = findViewById(R.id.login_loading)
     }
 
-    fun attempt_login(_view: View) {
+    fun attemptLogin(_view: View) {
         try {
             val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
             loading.visibility = View.VISIBLE
-            loginUser(subjectID, this::successful_login, this::login_failure)
+            loginUser(subjectID, this::successfulLogin, this::loginFailure)
         } catch (e: NumberFormatException) {
             AlertDialog.Builder(this).apply {
                 setTitle("Error")
@@ -39,12 +39,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun successful_login(handler: ApiHandler) {
+    private fun successfulLogin(handler: ApiHandler) {
         loading.visibility = View.INVISIBLE
         startActivity(Intent(this, MenuActivity::class.java).apply { putExtra("handler", handler) })
     }
 
-    fun login_failure(error: ApiError) {
+    private fun loginFailure(error: ApiError) {
         loading.visibility = View.INVISIBLE
         subjectID.text.clear()
         AlertDialog.Builder(this).apply {

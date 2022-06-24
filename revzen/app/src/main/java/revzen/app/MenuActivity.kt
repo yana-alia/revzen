@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
+import revzen.app.api.PetResponse
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var usernameText: TextView
@@ -25,18 +27,7 @@ class MenuActivity : AppCompatActivity() {
         usernameText.text = apiHandler.username
         friendcodeText.text = apiHandler.friendcode.toString()
 
-        //api request to get main pet
-        petImage = findViewById(R.id.petImage)
-
-        // will be fetched with api
-        val mainPet = Pet.HUSKY
-
-        petImage.setImageResource(when (mainPet) {
-            Pet.SHIBA -> R.drawable.petlogo_shiba
-            Pet.HUSKY -> R.drawable.petlogo_husky
-            Pet.CALICO -> R.drawable.petlogo_calico
-            Pet.ROCK -> R.drawable.petlogo_rock
-        })
+        apiHandler.getPetInfo(this::successGet, this::failGet)
     }
 
     fun goToSessionSetup(_view: View) {
@@ -82,5 +73,14 @@ class MenuActivity : AppCompatActivity() {
                 apiHandler
             )
         })
+    }
+
+    private fun successGet(info: PetResponse) {
+        findViewById<ImageView>(R.id.petImage).setImageResource(info.selectedPet.logoImage)
+        findViewById<ImageView>(R.id.petImage).visibility = View.VISIBLE
+    }
+
+    private fun failGet(error: ApiError) {
+        findViewById<ImageView>(R.id.petImage).visibility = View.INVISIBLE
     }
 }

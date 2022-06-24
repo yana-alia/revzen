@@ -1,22 +1,21 @@
 package revzen.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.widget.Chronometer
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
-import androidx.core.app.NotificationManagerCompat
+import androidx.appcompat.app.AppCompatActivity
+import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
+import revzen.app.api.PetResponse
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
     private var breakLength = 5
-    private val MINSTOMILLIS = 60000
+    private val MINS_TO_MILLIS = 60000
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
@@ -31,26 +30,20 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
         breakLength = intent.extras?.getInt("breakLength")!!
 
-        //api request to get main pet
-        val mainPet = Pet.HUSKY
-        when (mainPet) {
-            Pet.SHIBA -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_shiba)
-            Pet.HUSKY -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_husky)
-            Pet.CALICO -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_calico)
-            Pet.ROCK -> findViewById<ImageView>(R.id.petView2).setImageResource(R.drawable.petbreak_rock)
-        }
+        apiHandler.getPetInfo(this::successGet, this::failGet)
 
         startService(Intent(this, BgBreakService::class.java).apply {
             putExtra("breakLength", breakLength)
         })
         timer = findViewById(R.id.breakTimer)
         originalTime = SystemClock.elapsedRealtime()
-        timer.base = originalTime + (breakLength * MINSTOMILLIS).toLong()
+        timer.base = originalTime + (breakLength * MINS_TO_MILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
 
-    private fun getElapsedTime() : Int = ((SystemClock.elapsedRealtime() - originalTime) / 1000).toInt()
+    private fun getElapsedTime(): Int =
+        ((SystemClock.elapsedRealtime() - originalTime) / 1000).toInt()
 
     private fun updateTimeTracker() {
         timeTracker.break_time += getElapsedTime()
@@ -61,12 +54,18 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         return
     }
 
-    fun keepStudying(_view : View) {
+    fun keepStudying(_view: View) {
         timer.stop()
         updateTimeTracker()
 
         // Currently do not care about failures to push data
-        apiHandler.logSession(timeTracker.planned_study_time, timeTracker.planned_break_time, timeTracker.study_time, timeTracker.break_time, {}, { _ ->})
+        apiHandler.logSession(
+            timeTracker.planned_study_time,
+            timeTracker.planned_break_time,
+            timeTracker.study_time,
+            timeTracker.break_time,
+            {},
+            { })
 
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
@@ -76,15 +75,21 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         finish()
     }
 
-    fun endSession(_view : View) {
+    fun endSession(_view: View) {
 
-        apiHandler.stopLiveRevision({}, {_ -> })
+        apiHandler.stopLiveRevision({}, { })
 
         timer.stop()
         updateTimeTracker()
 
         // Currently do not care about failures to push data
-        apiHandler.logSession(timeTracker.planned_study_time, timeTracker.planned_break_time, timeTracker.study_time, timeTracker.break_time, {}, { _ ->})
+        apiHandler.logSession(
+            timeTracker.planned_study_time,
+            timeTracker.planned_break_time,
+            timeTracker.study_time,
+            timeTracker.break_time,
+            {},
+            { })
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
@@ -96,9 +101,9 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
-        if (elapsedMillis == 0L){
+        if (elapsedMillis == 0L) {
             chronometer.base -= (1000)
-        } else if (elapsedMillis < -5 * MINSTOMILLIS) {
+        } else if (elapsedMillis < -5 * MINS_TO_MILLIS) {
             startActivity(Intent(this, FailActivity::class.java).apply {
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)
@@ -110,5 +115,14 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if (elapsedMillis < 0) {
             findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
         }
+    }
+
+    private fun successGet(info: PetResponse) {
+        findViewById<ImageView>(R.id.petView).setImageResource(info.selectedPet.breakImage)
+        findViewById<ImageView>(R.id.petView).visibility = View.VISIBLE
+    }
+
+    private fun failGet(error: ApiError) {
+        findViewById<ImageView>(R.id.petView).visibility = View.INVISIBLE
     }
 }

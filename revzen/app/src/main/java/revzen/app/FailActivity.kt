@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
+import revzen.app.api.PetResponse
 
 class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
@@ -17,29 +19,11 @@ class FailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fail)
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
-        apiHandler.stopLiveRevision({}, { _ -> })
+        apiHandler.stopLiveRevision({}, { })
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
-        //api request to get main pet
-        val mainPet = Pet.HUSKY
-        when (mainPet) {
-            Pet.SHIBA -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_shiba)
-            Pet.HUSKY -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_husky)
-            Pet.CALICO -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_calico)
-            Pet.ROCK -> findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.petfail_rock)
-        }
+        apiHandler.getPetInfo(this::successGet, this::failGet)
 
-        //API call to set health variable
-        val health = 2
-        val healthBar = findViewById<ImageView>(R.id.imageView2)
-        val image = when (health){
-            3 -> R.drawable.heart3
-            2 -> R.drawable.heart2
-            1 -> R.drawable.heart1
-            0 -> R.drawable.heart0
-            else -> R.drawable.heart3
-        }
-        healthBar.setImageResource(image)
     }
 
     override fun onBackPressed() {
@@ -54,11 +38,26 @@ class FailActivity : AppCompatActivity() {
             timeTracker.study_time,
             timeTracker.break_time,
             {},
-            { _ -> })
+            { })
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
             putExtra("studyList", studyList)
         })
         finish()
+    }
+
+    private fun successGet(info: PetResponse) {
+        val mainPet = info.selectedPet
+        findViewById<ImageView>(R.id.imageView).setImageResource(mainPet.failImage)
+        findViewById<ImageView>(R.id.imageView).visibility = View.VISIBLE
+        findViewById<ImageView>(R.id.imageView2).setImageResource(
+            info.allPets[mainPet]?.health?.image
+                ?: R.drawable.heart3)
+        findViewById<ImageView>(R.id.imageView2).visibility = View.VISIBLE
+    }
+
+    private fun failGet(error: ApiError) {
+        findViewById<ImageView>(R.id.imageView).visibility = View.INVISIBLE
+        findViewById<ImageView>(R.id.imageView2).visibility = View.INVISIBLE
     }
 }
