@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import okhttp3.*
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.PetResponse
-import java.io.IOException
-import java.lang.Math.abs
-import kotlin.random.Random
+
+const val SECSTOMILLIS = 1000
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
@@ -25,7 +22,6 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private var inSession = true
     private var validLeave = false
     private var originalTime = 0L
-    private val MINSTOMILLIS = 60000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +40,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         timer = findViewById(R.id.chronometer)
         originalTime = SystemClock.elapsedRealtime()
-        timer.base = originalTime + (studyLength * MINSTOMILLIS).toLong()
+        timer.base = originalTime + (studyLength * SECSTOMILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
@@ -90,10 +86,10 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if ((elapsedMillis > 0) && !inSession) {
             setTimerView()
             inSession = true
-        } else if (elapsedMillis < -30 * MINSTOMILLIS) {
+        } else if (elapsedMillis < -30 * SECSTOMILLIS) {
             timer.stop()
             goToFail()
-        } else if (elapsedMillis < -20 * MINSTOMILLIS) {
+        } else if (elapsedMillis < -20 * SECSTOMILLIS) {
             setWarningView()
         }
     }
