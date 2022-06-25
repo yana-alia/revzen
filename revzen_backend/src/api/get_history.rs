@@ -81,7 +81,7 @@ pub(crate) async fn api_get_history(
         {
             if let Ok(hists) = histories
                 .filter(sub.eq(user_auth.user))
-                .order(session_time)
+                .order(session_time.desc())
                 .load::<History>(c)
             {
                 Some(Json(
