@@ -11,5 +11,4 @@ class PetInfo(
 class PetResponse (
     val selectedPet: Pet,
     val allPets: HashMap<Pet, PetInfo>
-
 )

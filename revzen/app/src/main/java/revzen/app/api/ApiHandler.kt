@@ -51,7 +51,6 @@ class ApiHandler(
                     422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
                     else -> handler.post { on_failure(ApiError.API_FAILURE) }
                 }
-
             }
         })
     }
