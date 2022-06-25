@@ -57,8 +57,8 @@ pub(crate) async fn api_get_revising(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(true)))),
                 )
-                .select((id, username, friendcode, main_pet))
-                .get_results::<(UserID, String, FriendCode, i32)>(c)
+                .select(id)
+                .get_results::<UserID>(c)
         })
         .await
     {
@@ -66,12 +66,7 @@ pub(crate) async fn api_get_revising(
         Some(Json(
             following
                 .into_iter()
-                .filter(|(user_id, _, _, _)| read_state.contains_key(user_id))
-                .map(|(_, name, code, pet)| UserDetails {
-                    friendcode: code,
-                    username: name,
-                    main_pet: pet.into(),
-                })
+                .filter_map(|user_id| read_state.get(&user_id).map(UserDetails::clone))
                 .collect(),
         ))
     } else {

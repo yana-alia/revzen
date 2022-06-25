@@ -34,7 +34,7 @@ pub struct Client {
 }
 
 /// A basic holder struct for friendcodes and usernames that can be serialized to json.
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 #[serde(crate = "rocket::serde")]
 pub struct UserDetails {
     friendcode: FriendCode,
@@ -54,7 +54,7 @@ pub(self) fn map_to_details(tuples: Vec<(String, FriendCode, i32)>) -> Vec<UserD
         .collect()
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 #[serde(crate = "rocket::serde")]
 pub(self) enum PetType {
     Rock,
