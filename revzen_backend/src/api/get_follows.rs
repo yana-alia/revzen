@@ -66,7 +66,7 @@
 //! ```
 
 use crate::{
-    api::{map_to_details, Client, FollowDetails},
+    api::{map_to_details, Client, UserDetails},
     *,
 };
 use diesel::{dsl::exists, select};
@@ -75,10 +75,10 @@ use rocket::serde::{json::Json, Serialize};
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct FollowResponse {
-    requests: Vec<FollowDetails>,
-    requested: Vec<FollowDetails>,
-    following: Vec<FollowDetails>,
-    followers: Vec<FollowDetails>,
+    requests: Vec<UserDetails>,
+    requested: Vec<UserDetails>,
+    following: Vec<UserDetails>,
+    followers: Vec<UserDetails>,
 }
 
 #[post("/get_follows", data = "<user_auth>")]
@@ -110,8 +110,8 @@ pub(crate) async fn api_get_follows(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(false)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
         let requested_future = db.run(move |c| {
             users
@@ -120,8 +120,8 @@ pub(crate) async fn api_get_follows(
                         .eq(followee)
                         .and(follower.eq(user).and(accepted.eq(false)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
         let follows_future = db.run(move |c| {
             users
@@ -130,8 +130,8 @@ pub(crate) async fn api_get_follows(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(true)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
         let followers_future = db.run(move |c| {
             users
@@ -140,8 +140,8 @@ pub(crate) async fn api_get_follows(
                         .eq(followee)
                         .and(follower.eq(user).and(accepted.eq(true)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
 
         if let (Ok(requests), Ok(requested), Ok(following), Ok(followers)) = (

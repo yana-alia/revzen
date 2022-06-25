@@ -42,7 +42,14 @@ pub(crate) async fn api_start_revising(
     {
         Ok(user_data) => {
             let mut write_state = state.0.write().await;
-            write_state.insert(user_data.id, (user_data.friendcode, user_data.username));
+            write_state.insert(
+                user_data.id,
+                UserDetails {
+                    friendcode: user_data.friendcode,
+                    username: user_data.username,
+                    main_pet: user_data.main_pet.into(),
+                },
+            );
             Status::Ok
         }
         Err(_) => Status::NotFound,

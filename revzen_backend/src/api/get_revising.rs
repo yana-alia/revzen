@@ -31,7 +31,7 @@
 use rocket::{serde::json::Json, State};
 
 use crate::{
-    api::{Client, FollowDetails},
+    api::{Client, UserDetails},
     *,
 };
 
@@ -40,7 +40,7 @@ pub(crate) async fn api_get_revising(
     db: RevzenDB,
     state: &State<StudyState>,
     user_auth: Form<Client>,
-) -> Option<Json<Vec<FollowDetails>>> {
+) -> Option<Json<Vec<UserDetails>>> {
     use crate::schema::{follows::dsl::*, users::dsl::*};
     // again we assume the user is valid
     #[allow(unused_variables)]
@@ -57,8 +57,8 @@ pub(crate) async fn api_get_revising(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(true)))),
                 )
-                .select((id, username, friendcode))
-                .get_results::<(UserID, String, FriendCode)>(c)
+                .select((id, username, friendcode, main_pet))
+                .get_results::<(UserID, String, FriendCode, i32)>(c)
         })
         .await
     {
@@ -66,10 +66,11 @@ pub(crate) async fn api_get_revising(
         Some(Json(
             following
                 .into_iter()
-                .filter(|(user_id, _, _)| read_state.contains_key(user_id))
-                .map(|(_, name, code)| FollowDetails {
+                .filter(|(user_id, _, _, _)| read_state.contains_key(user_id))
+                .map(|(_, name, code, pet)| UserDetails {
                     friendcode: code,
                     username: name,
+                    main_pet: pet.into(),
                 })
                 .collect(),
         ))

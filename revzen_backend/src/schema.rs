@@ -19,11 +19,21 @@ table! {
 }
 
 table! {
+    pets (user_id, pet_type) {
+        user_id -> Int8,
+        pet_type -> Int4,
+        health -> Int4,
+        xp -> Int4,
+    }
+}
+
+table! {
     users (id) {
         friendcode -> Int4,
         id -> Int8,
         username -> Varchar,
+        main_pet -> Int4,
     }
 }
 
-allow_tables_to_appear_in_same_query!(follows, histories, users,);
+allow_tables_to_appear_in_same_query!(follows, histories, pets, users,);

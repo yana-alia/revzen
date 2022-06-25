@@ -18,11 +18,9 @@ extern crate rocket;
 #[macro_use]
 extern crate diesel;
 
-use std::collections::HashMap;
-
 use diesel::{insert_into, prelude::*};
 use models::AddUser;
-use rocket::{form::Form, http::Status, tokio::sync::RwLock};
+use rocket::{form::Form, http::Status};
 
 use rocket_sync_db_pools::database;
 use schema::users;
@@ -50,9 +48,6 @@ type AppVer = u32;
 /// The current backend version.
 const BACKEND_VERSION: AppVer = 1;
 
-/// Managing live user's revising
-struct StudyState(RwLock<HashMap<UserID, (i32, String)>>);
-
 /// The revzen database type, which will hold the connection pool used by the application.
 #[database("revzen_db")]
 struct RevzenDB(diesel::PgConnection);
@@ -78,5 +73,5 @@ fn rocket() -> _ {
         )
         .register("/", catchers![page_not_found, internal_error])
         .attach(RevzenDB::fairing())
-        .manage(StudyState(RwLock::from(HashMap::new())))
+        .manage(StudyState::new())
 }

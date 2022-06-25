@@ -8,6 +8,7 @@ pub struct User {
     pub friendcode: i32,
     pub id: i64,
     pub username: String,
+    pub main_pet: i32,
 }
 
 /// Data required to insert the user (friendcode is a serial - automatically
@@ -17,6 +18,7 @@ pub struct User {
 pub struct AddUser {
     pub id: i64,
     pub username: String,
+    pub main_pet: i32,
 }
 
 /// Data required to add a user session to the histories table

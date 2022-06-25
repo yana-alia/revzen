@@ -8,8 +8,19 @@
 //! - [Sending user study session history to the database](log_session)
 //! - [Retrieving a user's study history](get_history)
 
+use std::collections::HashMap;
+
 use crate::{AppVer, FriendCode, UserID, BACKEND_VERSION};
-use rocket::serde::Serialize;
+use rocket::{serde::Serialize, tokio::sync::RwLock};
+
+/// Managing live user's revising
+pub struct StudyState(RwLock<HashMap<UserID, UserDetails>>);
+
+impl StudyState {
+    pub fn new() -> Self {
+        StudyState(RwLock::from(HashMap::new()))
+    }
+}
 
 /// Used to identify a client (with version number for compatability check)
 #[derive(FromForm)]
@@ -25,20 +36,43 @@ pub struct Client {
 /// A basic holder struct for friendcodes and usernames that can be serialized to json.
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
-pub struct FollowDetails {
+pub struct UserDetails {
     friendcode: FriendCode,
     username: String,
+    main_pet: PetType,
 }
 
 /// Mapping of (username, friendcode) tuples into [FollowDetails] structs
-pub(self) fn map_to_details(tuples: Vec<(String, FriendCode)>) -> Vec<FollowDetails> {
+pub(self) fn map_to_details(tuples: Vec<(String, FriendCode, i32)>) -> Vec<UserDetails> {
     tuples
         .into_iter()
-        .map(|(username, friendcode)| FollowDetails {
+        .map(|(username, friendcode, pet_type)| UserDetails {
             friendcode,
             username,
+            main_pet: pet_type.into(),
         })
         .collect()
+}
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub(self) enum PetType {
+    Rock,
+    Shiba,
+    Husky,
+    Calico,
+}
+
+impl From<i32> for PetType {
+    fn from(t: i32) -> Self {
+        match t {
+            0 => PetType::Rock,
+            1 => PetType::Shiba,
+            2 => PetType::Husky,
+            3 => PetType::Calico,
+            t => panic!("Invalid pet type used: {}", t),
+        }
+    }
 }
 
 mod create_user;

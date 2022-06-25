@@ -48,8 +48,8 @@ pub struct GetUserRequest {
 pub(crate) async fn api_get_user(
     db: RevzenDB,
     user_req: Form<GetUserRequest>,
-) -> Result<Json<FollowDetails>, Status> {
-    use crate::schema::users::dsl::{friendcode as friend_code, username, users};
+) -> Result<Json<UserDetails>, Status> {
+    use crate::schema::users::dsl::{friendcode as friend_code, main_pet, username, users};
 
     #[allow(unused_variables)]
     let GetUserRequest {
@@ -63,18 +63,19 @@ pub(crate) async fn api_get_user(
         .await
         .is_ok()
     {
-        if let Ok(name) = db
+        if let Ok((name, pet)) = db
             .run(move |c| {
                 users
                     .filter(friend_code.eq(friendcode))
-                    .select(username)
-                    .first::<String>(c)
+                    .select((username, main_pet))
+                    .first::<(String, i32)>(c)
             })
             .await
         {
-            Ok(Json(FollowDetails {
+            Ok(Json(UserDetails {
                 friendcode,
                 username: name,
+                main_pet: pet.into(),
             }))
         } else {
             Err(Status::Gone)
