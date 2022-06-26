@@ -68,17 +68,24 @@ pub(crate) async fn api_give_pet(db: RevzenDB, user_pet: Form<GivePet>) -> Statu
             })
             .await
             .is_ok()
-            && user_data.main_pet == PET_ROCK
-            && db
-                .run(move |c| {
-                    update(users.find(user))
-                        .set(main_pet.eq(pet_given_type))
-                        .execute(c)
-                })
-                .await
-                .is_ok()
         {
-            Status::Ok
+            if user_data.main_pet == PET_ROCK {
+                if db
+                    .run(move |c| {
+                        update(users.find(user))
+                            .set(main_pet.eq(pet_given_type))
+                            .execute(c)
+                    })
+                    .await
+                    .is_ok()
+                {
+                    Status::Ok
+                } else {
+                    Status::InternalServerError
+                }
+            } else {
+                Status::Ok
+            }
         } else {
             Status::InternalServerError
         }

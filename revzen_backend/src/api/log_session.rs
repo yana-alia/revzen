@@ -139,17 +139,25 @@ pub(crate) async fn api_log_session(
                                     .get_results::<Pet>(c)
                                     .expect("No database issues");
 
-                                update(users.find(user))
-                                    .set(
-                                        main_pet.eq(all_pets
-                                            .get(0)
-                                            .map(|healthiest_pet| healthiest_pet.pet_type)
-                                            .unwrap_or_else(|| PET_ROCK)),
-                                    )
-                                    .execute(c)
-                                    .expect("No database issues");
+                                if let Some(healthiest_pet) = all_pets.get(0) {
+                                    update(users.find(user))
+                                        .set(main_pet.eq(healthiest_pet.pet_type))
+                                        .execute(c)
+                                        .expect("No database issues");
 
-                                PET_ROCK_STATUS
+                                    PetStatus {
+                                        pet_type: healthiest_pet.pet_type,
+                                        health: healthiest_pet.health,
+                                        xp: healthiest_pet.xp,
+                                    }
+                                } else {
+                                    update(users.find(user))
+                                        .set(main_pet.eq(PET_ROCK))
+                                        .execute(c)
+                                        .expect("No database issues");
+
+                                    PET_ROCK_STATUS
+                                }
                             } else if curr_health > 5 {
                                 update(pets.find((user, user_data.main_pet)))
                                     .set(health.eq(5))
