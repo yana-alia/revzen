@@ -42,8 +42,7 @@ pub(crate) async fn api_get_revising(
     user_auth: Form<Client>,
 ) -> Option<Json<Vec<UserDetails>>> {
     use crate::schema::{follows::dsl::*, users::dsl::*};
-    
-    
+
     let Client {
         user,
         client_version: _,

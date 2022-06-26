@@ -57,6 +57,7 @@ pub(self) fn map_to_details(tuples: Vec<(String, FriendCode, PetType)>) -> Vec<U
 pub type PetType = i32;
 
 pub const PET_ROCK: PetType = 0;
+pub const PET_SHIBA: PetType = 1;
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]

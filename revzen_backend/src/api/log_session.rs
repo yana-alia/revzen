@@ -27,7 +27,7 @@
 
 use std::time::SystemTime;
 
-use diesel::{delete, update};
+use diesel::{delete, insert_into, update};
 use rocket::serde::json::Json;
 
 use crate::{

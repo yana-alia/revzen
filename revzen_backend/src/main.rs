@@ -18,12 +18,9 @@ extern crate rocket;
 #[macro_use]
 extern crate diesel;
 
-use diesel::{insert_into, prelude::*};
-use models::AddUser;
+use diesel::prelude::*;
 use rocket::{form::Form, http::Status};
-
 use rocket_sync_db_pools::database;
-use schema::users;
 
 mod api;
 mod models;

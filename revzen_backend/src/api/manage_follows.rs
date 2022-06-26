@@ -24,12 +24,11 @@
 //! curl -X POST -F 'user_id=301' -F 'version=1' -F 'friend_code=2' -F 'action=request' 'http://127.0.0.1:8000/api/manage_follows'
 //! ```
 
-use diesel::{delete, update};
-
 use crate::{
     models::{Follow, User},
     *,
 };
+use diesel::{delete, insert_into, update};
 
 /// Enum for the allowed actions in a friendship.
 #[derive(FromFormField, Debug)]
