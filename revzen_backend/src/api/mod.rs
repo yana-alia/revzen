@@ -84,6 +84,7 @@ mod get_history;
 mod get_pet_info;
 mod get_revising;
 mod get_user;
+mod give_pet;
 mod log_session;
 mod login_user;
 mod manage_follows;
@@ -94,7 +95,7 @@ mod stop_revising;
 pub(crate) use self::{
     create_user::api_create_user, get_current_pet::api_get_current_pet,
     get_follows::api_get_follows, get_history::api_get_history, get_pet_info::api_get_pet_info,
-    get_revising::api_get_revising, get_user::api_get_user, log_session::api_log_session,
-    login_user::api_login, manage_follows::api_manage_friend, start_revising::api_start_revising,
-    stop_revising::api_stop_revising,
+    get_revising::api_get_revising, get_user::api_get_user, give_pet::api_give_pet,
+    log_session::api_log_session, login_user::api_login, manage_follows::api_manage_friend,
+    start_revising::api_start_revising, stop_revising::api_stop_revising,
 };
