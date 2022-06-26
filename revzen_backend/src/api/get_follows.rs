@@ -21,40 +21,47 @@
 //!         [
 //!             {
 //!                 "friendcode" : 123,
-//!                 "username"   : "ollie"
+//!                 "username"   : "ollie",
+//!                 "main_pet"   : 0
 //!             },
 //!             {
 //!                 "friendcode" : 234,
-//!                 "username"   : "bob"
+//!                 "username"   : "bob",
+//!                 "main_pet"   : 0
 //!             },
 //!         ],
 //!     "requested" :
 //!         [
 //!             {
 //!                 "friendcode" : 3423,
-//!                 "username"   : "mike"
+//!                 "username"   : "mike",
+//!                 "main_pet"   : 0
 //!             },
 //!         ],
 //!     "follows" :
 //!         [
 //!             {
 //!                 "friendcode" : 234,
-//!                 "username"   : "alfie"
+//!                 "username"   : "alfie",
+//!                 "main_pet"   : 0
 //!             },
 //!             {
 //!                 "friendcode" : 541,
-//!                 "username"   : "dayana"
+//!                 "username"   : "dayana",
+//!                 "main_pet"   : 0
 //!             },
 //!             {
 //!                 "friendcode" : 69,
-//!                 "username"   : "miles"
+//!                 "username"   : "miles",
+//!                 "main_pet"   : 0
 //!             },
 //!         ],
 //!     "followers" :
 //!         [
 //!             {
 //!                 "friendcode" : 69,
-//!                 "username"   : "miles"
+//!                 "username"   : "miles",
+//!                 "main_pet"   : 0
 //!             },
 //!         ]
 //! ]

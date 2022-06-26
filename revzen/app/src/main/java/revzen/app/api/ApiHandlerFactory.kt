@@ -35,8 +35,8 @@ fun loginUser(subject_id: Long, on_success: (ApiHandler) -> Any, on_failure: (Ap
         override fun onResponse(call: Call, response: Response) {
             when (response.code) {
                 200 -> {
-                    val loginResponse: LoginResponse =
-                        Gson().fromJson(response.body.string(), LoginResponse::class.java)
+                    val loginResponse =
+                        Gson().fromJson(response.body.string(), UserDetails::class.java)
                     handler.post {
                         on_success(
                             ApiHandler(

@@ -35,8 +35,8 @@ class SetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)
 
-        val studyStrings = studyLengths.map { t -> timeFormat(t) }
-        val breakStrings = breakLengths.map { t -> timeFormat(t) }
+        val studyStrings = studyLengths.map { timeFormat(it) }
+        val breakStrings = breakLengths.map { timeFormat(it) }
 
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
 
@@ -79,18 +79,6 @@ class SetupActivity : AppCompatActivity() {
             putExtra("studyList", studyList)
         })
         finish()
-    }
-
-    private fun timeFormat(time: Int): String {
-        val hours = time / 3600
-        val mins = (time / 60) % 60
-        val secs = time % 60
-
-        val hoursString = if (hours > 0) "$hours hours, " else ""
-        val minsString = if (mins > 0) "$mins minutes, " else ""
-        val secsString = if (secs > 0) "$secs seconds, " else ""
-
-        return "$hoursString$minsString$secsString"
     }
 
     private fun successGotHistory(history: Array<HistoryResponse>) {

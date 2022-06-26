@@ -8,10 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import revzen.app.api.ApiError
-import revzen.app.api.ApiHandler
-import revzen.app.api.PetInfo
-import revzen.app.api.PetResponse
+import revzen.app.api.*
 
 class PetSelectActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
@@ -61,30 +58,31 @@ class PetSelectActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setPetDisplay(image: ImageView, healthImage: ImageView, xpText: TextView, pet: Pet, info: PetResponse) {
-        val petInfo =  info.allPets[pet]!!
-
-        if (petInfo.health == Health.ZERO) {
+    private fun setPetDisplay(image: ImageView, healthImage: ImageView, xpText: TextView, pet: Pet, info: PetsResponse) {
+        if (!info.allPets.containsKey(pet)) {
             image.setImageResource(pet.greyImage)
             image.setOnClickListener {}
             healthImage.setBackgroundColor(androidx.appcompat.R.attr.background)
         } else {
+            val petInfo = info.allPets[pet]!!
             image.setImageResource(pet.logoImage)
-        }
-        xpText.text = "${petInfo.xp} XP"
-        healthImage.setImageResource(petInfo.health.image)
+            xpText.text = "${petInfo.xp} XP"
+            healthImage.setImageResource(petInfo.health.image)
 
-        if (info.selectedPet == pet) {
-            image.setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+
+            if (info.mainPet == pet) {
+                image.setBackgroundColor(androidx.appcompat.R.attr.colorPrimary)
+            }
+            healthImage.visibility = View.VISIBLE
+            xpText.visibility = View.VISIBLE
         }
         image.visibility = View.VISIBLE
-        xpText.visibility = View.VISIBLE
     }
 
-    private fun successInfo(info: PetResponse) {
+    private fun successInfo(info: PetsResponse) {
         loading.visibility = View.INVISIBLE
 
-        if (info.selectedPet == Pet.ROCK) {
+        if (info.mainPet == Pet.ROCK) {
             AlertDialog.Builder(this).apply {
                 setTitle("OH NO!")
                 setMessage("All your pets ran away. But don't worry, Rocky is here to help you out!")
@@ -134,11 +132,11 @@ class PetSelectActivity : AppCompatActivity() {
         selectPet(Pet.CALICO)
     }
 
-    fun selectPet(pet: Pet) {
+    private fun selectPet(pet: Pet) {
         apiHandler.changePet(pet, {}, this::errorOccured)
     }
 
-    fun errorOccured(error: ApiError) {
+    private fun errorOccured(error: ApiError) {
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage("Could not retrieve pet data from database")

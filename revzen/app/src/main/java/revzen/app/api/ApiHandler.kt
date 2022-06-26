@@ -8,24 +8,104 @@ import kotlinx.parcelize.Parcelize
 import com.google.gson.Gson
 import okhttp3.*
 import okio.IOException
-import revzen.app.Health
-import revzen.app.Pet
 
 @Parcelize
 class ApiHandler(
     private val subject_id: Long,
     val username: String,
-    val friendcode: Int
+    val friendCode: Int
 ) : Parcelable {
 
-    // Creates a new request, with the subject_id and client version added as post request fields by default.
+    // Adapter to make use of the existing buildRequest function
     private fun buildRequest(
         method: String,
         post_fields: List<Pair<String, Any>>,
         callback: Callback
     ) {
-        // Inefficient, but OkHttpClient is not Parcelizable, and regardless would be destroyed and remade.
         buildRequest(OkHttpClient(), subject_id, method, post_fields, callback)
+    }
+
+    // Make an empty post request (common pattern)
+    private fun apiEmptyPost(method: String, on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest(method, emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> handler.post { on_success() }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+            }
+        })
+    }
+
+    fun changePet(new_pet: Pet, on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("change_pet", listOf(Pair("pet_type", new_pet.ordinal)), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post {on_failure(ApiError.API_FAILURE)}
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> handler.post { on_success() }
+                    409 -> handler.post {on_failure(ApiError.PET_UNAVAILABLE)}
+                    404 -> handler.post {on_failure(ApiError.NO_SUCH_USER)}
+                    422 -> handler.post {on_failure(ApiError.WRONG_VERSION)}
+                    else -> handler.post {on_failure(ApiError.API_FAILURE)}
+                }
+            }
+        })
+    }
+
+    fun getCurrentPet(on_success: (PetStatus) -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("get_current_pet", emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post {on_failure(ApiError.API_FAILURE)}
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val petStatus = Gson().fromJson(response.body.string(), PetStatus::class.java)
+                        handler.post {on_success(petStatus)}
+                    }
+                    422 -> handler.post{on_failure(ApiError.WRONG_VERSION)}
+                    else ->handler.post{on_failure(ApiError.API_FAILURE)}
+                }
+            }
+        })
+    }
+
+    fun getFollows(on_success: (FollowersResponse) -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("get_follows", emptyList(), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val followers = Gson().fromJson(
+                            response.body.string(),
+                            FollowersResponse::class.java
+                        )
+                        handler.post {
+                            on_success(followers)
+                        }
+                    }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+            }
+        })
     }
 
     fun getHistory(
@@ -55,57 +135,19 @@ class ApiHandler(
         })
     }
 
-    fun logSession(
-        planned_study_time: Int,
-        planned_break_time: Int,
-        study_time: Int,
-        break_time: Int,
-        on_success: () -> Any,
-        on_failure: (ApiError) -> Any
-    ) {
+    fun getPetInfo(on_success: (PetsResponse) -> Any, on_failure: (ApiError) -> Any) {
         val handler = Handler(Looper.getMainLooper())
-        buildRequest(
-            "log_session",
-            listOf(
-                Pair("planned_study_time", planned_study_time),
-                Pair("planned_break_time", planned_break_time),
-                Pair("study_time", study_time),
-                Pair("break_time", break_time)
-            ),
-            object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    handler.post { on_failure(ApiError.API_FAILURE) }
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    when (response.code) {
-                        200 -> handler.post { on_success() }
-                        404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
-                        422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
-                        else -> handler.post { on_failure(ApiError.API_FAILURE) }
-                    }
-                }
-            })
-    }
-
-    fun startLiveRevision(on_success: () -> Any, on_failure: (ApiError) -> Any) {
-        apiEmptyPost("start_revising", on_success, on_failure)
-    }
-
-    fun stopLiveRevision(on_success: () -> Any, on_failure: (ApiError) -> Any) {
-        apiEmptyPost("stop_revising", on_success, on_failure)
-    }
-
-    private fun apiEmptyPost(method: String, on_success: () -> Any, on_failure: (ApiError) -> Any) {
-        val handler = Handler(Looper.getMainLooper())
-        buildRequest(method, emptyList(), object : Callback {
+        buildRequest("get_pet_info", emptyList(), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 handler.post { on_failure(ApiError.API_FAILURE) }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
-                    200 -> handler.post { on_success() }
+                    200 -> {
+                        val petResponse = Gson().fromJson(response.body.string(), PetsResponse::class.java)
+                        handler.post {on_success(petResponse)}
+                    }
                     404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
                     422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
                     else -> handler.post { on_failure(ApiError.API_FAILURE) }
@@ -114,7 +156,7 @@ class ApiHandler(
         })
     }
 
-    fun getLiveRevision(
+    fun getRevising(
         on_success: (Array<LiveRevisionResponse>) -> Any,
         on_failure: (ApiError) -> Any
     ) {
@@ -137,69 +179,6 @@ class ApiHandler(
                     }
                     404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
                     422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
-                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
-                }
-            }
-        })
-    }
-
-    enum class SocialAction(val apicode: String) {
-        REQUEST("request"),
-        ACCEPT("accept"),
-        REJECT("reject"),
-        UNFOLLOW("unfollow"),
-    }
-
-    fun manageFollower(
-        friend_code: Int,
-        action: SocialAction,
-        on_success: () -> Any,
-        on_failure: (ApiError) -> Any
-    ) {
-        val handler = Handler(Looper.getMainLooper())
-        buildRequest(
-            "manage_follows",
-            listOf(Pair("friend_code", friend_code.toString()), Pair("action", action.apicode)),
-            object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    handler.post { on_failure(ApiError.API_FAILURE) }
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    when (response.code) {
-                        200 -> handler.post {
-                            println("success")
-                            on_success()
-                        }
-                        410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT) }
-                        404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
-                        400 -> handler.post { on_failure(ApiError.SELF_FRIEND) }
-                        409 -> handler.post { on_failure(ApiError.CONFLICTING_DATA) }
-                        else -> handler.post { on_failure(ApiError.API_FAILURE) }
-                    }
-                }
-            })
-    }
-
-    fun getFollows(on_success: (FollowersResponse) -> Any, on_failure: (ApiError) -> Any) {
-        val handler = Handler(Looper.getMainLooper())
-        buildRequest("get_follows", emptyList(), object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                handler.post { on_failure(ApiError.API_FAILURE) }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                when (response.code) {
-                    200 -> {
-                        val followers = Gson().fromJson(
-                            response.body.string(),
-                            FollowersResponse::class.java
-                        )
-                        handler.post {
-                            on_success(followers)
-                        }
-                    }
-                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
                     else -> handler.post { on_failure(ApiError.API_FAILURE) }
                 }
             }
@@ -229,53 +208,115 @@ class ApiHandler(
                         }
                         410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT) }
                         404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                        422 -> handler.post { on_failure(ApiError.WRONG_VERSION)}
                         else -> handler.post { on_failure(ApiError.API_FAILURE) }
                     }
                 }
             })
     }
 
-    fun getPetInfo(
-        on_success: (PetResponse) -> Any,
-        on_failure: (ApiError) -> Any
-    ) {
+    fun givePet(new_pet: Pet, on_success: (Pet) -> Any, on_failure: (ApiError) -> Any) {
         val handler = Handler(Looper.getMainLooper())
-        handler.post {
-            on_success(PetResponse(Pet.SHIBA,
-                HashMap<Pet,PetInfo>().apply {
-                    put(Pet.SHIBA, PetInfo(Health.THREE, 69))
-                    put(Pet.HUSKY, PetInfo(Health.ZERO, 0))
-                    put(Pet.CALICO, PetInfo(Health.ONE, 420))
+        buildRequest("give_pet", listOf(Pair("pet_type", new_pet.ordinal)), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> handler.post { on_success(new_pet) }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
                 }
-            ))
-        }
+            }
+        })
     }
 
-    //update data of given pet
-    fun updatePet(
-        pet: Pet,
-        newHealth: Int,
-        newXp: Int,
+    data class StudyResult (
+        val total_study_time: Int,
+        val total_break_time: Int,
+        val total_planned_study_time: Int,
+        val total_planned_break_time: Int,
+        val xp: Int,
+        val health_change: Int,
+    )
+
+    fun logSession(
+        study : StudyResult,
+        on_success: (PetStatus) -> Any,
+        on_failure: (ApiError) -> Any
+    ) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest(
+            "log_session",
+            listOf(
+                Pair("planned_study_time", study.total_planned_study_time),
+                Pair("planned_break_time", study.total_planned_break_time),
+                Pair("study_time", study.total_study_time),
+                Pair("break_time", study.total_break_time),
+                Pair("gained_xp", study.xp),
+                Pair("health_change", study.health_change)
+            ),
+            object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    when (response.code) {
+                        200 -> {
+                            val petStatus = Gson().fromJson(response.body.string(), PetStatus::class.java)
+                            handler.post { on_success(petStatus) }
+                        }
+                        404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                        422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                        else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                    }
+                }
+            })
+    }
+
+    enum class SocialAction(val apicode: String) {
+        REQUEST("request"),
+        ACCEPT("accept"),
+        REJECT("reject"),
+        UNFOLLOW("unfollow"),
+    }
+
+    fun manageFollower(
+        friend_code: Int,
+        action: SocialAction,
         on_success: () -> Any,
         on_failure: (ApiError) -> Any
     ) {
-        //todo implement
         val handler = Handler(Looper.getMainLooper())
-        handler.post {
-            on_success()
-        }
+        buildRequest(
+            "manage_follows",
+            listOf(Pair("friend_code", friend_code.toString()), Pair("action", action.apicode)),
+            object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    when (response.code) {
+                        200 -> handler.post { on_success() }
+                        410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT) }
+                        404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                        400 -> handler.post { on_failure(ApiError.SELF_FRIEND) }
+                        409 -> handler.post { on_failure(ApiError.CONFLICTING_DATA) }
+                        else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                    }
+                }
+            })
     }
 
-    //change main pet
-    fun changePet(
-        newPet: Pet,
-        on_success: () -> Any,
-        on_failure: (ApiError) -> Any
-    ) {
-        //todo implement
-        val handler = Handler(Looper.getMainLooper())
-        handler.post {
-            on_success()
-        }
+    fun startLiveRevision(on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        apiEmptyPost("start_revising", on_success, on_failure)
+    }
+
+    fun stopLiveRevision(on_success: () -> Any, on_failure: (ApiError) -> Any) {
+        apiEmptyPost("stop_revising", on_success, on_failure)
     }
 }

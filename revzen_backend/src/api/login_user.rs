@@ -21,8 +21,9 @@
 //! In event of a 200 - OK the following json is returned
 //! ```json
 //! {
-//!     "friendcode": <friend code: integer>,
-//!     "username": <user's username: string>
+//!     "friendcode" : "57",
+//!     "username"   : "bob",
+//!     "main_pet"   : 0
 //! }
 //! ```
 //!
