@@ -42,11 +42,11 @@ pub(crate) async fn api_get_revising(
     user_auth: Form<Client>,
 ) -> Option<Json<Vec<UserDetails>>> {
     use crate::schema::{follows::dsl::*, users::dsl::*};
-    // again we assume the user is valid
-    #[allow(unused_variables)]
+    
+    
     let Client {
         user,
-        client_version,
+        client_version: _,
     } = user_auth.into_inner();
 
     if let Ok(following) = db

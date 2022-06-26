@@ -43,36 +43,27 @@ pub struct UserDetails {
 }
 
 /// Mapping of (username, friendcode) tuples into [FollowDetails] structs
-pub(self) fn map_to_details(tuples: Vec<(String, FriendCode, i32)>) -> Vec<UserDetails> {
+pub(self) fn map_to_details(tuples: Vec<(String, FriendCode, PetType)>) -> Vec<UserDetails> {
     tuples
         .into_iter()
         .map(|(username, friendcode, pet_type)| UserDetails {
             friendcode,
             username,
-            main_pet: pet_type.into(),
+            main_pet: pet_type,
         })
         .collect()
 }
 
-#[derive(Serialize, Clone, PartialEq, Eq, Hash)]
-#[serde(crate = "rocket::serde")]
-pub(self) enum PetType {
-    Rock,
-    Shiba,
-    Husky,
-    Calico,
-}
+pub type PetType = i32;
 
-impl From<i32> for PetType {
-    fn from(t: i32) -> Self {
-        match t {
-            0 => PetType::Rock,
-            1 => PetType::Shiba,
-            2 => PetType::Husky,
-            3 => PetType::Calico,
-            t => panic!("Invalid pet type used: {}", t),
-        }
-    }
+pub const PET_ROCK: PetType = 0;
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct PetStatus {
+    pet_type: PetType,
+    health: i32,
+    xp: i32,
 }
 
 mod create_user;

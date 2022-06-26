@@ -45,7 +45,7 @@ pub(crate) async fn api_login(db: RevzenDB, user_auth: Form<Client>) -> Option<J
         Ok(user_data) => Some(Json(UserDetails {
             friendcode: user_data.friendcode,
             username: user_data.username,
-            main_pet: user_data.main_pet.into(),
+            main_pet: user_data.main_pet,
         })),
         Err(_) => None,
     }

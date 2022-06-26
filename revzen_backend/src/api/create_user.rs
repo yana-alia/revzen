@@ -20,7 +20,7 @@
 //! curl -X POST -F 'user_id=301' -F 'version=1' -F 'user_name=ollie' 'http://127.0.0.1:8000/api/create'
 //! ```
 
-use crate::api::PetType;
+use crate::api::PET_ROCK;
 use crate::*;
 
 #[derive(FromForm)]
@@ -44,7 +44,7 @@ pub(crate) async fn api_create_user(db: RevzenDB, client_data: Form<CreateClient
                 .values(&AddUser {
                     id: client_data.user,
                     username: client_data.username.clone(),
-                    main_pet: PetType::Rock as i32,
+                    main_pet: PET_ROCK,
                 })
                 .execute(c)
         })

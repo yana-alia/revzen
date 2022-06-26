@@ -54,7 +54,7 @@ pub struct Follow {
     pub accepted: bool,
 }
 
-#[derive(Insertable, Identifiable, Queryable)]
+#[derive(Insertable, Identifiable, Queryable, AsChangeset)]
 #[primary_key(user_id, pet_type)]
 pub struct Pet {
     pub user_id: i64,

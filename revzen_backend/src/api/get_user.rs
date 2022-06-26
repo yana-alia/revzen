@@ -51,10 +51,9 @@ pub(crate) async fn api_get_user(
 ) -> Result<Json<UserDetails>, Status> {
     use crate::schema::users::dsl::{friendcode as friend_code, main_pet, username, users};
 
-    #[allow(unused_variables)]
     let GetUserRequest {
         user,
-        client_version,
+        client_version: _,
         friendcode,
     } = user_req.into_inner();
 
@@ -75,7 +74,7 @@ pub(crate) async fn api_get_user(
             Ok(Json(UserDetails {
                 friendcode,
                 username: name,
-                main_pet: pet.into(),
+                main_pet: pet,
             }))
         } else {
             Err(Status::Gone)

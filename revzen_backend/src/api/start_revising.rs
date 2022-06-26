@@ -47,7 +47,7 @@ pub(crate) async fn api_start_revising(
                 UserDetails {
                     friendcode: user_data.friendcode,
                     username: user_data.username,
-                    main_pet: user_data.main_pet.into(),
+                    main_pet: user_data.main_pet,
                 },
             );
             Status::Ok

@@ -33,7 +33,7 @@
 //! ```json
 //! {
 //!     "main_pet" : "Rock",
-//!     "all_pets":{ 
+//!     "all_pets":{
 //!         "Husky": {
 //!             "health" : 3,
 //!             "xp" : 20
@@ -75,10 +75,9 @@ pub(crate) async fn api_get_pet_info(
 ) -> Option<Json<PetResponse>> {
     use crate::schema::{pets::dsl::*, users::dsl::*};
 
-    #[allow(unused_variables)]
     let Client {
         user,
-        client_version,
+        client_version: _,
     } = user_auth.into_inner();
 
     let user_future = db.run(move |c| users.find(user).first::<User>(c));
@@ -86,12 +85,12 @@ pub(crate) async fn api_get_pet_info(
 
     match (user_future.await, pets_future.await) {
         (Ok(user_data), Ok(all_pets)) => Some(Json(PetResponse {
-            main_pet: user_data.main_pet.into(),
+            main_pet: user_data.main_pet,
             all_pets: all_pets
                 .into_iter()
                 .map(|pet| {
                     (
-                        pet.pet_type.into(),
+                        pet.pet_type,
                         PetInfo {
                             health: pet.health,
                             xp: pet.xp,
