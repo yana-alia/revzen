@@ -18,7 +18,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' 'http://127.0.0.1:8000/api/get_pet_info'
+//! curl -X POST -F 'user_id=301' -F 'version=3' 'http://127.0.0.1:8000/api/get_pet_info'
 //! ```
 //!
 //! ## Json

@@ -21,7 +21,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'friend_code=2' -F 'action=request' 'http://127.0.0.1:8000/api/manage_follows'
+//! curl -X POST -F 'user_id=301' -F 'version=3' -F 'friend_code=2' -F 'action=request' 'http://127.0.0.1:8000/api/manage_follows'
 //! ```
 
 use crate::{

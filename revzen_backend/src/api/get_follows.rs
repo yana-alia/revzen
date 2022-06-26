@@ -62,7 +62,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=560' -F 'version=1' 'http://127.0.0.1:8000/api/get_follows'
+//! curl -X POST -F 'user_id=560' -F 'version=3' 'http://127.0.0.1:8000/api/get_follows'
 //! ```
 
 use crate::{

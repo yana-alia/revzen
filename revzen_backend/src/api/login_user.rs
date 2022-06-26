@@ -28,7 +28,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=29' -F 'version=1' 'http://127.0.0.1:8000/api/login'
+//! curl -X POST -F 'user_id=29' -F 'version=3' 'http://127.0.0.1:8000/api/login'
 //! ```
 
 use crate::{api::Client, models::User, *};

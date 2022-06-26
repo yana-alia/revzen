@@ -25,7 +25,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=29' -F 'version=1' 'http://127.0.0.1:8000/api/get_current_pet'
+//! curl -X POST -F 'user_id=29' -F 'version=3' 'http://127.0.0.1:8000/api/get_current_pet'
 //! ```
 
 use rocket::serde::json::Json;

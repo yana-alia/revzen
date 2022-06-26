@@ -19,7 +19,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'pet_type=1' 'http://127.0.0.1:8000/api/change_pet'
+//! curl -X POST -F 'user_id=301' -F 'version=3' -F 'pet_type=1' 'http://127.0.0.1:8000/api/change_pet'
 //! ```
 
 use diesel::update;

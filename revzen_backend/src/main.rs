@@ -43,7 +43,7 @@ type FriendCode = i32;
 type AppVer = u32;
 
 /// The current backend version.
-const BACKEND_VERSION: AppVer = 1;
+const BACKEND_VERSION: AppVer = 3;
 
 /// The revzen database type, which will hold the connection pool used by the application.
 #[database("revzen_db")]
