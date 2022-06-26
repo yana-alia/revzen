@@ -1,1 +1,1 @@
-ALTER TABLE users DROP COLUMN main_petaa
+ALTER TABLE users DROP COLUMN main_pet

@@ -1,6 +1,6 @@
 //! The API method for getting those currently revising (live)
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
@@ -9,10 +9,10 @@
 //!
 //! ## Response:
 //!
-//! | Status          | Meaning                                         |
-//! |-----------------|-------------------------------------------------|
-//! | 200 - OK        | The user was successfully added, can now login. |
-//! | 404 - Not Found | No such account exists.                         |
+//! | Status          | Meaning                          |
+//! |-----------------|----------------------------------|
+//! | 200 - OK        | Successfully got revising users. |
+//! | 404 - Not Found | No such account exists.          |
 //!
 //! ## CURL Example:
 //! ```bash

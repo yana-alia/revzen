@@ -11,17 +11,10 @@
 //!
 //! ## Response:
 //!
-//! | Status          | Meaning                         |
-//! |-----------------|---------------------------------|
-//! | 200 - OK        | The user's history is returned. |
-//! | 404 - Not Found | No such account exists.         |
-//!
-//! ## Response:
-//!
-//! | Status          | Meaning                                         |
-//! |-----------------|-------------------------------------------------|
-//! | 200 - OK        | The user was successfully added, can now login. |
-//! | 404 - Not Found | No such account exists.                         |
+//! | Status          | Meaning                          |
+//! |-----------------|----------------------------------|
+//! | 200 - OK        | Successfully retrieved pet info. |
+//! | 404 - Not Found | No such account exists.          |
 //!
 //! ## CURL Example:
 //! ```bash

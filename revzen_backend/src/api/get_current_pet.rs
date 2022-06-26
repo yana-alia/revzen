@@ -1,6 +1,6 @@
 //! An api method to get the current pet status for the user.
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|

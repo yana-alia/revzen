@@ -1,6 +1,4 @@
-//! API method for giving users a new pet. If they already have the pet, it is not added.
-//!
-//! If there currently have no pets, their main pet is switched to this new pet.
+//! API method for changing the current pet.
 //!
 //! ## Post Request Fields:
 //!
@@ -15,23 +13,21 @@
 //! | Status                      | Meaning                             |
 //! |-----------------------------|-------------------------------------|
 //! | 200 - OK                    | The pet was successfully given.     |
+//! | 409 - Conflict              | Cannot select the requested pet.    |
 //! | 404 - Not Found             | No such account exists.             |
 //! | 500 - Internal Server Error | An unexpected server error occured. |
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'pet_type=1' 'http://127.0.0.1:8000/api/give_pet'
+//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'pet_type=1' 'http://127.0.0.1:8000/api/change_pet'
 //! ```
 
-use diesel::{insert_into, update};
+use diesel::update;
 
-use crate::{
-    models::{Pet, User},
-    *,
-};
+use crate::{models::Pet, *};
 
-#[post("/give_pet", data = "<user_pet>")]
-pub(crate) async fn api_give_pet(db: RevzenDB, user_pet: Form<PetRequest>) -> Status {
+#[post("/change_pet", data = "<user_pet>")]
+pub(crate) async fn api_change_pet(db: RevzenDB, user_pet: Form<PetRequest>) -> Status {
     use crate::schema::{pets::dsl::*, users::dsl::*};
 
     let PetRequest {
@@ -40,24 +36,13 @@ pub(crate) async fn api_give_pet(db: RevzenDB, user_pet: Form<PetRequest>) -> St
         pet_given_type,
     } = user_pet.into_inner();
 
-    if let Ok(user_data) = db.run(move |c| users.find(user).first::<User>(c)).await {
-        if db
-            .run(move |c| {
-                insert_into(pets)
-                    .values(&Pet {
-                        user_id: user,
-                        pet_type: pet_given_type,
-                        health: INITIAL_HEALTH,
-                        xp: 0,
-                    })
-                    .on_conflict_do_nothing()
-                    .execute(c)
-            })
-            .await
-            .is_ok()
-        {
-            if user_data.main_pet == PET_ROCK {
-                if db
+    if let Ok(all_pets) = db
+        .run(move |c| pets.filter(user_id.eq(user)).get_results::<Pet>(c))
+        .await
+    {
+        for pet in all_pets {
+            if pet.pet_type == pet_given_type {
+                return if db
                     .run(move |c| {
                         update(users.find(user))
                             .set(main_pet.eq(pet_given_type))
@@ -68,15 +53,12 @@ pub(crate) async fn api_give_pet(db: RevzenDB, user_pet: Form<PetRequest>) -> St
                 {
                     Status::Ok
                 } else {
-                    Status::InternalServerError
-                }
-            } else {
-                Status::Ok
+                    Status::NotFound
+                };
             }
-        } else {
-            Status::InternalServerError
         }
+        Status::Conflict
     } else {
-        Status::NotFound
+        Status::InternalServerError
     }
 }

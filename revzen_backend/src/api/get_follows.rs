@@ -1,6 +1,6 @@
 //! The api method for retrieving friends of a user.
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|

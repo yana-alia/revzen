@@ -13,10 +13,10 @@
 //!
 //! ## Response:
 //!
-//! | Status          | Meaning                                         |
-//! |-----------------|-------------------------------------------------|
-//! | 200 - OK        | The user was successfully added, can now login. |
-//! | 404 - Not Found | No such account exists.                         |
+//! | Status          | Meaning                       |
+//! |-----------------|-------------------------------|
+//! | 200 - OK        | Successful login has occured. |
+//! | 404 - Not Found | No such account exists.       |
 //!
 //! In event of a 200 - OK the following json is returned
 //! ```json
