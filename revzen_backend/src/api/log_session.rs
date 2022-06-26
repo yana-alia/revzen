@@ -20,9 +20,18 @@
 //! | 200 - OK          | Session was successfully added      |
 //! | 404 - Not Found   | No such user was found.             |
 //!
+//! In event of a 200 - OK the following json is returned
+//! ```json
+//! {
+//!     "pet_type" : 0,
+//!     "health"   : 0,
+//!     "xp"       : 0
+//! }
+//! ```
+//!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'planned_study_time=3600' -F 'planned_break_time=60' -F 'study_time=3000' -F 'break_time=120' 'http://127.0.0.1:8000/api/log_session'
+//! curl -X POST -F 'user_id=301' -F 'version=1' -F 'planned_study_time=3600' -F 'planned_break_time=60' -F 'study_time=3000' -F 'break_time=120' -F 'gained_xp=5' -F 'health_change=-1' 'http://127.0.0.1:8000/api/log_session'
 //! ```
 
 use std::time::SystemTime;
@@ -31,6 +40,7 @@ use diesel::{delete, insert_into, update};
 use rocket::serde::json::Json;
 
 use crate::{
+    api::PET_ROCK_STATUS,
     models::{Pet, Session, User},
     schema::histories,
     *,
@@ -117,7 +127,7 @@ pub(crate) async fn api_log_session(
                                 .get_result::<(i32, i32)>(c)
                                 .expect("No database issues");
 
-                            if curr_health <= PET_ROCK {
+                            if curr_health <= MIN_HEALTH {
                                 delete(pets.find((user, user_data.main_pet)))
                                     .execute(c)
                                     .expect("No database issues");
@@ -139,10 +149,16 @@ pub(crate) async fn api_log_session(
                                     .execute(c)
                                     .expect("No database issues");
 
+                                PET_ROCK_STATUS
+                            } else if curr_health > 5 {
+                                update(pets.find((user, user_data.main_pet)))
+                                    .set(health.eq(5))
+                                    .execute(c)
+                                    .expect("No database issues");
                                 PetStatus {
-                                    pet_type: PET_ROCK,
-                                    health: 0,
-                                    xp: 0,
+                                    pet_type: user_data.main_pet,
+                                    health: MAX_HEALTH,
+                                    xp: curr_xp,
                                 }
                             } else {
                                 PetStatus {
@@ -155,11 +171,7 @@ pub(crate) async fn api_log_session(
                         .await,
                     ))
                 } else {
-                    Some(Json(PetStatus {
-                        pet_type: PET_ROCK,
-                        health: 0,
-                        xp: 0,
-                    }))
+                    Some(Json(PET_ROCK_STATUS))
                 }
             } else {
                 None

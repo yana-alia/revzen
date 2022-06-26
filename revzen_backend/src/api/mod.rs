@@ -59,6 +59,16 @@ pub type PetType = i32;
 pub const PET_ROCK: PetType = 0;
 pub const PET_SHIBA: PetType = 1;
 
+pub const MAX_HEALTH: i32 = 5;
+pub const MIN_HEALTH: i32 = 0;
+pub const INITIAL_HEALTH: i32 = 2;
+
+const PET_ROCK_STATUS: PetStatus = PetStatus {
+    pet_type: PET_ROCK,
+    health: MIN_HEALTH,
+    xp: 0,
+};
+
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct PetStatus {
@@ -68,6 +78,7 @@ pub struct PetStatus {
 }
 
 mod create_user;
+mod get_current_pet;
 mod get_follows;
 mod get_history;
 mod get_pet_info;
@@ -81,8 +92,9 @@ mod stop_revising;
 
 /// Re-Export the api methods to be used by rocket
 pub(crate) use self::{
-    create_user::api_create_user, get_follows::api_get_follows, get_history::api_get_history,
-    get_pet_info::api_get_pet_info, get_revising::api_get_revising, get_user::api_get_user,
-    log_session::api_log_session, login_user::api_login, manage_follows::api_manage_friend,
-    start_revising::api_start_revising, stop_revising::api_stop_revising,
+    create_user::api_create_user, get_current_pet::api_get_current_pet,
+    get_follows::api_get_follows, get_history::api_get_history, get_pet_info::api_get_pet_info,
+    get_revising::api_get_revising, get_user::api_get_user, log_session::api_log_session,
+    login_user::api_login, manage_follows::api_manage_friend, start_revising::api_start_revising,
+    stop_revising::api_stop_revising,
 };

@@ -67,6 +67,7 @@ fn rocket() -> _ {
                 api_get_follows,
                 api_get_user,
                 api_get_pet_info,
+                api_get_current_pet,
             ],
         )
         .register("/", catchers![page_not_found, internal_error])
