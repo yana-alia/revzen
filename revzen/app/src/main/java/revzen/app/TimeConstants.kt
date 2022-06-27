@@ -15,15 +15,33 @@ fun timeFormat(time: Int): String {
     val mins = (time % 3600) / 60
     val secs = (time % 3600) % 60
 
-    return if(hours == 0){
-        if(mins == 0){
-            "$secs seconds"
-        } else {
-            "$mins minutes $secs seconds"
+    var out: String = ""
+    if(hours != 0) {
+        out += "$hours hour"
+        out += if(hours == 1){
+            " "
+        }else{
+            "s "
         }
-    } else {
-        "$hours hours $mins minutes $secs seconds"
     }
+    if(mins != 0) {
+        out += "$mins minute"
+        out += if(mins == 1){
+            " "
+        }else{
+            "s "
+        }
+    }
+    if(secs != 0) {
+        out += "$secs second"
+        out += if(secs == 1){
+            " "
+        }else{
+            "s "
+        }
+    }
+
+    return out
 }
 
 

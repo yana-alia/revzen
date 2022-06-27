@@ -78,10 +78,12 @@ class SummaryActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun successfulStudyLog(pet: PetStatus) {
         petImage.setImageResource(pet.petType.logoImage)
-        healthImage.setImageResource(pet.health.image)
-        petXP.text = "${pet.xp} XP"
+        if(pet.petType != Pet.ROCK) {
+            healthImage.setImageResource(pet.health.image)
+            petXP.text = "${pet.xp} XP"
+            petXP.visibility = View.VISIBLE
+        }
         petImage.visibility = View.VISIBLE
-        healthImage.visibility = View.VISIBLE
     }
 
     private fun studyLogFailure(error: ApiError) {

@@ -183,7 +183,7 @@
         android:id="@+id/summaryPetXP"
         android:layout_width="131dp"
         android:layout_height="27dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/summaryPetHealth"
         app:layout_constraintEnd_toEndOf="@+id/summaryPetHealth"
         app:layout_constraintHorizontal_bias="0.0"
