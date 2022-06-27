@@ -158,7 +158,7 @@ pub(crate) async fn api_log_session(
 
                                     PET_ROCK_STATUS
                                 }
-                            } else if curr_health > 5 {
+                            } else if curr_health > MAX_HEALTH {
                                 update(pets.find((user, user_data.main_pet)))
                                     .set(health.eq(5))
                                     .execute(c)

@@ -63,7 +63,7 @@ pub const PET_ROCK: PetType = 0;
 pub const PET_SHIBA: PetType = 1;
 
 /// Maximum health allowed
-pub const MAX_HEALTH: i32 = 5;
+pub const MAX_HEALTH: i32 = 3;
 
 /// Lowest allowed health (at which point the pet dies)
 pub const MIN_HEALTH: i32 = 0;
