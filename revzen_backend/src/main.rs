@@ -18,14 +18,9 @@ extern crate rocket;
 #[macro_use]
 extern crate diesel;
 
-use std::collections::HashMap;
-
-use diesel::{insert_into, prelude::*};
-use models::AddUser;
-use rocket::{form::Form, http::Status, tokio::sync::RwLock};
-
+use diesel::prelude::*;
+use rocket::{form::Form, http::Status};
 use rocket_sync_db_pools::database;
-use schema::users;
 
 mod api;
 mod models;
@@ -48,10 +43,7 @@ type FriendCode = i32;
 type AppVer = u32;
 
 /// The current backend version.
-const BACKEND_VERSION: AppVer = 1;
-
-/// Managing live user's revising
-struct StudyState(RwLock<HashMap<UserID, (i32, String)>>);
+const BACKEND_VERSION: AppVer = 3;
 
 /// The revzen database type, which will hold the connection pool used by the application.
 #[database("revzen_db")]
@@ -74,9 +66,13 @@ fn rocket() -> _ {
                 api_manage_friend,
                 api_get_follows,
                 api_get_user,
+                api_get_pet_info,
+                api_get_current_pet,
+                api_give_pet,
+                api_change_pet,
             ],
         )
         .register("/", catchers![page_not_found, internal_error])
         .attach(RevzenDB::fairing())
-        .manage(StudyState(RwLock::from(HashMap::new())))
+        .manage(StudyState::new())
 }

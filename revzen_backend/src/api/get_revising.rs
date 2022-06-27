@@ -1,6 +1,6 @@
 //! The API method for getting those currently revising (live)
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
@@ -9,14 +9,14 @@
 //!
 //! ## Response:
 //!
-//! | Status          | Meaning                                         |
-//! |-----------------|-------------------------------------------------|
-//! | 200 - OK        | The user was successfully added, can now login. |
-//! | 404 - Not Found | No such account exists.                         |
+//! | Status          | Meaning                          |
+//! |-----------------|----------------------------------|
+//! | 200 - OK        | Successfully got revising users. |
+//! | 404 - Not Found | No such account exists.          |
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' 'http://127.0.0.1:8000/api/get_revising'
+//! curl -X POST -F 'user_id=301' -F 'version=3' 'http://127.0.0.1:8000/api/get_revising'
 //! ```
 //!
 //! ## Json
@@ -31,7 +31,7 @@
 use rocket::{serde::json::Json, State};
 
 use crate::{
-    api::{Client, FollowDetails},
+    api::{Client, UserDetails},
     *,
 };
 
@@ -40,13 +40,12 @@ pub(crate) async fn api_get_revising(
     db: RevzenDB,
     state: &State<StudyState>,
     user_auth: Form<Client>,
-) -> Option<Json<Vec<FollowDetails>>> {
+) -> Option<Json<Vec<UserDetails>>> {
     use crate::schema::{follows::dsl::*, users::dsl::*};
-    // again we assume the user is valid
-    #[allow(unused_variables)]
+
     let Client {
         user,
-        client_version,
+        client_version: _,
     } = user_auth.into_inner();
 
     if let Ok(following) = db
@@ -57,8 +56,8 @@ pub(crate) async fn api_get_revising(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(true)))),
                 )
-                .select((id, username, friendcode))
-                .get_results::<(UserID, String, FriendCode)>(c)
+                .select(id)
+                .get_results::<UserID>(c)
         })
         .await
     {
@@ -66,11 +65,7 @@ pub(crate) async fn api_get_revising(
         Some(Json(
             following
                 .into_iter()
-                .filter(|(user_id, _, _)| read_state.contains_key(user_id))
-                .map(|(_, name, code)| FollowDetails {
-                    friendcode: code,
-                    username: name,
-                })
+                .filter_map(|user_id| read_state.get(&user_id).map(UserDetails::clone))
                 .collect(),
         ))
     } else {

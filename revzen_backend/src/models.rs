@@ -1,5 +1,5 @@
 //! Models used to extract from and insert into the database.
-use crate::schema::{follows, histories, users};
+use crate::schema::{follows, histories, pets, users};
 use std::time::SystemTime;
 
 /// User struct representing a record in the users table
@@ -8,6 +8,7 @@ pub struct User {
     pub friendcode: i32,
     pub id: i64,
     pub username: String,
+    pub main_pet: i32,
 }
 
 /// Data required to insert the user (friendcode is a serial - automatically
@@ -17,6 +18,7 @@ pub struct User {
 pub struct AddUser {
     pub id: i64,
     pub username: String,
+    pub main_pet: i32,
 }
 
 /// Data required to add a user session to the histories table
@@ -50,4 +52,13 @@ pub struct Follow {
     pub followee: i64,
     pub follower: i64,
     pub accepted: bool,
+}
+
+#[derive(Insertable, Identifiable, Queryable, AsChangeset)]
+#[primary_key(user_id, pet_type)]
+pub struct Pet {
+    pub user_id: i64,
+    pub pet_type: i32,
+    pub health: i32,
+    pub xp: i32,
 }

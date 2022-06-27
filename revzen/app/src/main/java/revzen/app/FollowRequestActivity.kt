@@ -42,7 +42,7 @@ class FollowRequestActivity : AppCompatActivity() {
 
     private fun userConfirmed(user: UserDetails) {
         loading.visibility = View.INVISIBLE
-        if (user.friendcode == apiHandler.friendcode) {
+        if (user.friendcode == apiHandler.friendCode) {
             AlertDialog.Builder(this).apply {
                 setTitle("Cannot follow yourself")
                 setMessage("Please follow someone else!")

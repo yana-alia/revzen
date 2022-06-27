@@ -1,6 +1,6 @@
 //! The api method for retrieving friends of a user.
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
@@ -21,40 +21,47 @@
 //!         [
 //!             {
 //!                 "friendcode" : 123,
-//!                 "username"   : "ollie"
+//!                 "username"   : "ollie",
+//!                 "main_pet"   : 0
 //!             },
 //!             {
 //!                 "friendcode" : 234,
-//!                 "username"   : "bob"
+//!                 "username"   : "bob",
+//!                 "main_pet"   : 0
 //!             },
 //!         ],
 //!     "requested" :
 //!         [
 //!             {
 //!                 "friendcode" : 3423,
-//!                 "username"   : "mike"
+//!                 "username"   : "mike",
+//!                 "main_pet"   : 0
 //!             },
 //!         ],
 //!     "follows" :
 //!         [
 //!             {
 //!                 "friendcode" : 234,
-//!                 "username"   : "alfie"
+//!                 "username"   : "alfie",
+//!                 "main_pet"   : 0
 //!             },
 //!             {
 //!                 "friendcode" : 541,
-//!                 "username"   : "dayana"
+//!                 "username"   : "dayana",
+//!                 "main_pet"   : 0
 //!             },
 //!             {
 //!                 "friendcode" : 69,
-//!                 "username"   : "miles"
+//!                 "username"   : "miles",
+//!                 "main_pet"   : 0
 //!             },
 //!         ],
 //!     "followers" :
 //!         [
 //!             {
 //!                 "friendcode" : 69,
-//!                 "username"   : "miles"
+//!                 "username"   : "miles",
+//!                 "main_pet"   : 0
 //!             },
 //!         ]
 //! ]
@@ -62,11 +69,11 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=560' -F 'version=1' 'http://127.0.0.1:8000/api/get_follows'
+//! curl -X POST -F 'user_id=560' -F 'version=3' 'http://127.0.0.1:8000/api/get_follows'
 //! ```
 
 use crate::{
-    api::{map_to_details, Client, FollowDetails},
+    api::{map_to_details, Client, UserDetails},
     *,
 };
 use diesel::{dsl::exists, select};
@@ -75,10 +82,10 @@ use rocket::serde::{json::Json, Serialize};
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct FollowResponse {
-    requests: Vec<FollowDetails>,
-    requested: Vec<FollowDetails>,
-    following: Vec<FollowDetails>,
-    followers: Vec<FollowDetails>,
+    requests: Vec<UserDetails>,
+    requested: Vec<UserDetails>,
+    following: Vec<UserDetails>,
+    followers: Vec<UserDetails>,
 }
 
 #[post("/get_follows", data = "<user_auth>")]
@@ -110,8 +117,8 @@ pub(crate) async fn api_get_follows(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(false)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
         let requested_future = db.run(move |c| {
             users
@@ -120,8 +127,8 @@ pub(crate) async fn api_get_follows(
                         .eq(followee)
                         .and(follower.eq(user).and(accepted.eq(false)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
         let follows_future = db.run(move |c| {
             users
@@ -130,8 +137,8 @@ pub(crate) async fn api_get_follows(
                         .eq(follower)
                         .and(followee.eq(user).and(accepted.eq(true)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
         let followers_future = db.run(move |c| {
             users
@@ -140,8 +147,8 @@ pub(crate) async fn api_get_follows(
                         .eq(followee)
                         .and(follower.eq(user).and(accepted.eq(true)))),
                 )
-                .select((username, friendcode))
-                .get_results::<(String, FriendCode)>(c)
+                .select((username, friendcode, main_pet))
+                .get_results::<(String, FriendCode, i32)>(c)
         });
 
         if let (Ok(requests), Ok(requested), Ok(following), Ok(followers)) = (
