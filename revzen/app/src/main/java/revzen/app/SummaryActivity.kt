@@ -52,8 +52,8 @@ class SummaryActivity : AppCompatActivity() {
         apiHandler.stopLiveRevision({},{_ -> })
 
         val random = Random()
-        if (random.nextInt(STUDY_PET_THRESHOLD) < studyRes.xp) {
-            apiHandler.givePet(Pet.values()[random.nextInt(2) + 1], this::successfulGivePet, this::givePetFailure)
+        if (random.nextInt(GIVE_PET_CHANCE) == 1) {
+            apiHandler.givePet(Pet.values()[random.nextInt(Pet.values().size - 1) + 1], this::successfulGivePet, this::givePetFailure)
         } else {
             apiHandler.logSession(studyRes, this::successfulStudyLog, this::studyLogFailure)
         }
@@ -80,6 +80,7 @@ class SummaryActivity : AppCompatActivity() {
         petImage.setImageResource(pet.petType.logoImage)
         if(pet.petType != Pet.ROCK) {
             healthImage.setImageResource(pet.health.image)
+            healthImage.visibility = View.VISIBLE
             petXP.text = "${pet.xp} XP"
             petXP.visibility = View.VISIBLE
         }

@@ -6,9 +6,12 @@ import kotlin.math.roundToInt
 
 const val MINS_TO_MILLIS = 60000
 const val SECS_TO_MILLIS = 1000
-const val SECS_TO_HOURS = 3600
 
-const val STUDY_PET_THRESHOLD = 30
+const val STUDY_WARNING_THRESHOLD = -20 * MINS_TO_MILLIS
+const val STUDY_FAIL_THRESHOLD = -30 * MINS_TO_MILLIS
+const val BREAK_FAIL_THRESHOLD = -5 * MINS_TO_MILLIS
+
+const val GIVE_PET_CHANCE = 2
 
 fun timeFormat(time: Int): String {
     val hours = time / 3600
@@ -60,7 +63,7 @@ fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.StudyResu
         totalPlannedStudyTime += session.planned_study_time
         totalPlannedBreakTime += session.planned_break_time
 
-        if (session.study_time > session.planned_study_time) {
+        if (session.study_time >= session.planned_study_time) {
             xpGained += getXp(totalStudyTime, totalPlannedStudyTime)
         } else {
             healthChange = -1
