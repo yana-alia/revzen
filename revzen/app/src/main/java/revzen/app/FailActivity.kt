@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import revzen.app.api.*
 import kotlin.math.max
@@ -13,6 +14,7 @@ class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
 
     private lateinit var petImage: ImageView
+    private lateinit var failLoadingImage: ProgressBar
 
     private lateinit var timeTracker: SessionData
     private lateinit var studyList : ArrayList<SessionData>
@@ -25,6 +27,7 @@ class FailActivity : AppCompatActivity() {
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
+        failLoadingImage = findViewById(R.id.failLoadingImage)
         petImage = findViewById(R.id.failPetImage)
 
         apiHandler.logSession(timeTracker, {}, {})
@@ -42,12 +45,14 @@ class FailActivity : AppCompatActivity() {
     }
 
     private fun successGet(info: PetStatus) {
+        failLoadingImage.visibility = View.INVISIBLE
         val mainPet = info.petType
         petImage.setImageResource(mainPet.failImage)
         petImage.visibility = View.VISIBLE
     }
 
     private fun failGet(error: ApiError) {
+        failLoadingImage.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage(
