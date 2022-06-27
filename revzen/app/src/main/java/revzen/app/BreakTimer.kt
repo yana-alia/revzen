@@ -1,15 +1,18 @@
 package revzen.app
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.CountDownTimer
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-class BreakTimer(millisInFuture: Long, countDownInterval: Long, private val context: Context) : CountDownTimer(millisInFuture,
+class BreakTimer(millisInFuture: Long, countDownInterval: Long, private val context: Context, intent: Intent?) : CountDownTimer(millisInFuture,
     countDownInterval) {
     private val CHANNEL_ID = "BREAK_NOTIFICATION"
     private val notificationId = 1
     private var stopped = false
+    private val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
     private var builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.notif_icon)
         .setContentTitle("Return to your pet!")
@@ -20,6 +23,7 @@ class BreakTimer(millisInFuture: Long, countDownInterval: Long, private val cont
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setCategory(NotificationCompat.CATEGORY_REMINDER)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        .setContentIntent(pendingIntent)
         .setAutoCancel(true)
 
     override fun onTick(millisUntilFinished: Long) {

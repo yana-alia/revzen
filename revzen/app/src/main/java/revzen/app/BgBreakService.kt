@@ -12,7 +12,7 @@ class BgBreakService : Service() {
         if (intent != null) {
             breakLength = intent.extras?.getInt("breakLength")!!
         }
-        timer = BreakTimer((breakLength * SECS_TO_MILLIS).toLong(), 1000, this)
+        timer = BreakTimer((breakLength * SECS_TO_MILLIS).toLong(), 1000, this, intent)
         timer.start()
 
         return super.onStartCommand(intent, flags, startId)
