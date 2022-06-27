@@ -13,7 +13,6 @@ class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
 
     private lateinit var petImage: ImageView
-    private lateinit var healthImage: ImageView
 
     private lateinit var timeTracker: SessionData
     private lateinit var studyList : ArrayList<SessionData>
@@ -26,8 +25,7 @@ class FailActivity : AppCompatActivity() {
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
-        petImage = findViewById(R.id.imageView)
-        healthImage = findViewById(R.id.imageView2)
+        petImage = findViewById(R.id.failPetImage)
 
         apiHandler.logSession(timeTracker, {}, {})
         apiHandler.getCurrentPet(this::successGet, this::failGet)
@@ -46,26 +44,22 @@ class FailActivity : AppCompatActivity() {
     private fun successGet(info: PetStatus) {
         val mainPet = info.petType
         petImage.setImageResource(mainPet.failImage)
-        val healthNum = max(info.health.ordinal - 1,0)
-        val newHealth = Health.values()[healthNum]
-        healthImage.setImageResource(newHealth.image)
-
         petImage.visibility = View.VISIBLE
-        healthImage.visibility = View.VISIBLE
-
-        if(newHealth == Health.ZERO && mainPet != Pet.ROCK){
-            AlertDialog.Builder(this).apply {
-                setTitle("OH NO!")
-                setMessage("Your current pet has ran out of health. You can no longer study with this pet.")
-                setPositiveButton("Ok") { _, _ -> finish() }
-                create()
-                show()
-            }
-        }
     }
 
     private fun failGet(error: ApiError) {
-        petImage.visibility = View.INVISIBLE
-        healthImage.visibility = View.INVISIBLE
+        AlertDialog.Builder(this).apply {
+            setTitle("Error")
+            setMessage(
+                when (error) {
+                    ApiError.NO_SUCH_USER -> R.string.login_failure_no_such_user
+                    ApiError.WRONG_VERSION -> R.string.login_failure_outdated_api
+                    else -> R.string.login_failure_unspecified_api_error
+                }
+            )
+            setPositiveButton("Ok") { _, _ -> finish() }
+            create()
+            show()
+        }
     }
 }

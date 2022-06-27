@@ -86,7 +86,7 @@ class SummaryActivity : AppCompatActivity() {
                         else -> "No pet change has occured"
                     }
                 )
-                setPositiveButton("Ok") { _, _ -> finish() }
+                setPositiveButton("Ok") { _, _ -> }
                 create()
                 show()
             }
