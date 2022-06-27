@@ -81,10 +81,10 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if ((elapsedMillis > 0) && !inSession) {
             setTimerView()
             inSession = true
-        } else if (elapsedMillis < -30 * MINS_TO_MILLIS) {
+        } else if (elapsedMillis < STUDY_FAIL_THRESHOLD) {
             timer.stop()
             goToFail()
-        } else if (elapsedMillis < -20 * MINS_TO_MILLIS) {
+        } else if (elapsedMillis < STUDY_WARNING_THRESHOLD) {
             setWarningView()
         }
     }

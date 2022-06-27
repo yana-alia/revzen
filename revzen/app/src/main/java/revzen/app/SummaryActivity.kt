@@ -30,6 +30,7 @@ class SummaryActivity : AppCompatActivity() {
     private lateinit var healthImage: ImageView
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
@@ -51,8 +52,8 @@ class SummaryActivity : AppCompatActivity() {
         apiHandler.stopLiveRevision({},{_ -> })
 
         val random = Random()
-        if (random.nextInt(STUDY_PET_THRESHOLD) < studyRes.xp) {
-            apiHandler.givePet(Pet.values()[random.nextInt(2) + 1], this::successfulGivePet, this::givePetFailure)
+        if (random.nextInt(GIVE_PET_CHANCE) == 1) {
+            apiHandler.givePet(Pet.values()[random.nextInt(Pet.values().size - 1) + 1], this::successfulGivePet, this::givePetFailure)
         } else {
             apiHandler.logSession(studyRes, this::successfulStudyLog, this::studyLogFailure)
         }
@@ -60,7 +61,12 @@ class SummaryActivity : AppCompatActivity() {
         XP.text = "${studyRes.xp} XP"
         totalStudy.text = timeFormat(studyRes.total_study_time)
         totalBreak.text = timeFormat(studyRes.total_break_time)
-        ratio.text = "${studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()}"
+        if(studyRes.total_break_time == 0){
+            ratio.text = "N/A"
+        } else {
+            val ratioVal = studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
+            ratio.text = "${(ratioVal * 100.0).roundToInt() / 100.0}"
+        }
     }
 
     override fun onBackPressed() {}
@@ -71,9 +77,14 @@ class SummaryActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun successfulStudyLog(pet: PetStatus) {
-        petImage.setImageResource(pet.petType.studyImage)
-        healthImage.setImageResource(pet.health.image)
-        petXP.text = "${pet.xp} XP"
+        petImage.setImageResource(pet.petType.logoImage)
+        if(pet.petType != Pet.ROCK) {
+            healthImage.setImageResource(pet.health.image)
+            healthImage.visibility = View.VISIBLE
+            petXP.text = "${pet.xp} XP"
+            petXP.visibility = View.VISIBLE
+        }
+        petImage.visibility = View.VISIBLE
     }
 
     private fun studyLogFailure(error: ApiError) {

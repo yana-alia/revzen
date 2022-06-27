@@ -15,7 +15,11 @@
     <string name="friends_description">Friends</string>
     <string name="trophy_description">Trophies</string>
     <string name="pet_description">Your trusty pal</string>
+    <string name="friend_code">Friend Code:</string>
+    <string name="change_pet">Change Pet</string>
 
+
+    // PET SELECT ACTIVITY //
     <string name="pet_select_title">Choose your pet!</string>
 
     // SETUP ACTIVITY //
