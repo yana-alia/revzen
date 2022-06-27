@@ -32,6 +32,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         apiHandler.getCurrentPet(this::successGet, this::failGet)
 
+        //service that builds a notification when break timer is up
         startService(Intent(this, BgBreakService::class.java).apply {
             putExtra("breakLength", timeTracker.planned_break_time)
         })
@@ -61,6 +62,9 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     fun keepStudying(_view: View) {
         timer.stop()
         updateTimeTracker()
+
+        stopService(Intent(this, BgBreakService::class.java))
+
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
             studyList.add(timeTracker)
@@ -74,6 +78,8 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         timer.stop()
         updateTimeTracker()
+
+        stopService(Intent(this, BgBreakService::class.java))
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
