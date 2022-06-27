@@ -9,6 +9,7 @@ import android.widget.*
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.PetsResponse
+import revzen.app.api.SessionData
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
@@ -126,6 +127,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         updateTimeTracker()
 
         startActivity(if (inSession) {
+
             Intent(this, FailActivity::class.java).apply {
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)

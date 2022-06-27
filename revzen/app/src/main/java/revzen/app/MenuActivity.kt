@@ -8,10 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import revzen.app.api.ApiError
-import revzen.app.api.ApiHandler
-import revzen.app.api.Pet
-import revzen.app.api.PetStatus
+import revzen.app.api.*
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler

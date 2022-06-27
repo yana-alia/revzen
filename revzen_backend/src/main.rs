@@ -43,7 +43,7 @@ type FriendCode = i32;
 type AppVer = u32;
 
 /// The current backend version.
-const BACKEND_VERSION: AppVer = 3;
+const BACKEND_VERSION: AppVer = 4;
 
 /// The revzen database type, which will hold the connection pool used by the application.
 #[database("revzen_db")]
@@ -70,6 +70,7 @@ fn rocket() -> _ {
                 api_get_current_pet,
                 api_give_pet,
                 api_change_pet,
+                api_give_reward,
             ],
         )
         .register("/", catchers![page_not_found, internal_error])

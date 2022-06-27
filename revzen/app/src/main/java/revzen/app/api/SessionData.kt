@@ -1,4 +1,4 @@
-package revzen.app
+package revzen.app.api
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

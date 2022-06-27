@@ -69,7 +69,7 @@ pub const MAX_HEALTH: i32 = 3;
 pub const MIN_HEALTH: i32 = 0;
 
 /// Initial health of a pet once gained.
-pub const INITIAL_HEALTH: i32 = 2;
+pub const INITIAL_HEALTH: i32 = 3;
 
 /// The default status when a user has no pets
 const PET_ROCK_STATUS: PetStatus = PetStatus {
@@ -109,6 +109,7 @@ mod get_pet_info;
 mod get_revising;
 mod get_user;
 mod give_pet;
+mod give_reward;
 mod log_session;
 mod login_user;
 mod manage_follows;
@@ -120,6 +121,7 @@ pub(crate) use self::{
     change_pet::api_change_pet, create_user::api_create_user, get_current_pet::api_get_current_pet,
     get_follows::api_get_follows, get_history::api_get_history, get_pet_info::api_get_pet_info,
     get_revising::api_get_revising, get_user::api_get_user, give_pet::api_give_pet,
-    log_session::api_log_session, login_user::api_login, manage_follows::api_manage_friend,
-    start_revising::api_start_revising, stop_revising::api_stop_revising,
+    give_reward::api_give_reward, log_session::api_log_session, login_user::api_login,
+    manage_follows::api_manage_friend, start_revising::api_start_revising,
+    stop_revising::api_stop_revising,
 };

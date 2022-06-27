@@ -20,18 +20,29 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=3' -F 'pet_type=1' 'http://127.0.0.1:8000/api/give_pet'
+//! curl -X POST -F 'user_id=301' -F 'version=4' -F 'pet_type=1' 'http://127.0.0.1:8000/api/give_pet'
 //! ```
 
 use diesel::{insert_into, update};
+use rocket::serde::{json::Json, Serialize};
 
 use crate::{
     models::{Pet, User},
     *,
 };
 
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct GiveResult {
+    pet: PetType,
+    is_new: bool,
+}
+
 #[post("/give_pet", data = "<user_pet>")]
-pub(crate) async fn api_give_pet(db: RevzenDB, user_pet: Form<PetRequest>) -> Status {
+pub(crate) async fn api_give_pet(
+    db: RevzenDB,
+    user_pet: Form<PetRequest>,
+) -> Option<Json<GiveResult>> {
     use crate::schema::{pets::dsl::*, users::dsl::*};
 
     let PetRequest {
@@ -50,33 +61,43 @@ pub(crate) async fn api_give_pet(db: RevzenDB, user_pet: Form<PetRequest>) -> St
                         health: INITIAL_HEALTH,
                         xp: 0,
                     })
-                    .on_conflict_do_nothing()
                     .execute(c)
             })
             .await
             .is_ok()
         {
             if user_data.main_pet == PET_ROCK {
-                if db
-                    .run(move |c| {
-                        update(users.find(user))
-                            .set(main_pet.eq(pet_given_type))
-                            .execute(c)
-                    })
-                    .await
-                    .is_ok()
-                {
-                    Status::Ok
-                } else {
-                    Status::InternalServerError
-                }
+                db.run(move |c| {
+                    update(users.find(user))
+                        .set(main_pet.eq(pet_given_type))
+                        .execute(c)
+                })
+                .await
+                .expect("No database errors");
+                Some(Json(GiveResult {
+                    pet: pet_given_type,
+                    is_new: true,
+                }))
             } else {
-                Status::Ok
+                Some(Json(GiveResult {
+                    pet: pet_given_type,
+                    is_new: true,
+                }))
             }
         } else {
-            Status::InternalServerError
+            db.run(move |c| {
+                update(pets.find((user, pet_given_type)))
+                    .set(health.eq(MAX_HEALTH))
+                    .execute(c)
+            })
+            .await
+            .expect("No database errors");
+            Some(Json(GiveResult {
+                pet: pet_given_type,
+                is_new: false,
+            }))
         }
     } else {
-        Status::NotFound
+        None
     }
 }
