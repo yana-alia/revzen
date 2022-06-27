@@ -69,7 +69,7 @@ pub const MAX_HEALTH: i32 = 3;
 pub const MIN_HEALTH: i32 = 0;
 
 /// Initial health of a pet once gained.
-pub const INITIAL_HEALTH: i32 = 2;
+pub const INITIAL_HEALTH: i32 = 3;
 
 /// The default status when a user has no pets
 const PET_ROCK_STATUS: PetStatus = PetStatus {
