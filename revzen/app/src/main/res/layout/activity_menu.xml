@@ -39,17 +39,18 @@
         app:layout_constraintVertical_bias="0.19" />
 
     <ImageView
-        android:id="@+id/petImage"
+        android:id="@+id/mainMenuPetImage"
         android:layout_width="150dp"
         android:layout_height="153dp"
-        android:layout_marginTop="144dp"
-        android:contentDescription="@string/pet_description"
-        android:visibility="invisible"
+        android:layout_marginTop="12dp"
         android:clickable="true"
+        android:contentDescription="@string/pet_description"
         android:onClick="goToPetSelect"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/startSessionButton"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoView"
         app:srcCompat="@drawable/petlogo_shiba" />
 
     <Button
@@ -141,5 +142,29 @@
         app:layout_constraintEnd_toStartOf="@+id/menu_friendcode"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/logoView" />
+
+    <ImageView
+        android:id="@+id/mainMenuPetHealth"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/dashboardText"
+        app:layout_constraintEnd_toStartOf="@+id/mainMenuPetXP"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/mainMenuPetImage"
+        app:layout_constraintTop_toBottomOf="@+id/mainMenuPetImage"
+        app:srcCompat="@drawable/heart3" />
+
+    <TextView
+        android:id="@+id/mainMenuPetXP"
+        android:layout_width="49dp"
+        android:layout_height="34dp"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/mainMenuPetHealth"
+        app:layout_constraintEnd_toEndOf="@+id/mainMenuPetImage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mainMenuPetHealth"
+        app:layout_constraintTop_toTopOf="@+id/mainMenuPetHealth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

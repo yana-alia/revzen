@@ -7,38 +7,34 @@ import android.view.View
 import android.widget.ImageView
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
-import revzen.app.api.PetResponse
+import revzen.app.api.PetStatus
 
 class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
+
+    private lateinit var petImage: ImageView
+    private lateinit var healthImage: ImageView
+
     private lateinit var timeTracker: SessionData
-    private var studyList = ArrayList<SessionData>()
+    private lateinit var studyList : ArrayList<SessionData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fail)
+
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
-        apiHandler.stopLiveRevision({}, { })
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
-        apiHandler.getPetInfo(this::successGet, this::failGet)
+        petImage = findViewById(R.id.imageView)
+        healthImage = findViewById(R.id.imageView2)
 
+        apiHandler.getCurrentPet(this::successGet, this::failGet)
     }
 
-    override fun onBackPressed() {
-        //disable back button by preventing call to super.onBackPressed()
-        return
-    }
+    override fun onBackPressed() {}
 
     fun goToSummary(_view: View) {
-        apiHandler.logSession(
-            timeTracker.planned_study_time,
-            timeTracker.planned_break_time,
-            timeTracker.study_time,
-            timeTracker.break_time,
-            {},
-            { })
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
             putExtra("studyList", studyList)
@@ -46,18 +42,18 @@ class FailActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun successGet(info: PetResponse) {
-        val mainPet = info.selectedPet
-        findViewById<ImageView>(R.id.imageView).setImageResource(mainPet.failImage)
-        findViewById<ImageView>(R.id.imageView).visibility = View.VISIBLE
-        findViewById<ImageView>(R.id.imageView2).setImageResource(
-            info.allPets[mainPet]?.health?.image
-                ?: R.drawable.heart3)
-        findViewById<ImageView>(R.id.imageView2).visibility = View.VISIBLE
+    private fun successGet(info: PetStatus) {
+        val mainPet = info.petType
+        petImage.setImageResource(mainPet.failImage)
+        healthImage.setImageResource(info.health.image)
+
+        petImage.visibility = View.VISIBLE
+        healthImage.visibility = View.VISIBLE
     }
 
+    //todo improve
     private fun failGet(error: ApiError) {
-        findViewById<ImageView>(R.id.imageView).visibility = View.INVISIBLE
-        findViewById<ImageView>(R.id.imageView2).visibility = View.INVISIBLE
+        petImage.visibility = View.INVISIBLE
+        healthImage.visibility = View.INVISIBLE
     }
 }

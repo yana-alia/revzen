@@ -31,7 +31,7 @@ class LiveRevisionActivity : AppCompatActivity() {
     }
 
     private fun pollLiveRevisers() {
-        apiHandler.getLiveRevision(this::successGetRevisers, this::getRevisersFailure)
+        apiHandler.getRevising(this::successGetRevisers, this::getRevisersFailure)
     }
 
     private fun successGetRevisers(revisers: Array<LiveRevisionResponse>) {

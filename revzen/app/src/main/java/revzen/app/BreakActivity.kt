@@ -10,12 +10,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
-import revzen.app.api.PetResponse
+import revzen.app.api.PetStatus
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
-    private var breakLength = 5
-    private val MINS_TO_MILLIS = 60000
+    private lateinit var breakWarning: TextView
+    private lateinit var petImage: ImageView
+
     private lateinit var apiHandler: ApiHandler
     private lateinit var timeTracker: SessionData
     private var originalTime = 0L
@@ -28,16 +29,19 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
-        breakLength = intent.extras?.getInt("breakLength")!!
 
-        apiHandler.getPetInfo(this::successGet, this::failGet)
+        apiHandler.getCurrentPet(this::successGet, this::failGet)
 
         startService(Intent(this, BgBreakService::class.java).apply {
-            putExtra("breakLength", breakLength)
+            putExtra("breakLength", timeTracker.planned_break_time)
         })
+
         timer = findViewById(R.id.breakTimer)
+        breakWarning = findViewById(R.id.breakWarning)
+        petImage = findViewById(R.id.petView)
+
         originalTime = SystemClock.elapsedRealtime()
-        timer.base = originalTime + (breakLength * MINS_TO_MILLIS).toLong()
+        timer.base = originalTime + (timeTracker.planned_break_time * SECS_TO_MILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
@@ -57,16 +61,6 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     fun keepStudying(_view: View) {
         timer.stop()
         updateTimeTracker()
-
-        // Currently do not care about failures to push data
-        apiHandler.logSession(
-            timeTracker.planned_study_time,
-            timeTracker.planned_break_time,
-            timeTracker.study_time,
-            timeTracker.break_time,
-            {},
-            { })
-
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
             studyList.add(timeTracker)
@@ -76,20 +70,10 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun endSession(_view: View) {
-
         apiHandler.stopLiveRevision({}, { })
 
         timer.stop()
         updateTimeTracker()
-
-        // Currently do not care about failures to push data
-        apiHandler.logSession(
-            timeTracker.planned_study_time,
-            timeTracker.planned_break_time,
-            timeTracker.study_time,
-            timeTracker.break_time,
-            {},
-            { })
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)
@@ -113,16 +97,18 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             })
             finish()
         } else if (elapsedMillis < 0) {
-            findViewById<TextView>(R.id.breakWarning).visibility = View.VISIBLE
+            breakWarning.visibility = View.VISIBLE
         }
     }
 
-    private fun successGet(info: PetResponse) {
-        findViewById<ImageView>(R.id.petView).setImageResource(info.selectedPet.breakImage)
-        findViewById<ImageView>(R.id.petView).visibility = View.VISIBLE
+    private fun successGet(info: PetStatus) {
+        petImage.setImageResource(info.petType.breakImage)
+        petImage.visibility = View.VISIBLE
     }
 
+    //todo improve
     private fun failGet(error: ApiError) {
-        findViewById<ImageView>(R.id.petView).visibility = View.INVISIBLE
+        apiHandler.stopLiveRevision({}, { })
+        finish()
     }
 }

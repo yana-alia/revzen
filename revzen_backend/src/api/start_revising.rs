@@ -1,6 +1,6 @@
 //! The API method for signalling the user is currently revising
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
@@ -9,14 +9,14 @@
 //!
 //! ## Response:
 //!
-//! | Status          | Meaning                                         |
-//! |-----------------|-------------------------------------------------|
-//! | 200 - OK        | The user was successfully added, can now login. |
-//! | 404 - Not Found | No such account exists.                         |
+//! | Status          | Meaning                        |
+//! |-----------------|--------------------------------|
+//! | 200 - OK        | Successfully started revising. |
+//! | 404 - Not Found | No such account exists.        |
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=29' -F 'version=1' 'http://127.0.0.1:8000/api/start_revising'
+//! curl -X POST -F 'user_id=29' -F 'version=3' 'http://127.0.0.1:8000/api/start_revising'
 //! ```
 
 use rocket::State;
@@ -42,7 +42,14 @@ pub(crate) async fn api_start_revising(
     {
         Ok(user_data) => {
             let mut write_state = state.0.write().await;
-            write_state.insert(user_data.id, (user_data.friendcode, user_data.username));
+            write_state.insert(
+                user_data.id,
+                UserDetails {
+                    friendcode: user_data.friendcode,
+                    username: user_data.username,
+                    main_pet: user_data.main_pet,
+                },
+            );
             Status::Ok
         }
         Err(_) => Status::NotFound,

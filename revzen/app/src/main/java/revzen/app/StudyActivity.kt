@@ -6,45 +6,47 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import okhttp3.*
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
-import revzen.app.api.PetResponse
-import java.io.IOException
-import java.lang.Math.abs
-import kotlin.random.Random
+import revzen.app.api.PetsResponse
 
 class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
     private lateinit var apiHandler: ApiHandler
+
     private lateinit var timeTracker: SessionData
-    private var studyLength = 60
-    private var breakLength = 10
     private var studyList = ArrayList<SessionData>()
+
     private var inSession = true
     private var validLeave = false
     private var originalTime = 0L
-    private val MINSTOMILLIS = 60000
+    
+    private lateinit var studyTitle: TextView
+    private lateinit var warning: TextView
+    private lateinit var endButton: Button
+    private lateinit var petImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study)
 
-        studyLength = intent.extras?.getInt("studyLength")!!
-        breakLength = intent.extras?.getInt("breakLength")!!
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
 
         // updating getting the api handler
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
+        studyTitle = findViewById(R.id.studyTitleText)
+        warning = findViewById(R.id.warningView)
+        endButton = findViewById(R.id.endSessionButton)
+        petImage = findViewById(R.id.petView)
+
         //api request to get main pet
         apiHandler.getPetInfo(this::successGet, this::failGet)
 
         timer = findViewById(R.id.chronometer)
         originalTime = SystemClock.elapsedRealtime()
-        timer.base = originalTime + (studyLength * MINSTOMILLIS).toLong()
+        timer.base = originalTime + (timeTracker.planned_study_time * SECS_TO_MILLIS).toLong()
         timer.onChronometerTickListener = this
         timer.start()
     }
@@ -61,23 +63,12 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             super.onUserLeaveHint()
             timer.stop()
             updateTimeTracker()
-
-            startActivity(Intent(this, FailActivity::class.java).apply {
-                putExtra("reason", "leaveApp")
-                putExtra("handler", apiHandler)
-                putExtra("timeTracker", timeTracker)
-                studyList.add(timeTracker)
-                putExtra("studyList", studyList)
-            })
-
-            finish()
+            goToFail()
         }
     }
 
-    override fun onBackPressed() {
-        //disable back button by preventing call to super.onBackPressed()
-        return
-    }
+    //disable back button by preventing call to super.onBackPressed()
+    override fun onBackPressed() {}
 
     override fun onChronometerTick(chronometer: Chronometer) {
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
@@ -90,32 +81,30 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         } else if ((elapsedMillis > 0) && !inSession) {
             setTimerView()
             inSession = true
-        } else if (elapsedMillis < -30 * MINSTOMILLIS) {
+        } else if (elapsedMillis < -30 * MINS_TO_MILLIS) {
             timer.stop()
             goToFail()
-        } else if (elapsedMillis < -20 * MINSTOMILLIS) {
+        } else if (elapsedMillis < -20 * MINS_TO_MILLIS) {
             setWarningView()
         }
     }
 
     private fun setBreakView() {
-        findViewById<TextView>(R.id.studyTitleText).text = resources.getString(R.string.break_title)
-        findViewById<TextView>(R.id.warningView).visibility = View.INVISIBLE
-        findViewById<Button>(R.id.endSessionButton).text =
+        studyTitle.text = resources.getString(R.string.break_title)
+        warning.visibility = View.INVISIBLE
+        endButton.text =
             resources.getString(R.string.break_button)
     }
 
     private fun setTimerView() {
-        findViewById<TextView>(R.id.studyTitleText).text =
-            resources.getString(R.string.session_title)
-        findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
-        findViewById<Button>(R.id.endSessionButton).text =
-            resources.getString(R.string.end_session_button)
+        studyTitle.text = resources.getString(R.string.session_title)
+        warning.visibility = View.VISIBLE
+        endButton.text = resources.getString(R.string.end_session_button)
     }
 
     private fun setWarningView() {
-        findViewById<TextView>(R.id.warningView).text = resources.getString(R.string.warning_title2)
-        findViewById<TextView>(R.id.warningView).visibility = View.VISIBLE
+        warning.text = resources.getString(R.string.warning_title2)
+        warning.visibility = View.VISIBLE
     }
 
     private fun goToFail(){
@@ -146,7 +135,6 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
             }
         } else {
             Intent(this, BreakActivity::class.java).apply {
-                putExtra("breakLength", breakLength)
                 putExtra("handler", apiHandler)
                 putExtra("timeTracker", timeTracker)
                 putExtra("studyList", studyList)
@@ -155,12 +143,12 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         finish()
     }
 
-    private fun successGet(info: PetResponse) {
-        findViewById<ImageView>(R.id.petView).setImageResource(info.selectedPet.studyImage)
-        findViewById<ImageView>(R.id.petView).visibility = View.VISIBLE
+    private fun successGet(info: PetsResponse) {
+        petImage.setImageResource(info.mainPet.studyImage)
+        petImage.visibility = View.VISIBLE
     }
 
     private fun failGet(error: ApiError) {
-        findViewById<ImageView>(R.id.petView).visibility = View.INVISIBLE
+        petImage.visibility = View.INVISIBLE
     }
 }

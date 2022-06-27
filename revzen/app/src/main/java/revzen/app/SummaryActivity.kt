@@ -1,92 +1,122 @@
 package revzen.app
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
-import java.lang.Integer.max
+import androidx.appcompat.app.AlertDialog
+import revzen.app.api.ApiError
+import revzen.app.api.ApiHandler
+import revzen.app.api.Pet
+import revzen.app.api.PetStatus
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class SummaryActivity : AppCompatActivity() {
-    private var studyList = ArrayList<SessionData>()
+    private lateinit var apiHandler: ApiHandler
+    private lateinit var studyList : ArrayList<SessionData>
+    private lateinit var studyRes: ApiHandler.StudyResult
+
+    private lateinit var XP: TextView
+    private lateinit var totalStudy: TextView
+    private lateinit var totalBreak: TextView
+    private lateinit var ratio: TextView
+    private lateinit var petXP: TextView
+
+    private lateinit var petImage: ImageView
+    private lateinit var healthImage: ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
 
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
+        apiHandler = intent.extras?.getParcelable("handler")!!
 
-        var xp = 0
-        for (session in studyList) {
-            val setTime = session.planned_study_time //in seconds
-            val actualTime = session.study_time //in seconds
-            val maxXp = setTime / 10
+        XP = findViewById(R.id.summaryXP)
+        totalStudy = findViewById(R.id.summaryTotalStudy)
+        totalBreak = findViewById(R.id.summaryTotalBreak)
+        ratio = findViewById(R.id.summaryRatio)
+        petXP = findViewById(R.id.summaryPetXP)
 
-            if(actualTime < setTime/2) {
-                xp += 0
-            } else if (actualTime < setTime) {
-                val m = maxXp / (setTime/2)
-                xp += m*(actualTime - (setTime/2))
-                //y - y1 = m*(x - x1)
-                //(x1,y1) = (setTime/2, 0) is a point on the line
+        petImage = findViewById(R.id.summaryPetImage)
+        healthImage = findViewById(R.id.summaryPetHealth)
 
-            } else if (actualTime < setTime + 5*60) {
-                xp += maxXp
-                //todo add chance of getting new pet
-            } else if (actualTime < setTime + 30*60) {
-                val m = -maxXp/2   //maxXp/2 - maxXp
-                xp += m*(actualTime - (setTime + 5*60)) + maxXp
-                //y - y1 = m*(x - x1)
-                //(x1,y1) = (setTime + 5*60, maxXp) is a point on the line
+        studyRes = calculateResult(studyList)
 
-            } else {
-                xp -= maxXp / 2
-            }
+        apiHandler.stopLiveRevision({},{_ -> })
 
-            xp = max(xp, 0)//limit to at least 0xp
-        }
-
-        val xpStr = "+" + xp.toString()
-        findViewById<TextView>(R.id.summaryXP).text = xpStr
-
-        val totalStudy = studyList.sumOf { sessionData -> sessionData.study_time }
-        findViewById<TextView>(R.id.summaryTotalStudy).text = timeFormat(totalStudy)
-        val totalBreak = studyList.sumOf { sessionData -> sessionData.break_time }
-        findViewById<TextView>(R.id.summaryTotalBreak).text = timeFormat(totalBreak)
-
-        if(totalBreak == 0){
-            findViewById<TextView>(R.id.summaryRatio).text = "N/A"
+        val random = Random()
+        if (random.nextInt(STUDY_PET_THRESHOLD) < studyRes.xp) {
+            apiHandler.givePet(Pet.values()[random.nextInt(2) + 1], this::successfulGivePet, this::givePetFailure)
         } else {
-            val ratio: Double = totalStudy.toDouble() / totalBreak.toDouble()
-            val roundRatio: Double = (ratio * 100.0).roundToInt() / 100.0
-            findViewById<TextView>(R.id.summaryRatio).text = roundRatio.toString()
+            apiHandler.logSession(studyRes, this::successfulStudyLog, this::studyLogFailure)
         }
 
-        //todo api post request to give database xp
+        XP.text = "${studyRes.xp} XP"
+        totalStudy.text = timeFormat(studyRes.total_study_time)
+        totalBreak.text = timeFormat(studyRes.total_break_time)
+        ratio.text = "${studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()}"
     }
 
-    override fun onBackPressed() {
-        //disable back button by preventing call to super.onBackPressed()
-        return
-    }
+    override fun onBackPressed() {}
 
     fun goToMenu(_view: View) {
         finish()
     }
 
-    private fun timeFormat(time: Int): String {
-        val hours = time / 3600
-        val mins = (time % 3600) / 60
-        val secs = (time % 3600) % 60
+    @SuppressLint("SetTextI18n")
+    fun successfulStudyLog(pet: PetStatus) {
+        petImage.setImageResource(pet.petType.studyImage)
+        healthImage.setImageResource(pet.health.image)
+        petXP.text = "${pet.xp} XP"
+    }
 
-        return if(hours == 0){
-            if(mins == 0){
-                "$secs seconds"
-            } else {
-                "$mins minutes $secs seconds"
-            }
-        } else {
-            "$hours hours $mins minutes $secs seconds"
+    private fun studyLogFailure(error: ApiError) {
+        AlertDialog.Builder(this).apply {
+            setTitle("Error")
+            setMessage(
+                when (error) {
+                    ApiError.NO_SUCH_USER -> R.string.login_failure_no_such_user
+                    ApiError.WRONG_VERSION -> R.string.login_failure_outdated_api
+                    else -> R.string.login_failure_unspecified_api_error
+                }
+            )
+            setPositiveButton("Ok") { _, _ -> finish() }
+            create()
+            show()
+        }
+    }
+
+    private fun successfulGivePet(new_pet: Pet) {
+        AlertDialog.Builder(this).apply {
+            setIcon(new_pet.studyImage)
+            setTitle("Gained a new Pet!")
+            setMessage("You have gained a new pet for your family! Study well & keep it healthy!")
+            setPositiveButton("Ok") { _, _ -> }
+            create()
+            show()
+        }
+        apiHandler.logSession(studyRes, this::successfulStudyLog, this::studyLogFailure)
+    }
+
+    private fun givePetFailure(error: ApiError) {
+        AlertDialog.Builder(this).apply {
+            setTitle("Error")
+            setMessage(
+                when (error) {
+                    ApiError.NO_SUCH_USER -> R.string.login_failure_no_such_user
+                    ApiError.WRONG_VERSION -> R.string.login_failure_outdated_api
+                    else -> R.string.login_failure_unspecified_api_error
+                }
+            )
+            setPositiveButton("Ok") { _, _ -> finish() }
+            create()
+            show()
         }
     }
 }

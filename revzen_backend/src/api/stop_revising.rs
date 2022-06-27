@@ -1,6 +1,6 @@
 //! The API method for signalling the user has stopped revising
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
@@ -9,14 +9,14 @@
 //!
 //! ## Response:
 //!
-//! | Status            | Meaning                                         |
-//! |-------------------|-------------------------------------------------|
-//! | 200 - OK          | The user was successfully added, can now login. |
-//! | 400 - Bad Request | No account of this user had started revising.   |
+//! | Status            | Meaning                                       |
+//! |-------------------|-----------------------------------------------|
+//! | 200 - OK          | Sucessfully stopped revising.                 |
+//! | 400 - Bad Request | No account of this user had started revising. |
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=29' -F 'version=1' 'http://127.0.0.1:8000/api/stop_relising'
+//! curl -X POST -F 'user_id=29' -F 'version=3' 'http://127.0.0.1:8000/api/stop_revising'
 //! ```
 
 use rocket::State;

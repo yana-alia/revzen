@@ -2,7 +2,7 @@
 //!
 //! Used for getting the most recent session's details and for displaying user's revision history.
 //!
-//! ## Post Request Fields
+//! ## Post Request Fields:
 //!
 //! | Key            | Type    | Value                                   |
 //! |----------------|---------|-----------------------------------------|
@@ -18,7 +18,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=1' 'http://127.0.0.1:8000/api/get_history'
+//! curl -X POST -F 'user_id=301' -F 'version=3' 'http://127.0.0.1:8000/api/get_history'
 //! ```
 //!
 //! In event of a 200 - OK the following json is returned
@@ -81,7 +81,7 @@ pub(crate) async fn api_get_history(
         {
             if let Ok(hists) = histories
                 .filter(sub.eq(user_auth.user))
-                .order(session_time)
+                .order(session_time.desc())
                 .load::<History>(c)
             {
                 Some(Json(

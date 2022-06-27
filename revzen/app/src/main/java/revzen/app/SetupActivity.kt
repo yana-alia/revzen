@@ -35,8 +35,8 @@ class SetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)
 
-        val studyStrings = studyLengths.map { t -> timeFormat(t) }
-        val breakStrings = breakLengths.map { t -> timeFormat(t) }
+        val studyStrings = studyLengths.map { timeFormat(it) }
+        val breakStrings = breakLengths.map { timeFormat(it) }
 
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
 
@@ -73,7 +73,7 @@ class SetupActivity : AppCompatActivity() {
 
         startActivity(Intent(this, StudyActivity::class.java).apply {
             putExtra("handler", apiHandler)
-            putExtra("timeTracker", SessionData(0, 0, studyTime * 60, breakTime * 60))
+            putExtra("timeTracker", SessionData(0, 0, studyTime, breakTime))
             putExtra("breakLength", breakTime)
             putExtra("studyLength", studyTime)
             putExtra("studyList", studyList)
@@ -81,29 +81,11 @@ class SetupActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun timeFormat(time: Int): String {
-        val hours = time / 60
-        val mins = time % 60
-        return if (hours < 1) {
-            "$mins minutes"
-        } else {
-            var hourRep = "hours"
-            if (hours == 1) {
-                hourRep = "hour"
-            }
-            if (mins > 0) {
-                "$hours $hourRep $mins minutes"
-            } else {
-                "$hours $hourRep"
-            }
-        }
-    }
-
     private fun successGotHistory(history: Array<HistoryResponse>) {
 
         if (history.isNotEmpty()) {
-            recentStudy = history[0].planned_study_time / 60
-            recentBreak = history[0].planned_break_time / 60
+            recentStudy = history[0].planned_study_time
+            recentBreak = history[0].planned_break_time
 
             val studyText = "Study: ${timeFormat(recentStudy)}"
             val breakText = "Break: ${timeFormat(recentBreak)}"

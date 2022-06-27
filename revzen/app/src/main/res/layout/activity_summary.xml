@@ -7,18 +7,6 @@
     tools:context=".SummaryActivity">
 
     <TextView
-        android:id="@+id/summarybg"
-        android:layout_width="339dp"
-        android:layout_height="570dp"
-        android:layout_marginTop="88dp"
-        android:background="?colorPrimaryVariant"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/summaryTitleView"
         android:layout_width="152dp"
         android:layout_height="50dp"
@@ -30,7 +18,21 @@
         android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/summarybg"
-        app:layout_constraintStart_toStartOf="@+id/summarybg" />
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/summarybg"
+        android:layout_width="334dp"
+        android:layout_height="646dp"
+        android:layout_marginBottom="16dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/summaryXPTitle"
@@ -155,6 +157,36 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/summarybg"
         app:layout_constraintEnd_toEndOf="@+id/summarybg" />
+
+    <ImageView
+        android:id="@+id/summaryPetImage"
+        android:layout_width="177dp"
+        android:layout_height="140dp"
+        app:layout_constraintBottom_toTopOf="@+id/summaryPetXP"
+        app:layout_constraintEnd_toEndOf="@+id/summaryPetXP"
+        app:layout_constraintStart_toStartOf="@+id/summaryPetXP"
+        app:layout_constraintTop_toBottomOf="@+id/summaryRatio"
+        app:srcCompat="@drawable/petstudy_husky" />
+
+    <ImageView
+        android:id="@+id/summaryPetHealth"
+        android:layout_width="130dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/summarybg"
+        app:layout_constraintEnd_toStartOf="@+id/okButton"
+        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:srcCompat="@drawable/heart0" />
+
+    <TextView
+        android:id="@+id/summaryPetXP"
+        android:layout_width="131dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/summaryPetHealth"
+        app:layout_constraintEnd_toEndOf="@+id/summaryPetHealth"
+        app:layout_constraintStart_toStartOf="@+id/summaryPetHealth" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

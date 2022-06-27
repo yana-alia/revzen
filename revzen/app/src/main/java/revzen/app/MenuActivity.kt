@@ -6,15 +6,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
-import revzen.app.api.PetResponse
+import revzen.app.api.Pet
+import revzen.app.api.PetStatus
 
 class MenuActivity : AppCompatActivity() {
+    private lateinit var apiHandler: ApiHandler
+
     private lateinit var usernameText: TextView
     private lateinit var friendcodeText: TextView
-    private lateinit var apiHandler: ApiHandler
+    private lateinit var petXP: TextView
+
     private lateinit var petImage: ImageView
+    private lateinit var petHealthImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +31,16 @@ class MenuActivity : AppCompatActivity() {
         usernameText = findViewById(R.id.menu_username)
         friendcodeText = findViewById(R.id.menu_friendcode)
         usernameText.text = apiHandler.username
-        friendcodeText.text = apiHandler.friendcode.toString()
+        friendcodeText.text = apiHandler.friendCode.toString()
 
-        apiHandler.getPetInfo(this::successGet, this::failGet)
+        petImage = findViewById(R.id.mainMenuPetImage)
+        petHealthImage = findViewById(R.id.mainMenuPetHealth)
+        petXP = findViewById(R.id.mainMenuPetXP)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        apiHandler.getCurrentPet(this::successGet, this::failGet)
     }
 
     fun goToSessionSetup(_view: View) {
@@ -75,12 +88,32 @@ class MenuActivity : AppCompatActivity() {
         })
     }
 
-    private fun successGet(info: PetResponse) {
-        findViewById<ImageView>(R.id.petImage).setImageResource(info.selectedPet.logoImage)
-        findViewById<ImageView>(R.id.petImage).visibility = View.VISIBLE
+    private fun successGet(info: PetStatus) {
+        if (info.petType == Pet.ROCK) {
+            petImage.setImageResource(Pet.ROCK.studyImage)
+        } else {
+            petImage.setImageResource(info.petType.logoImage)
+            petHealthImage.setImageResource(info.health.image)
+            petXP.text = info.xp.toString()
+            petXP.visibility = View.VISIBLE
+            petHealthImage.visibility = View.VISIBLE
+        }
+        petImage.visibility = View.VISIBLE
     }
 
     private fun failGet(error: ApiError) {
-        findViewById<ImageView>(R.id.petImage).visibility = View.INVISIBLE
+        AlertDialog.Builder(this).apply {
+            setTitle("Error")
+            setMessage(
+                when (error) {
+                    ApiError.NO_SUCH_USER -> R.string.login_failure_no_such_user
+                    ApiError.WRONG_VERSION -> R.string.login_failure_outdated_api
+                    else -> R.string.login_failure_unspecified_api_error
+                }
+            )
+            setPositiveButton("Ok") { _, _ -> finish() }
+            create()
+            show()
+        }
     }
 }
