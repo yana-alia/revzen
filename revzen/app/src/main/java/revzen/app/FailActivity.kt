@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import revzen.app.api.ApiError
-import revzen.app.api.ApiHandler
-import revzen.app.api.PetStatus
+import androidx.appcompat.app.AlertDialog
+import revzen.app.api.*
+import kotlin.math.max
 
 class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
@@ -45,13 +45,24 @@ class FailActivity : AppCompatActivity() {
     private fun successGet(info: PetStatus) {
         val mainPet = info.petType
         petImage.setImageResource(mainPet.failImage)
-        healthImage.setImageResource(info.health.image)
+        val healthNum = max(info.health.ordinal - 1,0)
+        val newHealth = Health.values()[healthNum]
+        healthImage.setImageResource(newHealth.image)
 
         petImage.visibility = View.VISIBLE
         healthImage.visibility = View.VISIBLE
+
+        if(newHealth == Health.ZERO && mainPet != Pet.ROCK){
+            AlertDialog.Builder(this).apply {
+                setTitle("OH NO!")
+                setMessage("Your current pet has ran out of health. You can no longer study with this pet.")
+                setPositiveButton("Ok") { _, _ -> finish() }
+                create()
+                show()
+            }
+        }
     }
 
-    //todo improve
     private fun failGet(error: ApiError) {
         petImage.visibility = View.INVISIBLE
         healthImage.visibility = View.INVISIBLE

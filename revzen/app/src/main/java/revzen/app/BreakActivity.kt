@@ -87,7 +87,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         val elapsedMillis = chronometer.base - SystemClock.elapsedRealtime()
         if (elapsedMillis == 0L) {
             chronometer.base -= (1000)
-        } else if (elapsedMillis < -5 * MINS_TO_MILLIS) {
+        } else if (elapsedMillis < BREAK_FAIL_THRESHOLD) {
             startActivity(Intent(this, FailActivity::class.java).apply {
                 putExtra("reason", "giveUp")
                 putExtra("handler", apiHandler)

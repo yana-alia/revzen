@@ -1,5 +1,6 @@
 package revzen.app
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -88,13 +89,15 @@ class MenuActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun successGet(info: PetStatus) {
+        petImage.setImageResource(info.petType.logoImage)
         if (info.petType == Pet.ROCK) {
-            petImage.setImageResource(Pet.ROCK.studyImage)
+            petXP.visibility = View.INVISIBLE
+            petHealthImage.visibility = View.INVISIBLE
         } else {
-            petImage.setImageResource(info.petType.logoImage)
             petHealthImage.setImageResource(info.health.image)
-            petXP.text = info.xp.toString()
+            petXP.text = info.xp.toString() + " XP"
             petXP.visibility = View.VISIBLE
             petHealthImage.visibility = View.VISIBLE
         }

@@ -160,7 +160,7 @@ pub(crate) async fn api_log_session(
                                 }
                             } else if curr_health > MAX_HEALTH {
                                 update(pets.find((user, user_data.main_pet)))
-                                    .set(health.eq(5))
+                                    .set(health.eq(MAX_HEALTH))
                                     .execute(c)
                                     .expect("No database issues");
                                 PetStatus {
