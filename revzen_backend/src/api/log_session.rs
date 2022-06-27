@@ -18,15 +18,6 @@
 //! | 200 - OK          | Session was successfully added      |
 //! | 404 - Not Found   | No such user was found.             |
 //!
-//! In event of a 200 - OK the following json is returned
-//! ```json
-//! {
-//!     "pet_type" : 0,
-//!     "health"   : 0,
-//!     "xp"       : 0
-//! }
-//! ```
-//!
 //! ## CURL Example:
 //! ```bash
 //! curl -X POST -F 'user_id=301' -F 'version=4' -F 'planned_study_time=3600' -F 'planned_break_time=60' -F 'study_time=3000' -F 'break_time=120' 'http://127.0.0.1:8000/api/log_session'

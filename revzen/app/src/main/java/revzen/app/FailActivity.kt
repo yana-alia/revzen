@@ -29,6 +29,7 @@ class FailActivity : AppCompatActivity() {
         petImage = findViewById(R.id.imageView)
         healthImage = findViewById(R.id.imageView2)
 
+        apiHandler.logSession(timeTracker, {}, {})
         apiHandler.getCurrentPet(this::successGet, this::failGet)
     }
 

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.HistoryResponse
+import revzen.app.api.SessionData
 
 class SetupActivity : AppCompatActivity() {
     //in seconds

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.PetStatus
+import revzen.app.api.SessionData
 
 class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener {
     private lateinit var timer: Chronometer
@@ -74,12 +75,14 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     fun endSession(_view: View) {
-        apiHandler.stopLiveRevision({}, { })
+
 
         timer.stop()
         updateTimeTracker()
 
         stopService(Intent(this, BgBreakService::class.java))
+
+        apiHandler.logSession(timeTracker, {}, {})
 
         startActivity(Intent(this, SummaryActivity::class.java).apply {
             putExtra("handler", apiHandler)

@@ -7,10 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import revzen.app.api.ApiError
-import revzen.app.api.ApiHandler
-import revzen.app.api.Pet
-import revzen.app.api.PetStatus
+import revzen.app.api.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
@@ -18,7 +15,7 @@ import kotlin.math.roundToInt
 class SummaryActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
     private lateinit var studyList : ArrayList<SessionData>
-    private lateinit var studyRes: ApiHandler.StudyResult
+    private lateinit var studyRes: ApiHandler.Reward
 
     private lateinit var XP: TextView
     private lateinit var totalStudy: TextView
@@ -55,10 +52,10 @@ class SummaryActivity : AppCompatActivity() {
         if (random.nextInt(GIVE_PET_CHANCE) == 1) {
             apiHandler.givePet(Pet.values()[random.nextInt(Pet.values().size - 1) + 1], this::successfulGivePet, this::givePetFailure)
         } else {
-            apiHandler.logSession(studyRes, this::successfulStudyLog, this::studyLogFailure)
+            apiHandler.giveReward(studyRes, this::successfulReward, this::rewardFailure)
         }
 
-        XP.text = "${studyRes.xp} XP"
+        XP.text = "${studyRes.xpGained} XP"
         totalStudy.text = timeFormat(studyRes.total_study_time)
         totalBreak.text = timeFormat(studyRes.total_break_time)
         if(studyRes.total_break_time == 0){
@@ -76,18 +73,36 @@ class SummaryActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun successfulStudyLog(pet: PetStatus) {
-        petImage.setImageResource(pet.petType.logoImage)
-        if(pet.petType != Pet.ROCK) {
-            healthImage.setImageResource(pet.health.image)
+    fun successfulReward(reward: RewardResponse) {
+
+        if (reward.petChange != PetChange.NoChange) {
+            AlertDialog.Builder(this).apply {
+                setTitle("Pet Died")
+                setIcon(reward.pet.logoImage)
+                setMessage(
+                    when (reward.petChange) {
+                        PetChange.OnlyRock -> "Your pet has died, and you are now only left with the rock"
+                        PetChange.SwitchedPet -> "Your pet has died, so you have now switched pet to ${reward.pet.petName}"
+                        else -> "No pet change has occured"
+                    }
+                )
+                setPositiveButton("Ok") { _, _ -> finish() }
+                create()
+                show()
+            }
+        }
+
+        petImage.setImageResource(reward.pet.logoImage)
+        if(reward.pet != Pet.ROCK) {
+            healthImage.setImageResource(reward.health.image)
             healthImage.visibility = View.VISIBLE
-            petXP.text = "${pet.xp} XP"
+            petXP.text = "${reward.XP} XP"
             petXP.visibility = View.VISIBLE
         }
         petImage.visibility = View.VISIBLE
     }
 
-    private fun studyLogFailure(error: ApiError) {
+    private fun rewardFailure(error: ApiError) {
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage(
@@ -103,16 +118,22 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
-    private fun successfulGivePet(new_pet: Pet) {
+    private fun successfulGivePet(give_result: GiveResult) {
+
         AlertDialog.Builder(this).apply {
-            setIcon(new_pet.studyImage)
-            setTitle("Gained a new Pet!")
-            setMessage("You have gained a new pet for your family! Study well & keep it healthy!")
+            setIcon(give_result.pet.logoImage)
+            if (give_result.isNew) {
+                setTitle("Gained a new Pet!")
+                setMessage("You have gained a new pet ${give_result.pet.petName} for your family! Study well & keep it healthy!")
+            } else {
+                setTitle("Health Boost!")
+                setMessage("Boosted ${give_result.pet.petName} to full health")
+            }
             setPositiveButton("Ok") { _, _ -> }
             create()
             show()
         }
-        apiHandler.logSession(studyRes, this::successfulStudyLog, this::studyLogFailure)
+        apiHandler.giveReward(studyRes, this::successfulReward, this::rewardFailure)
     }
 
     private fun givePetFailure(error: ApiError) {

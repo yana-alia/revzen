@@ -1,8 +1,8 @@
 package revzen.app
 
 import revzen.app.api.ApiHandler
+import revzen.app.api.SessionData
 import kotlin.math.max
-import kotlin.math.roundToInt
 
 const val MINS_TO_MILLIS = 60000
 const val SECS_TO_MILLIS = 1000
@@ -48,7 +48,7 @@ fun timeFormat(time: Int): String {
 }
 
 
-fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.StudyResult {
+fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.Reward {
     var totalStudyTime = 0
     var totalBreakTime = 0
     var totalPlannedStudyTime = 0
@@ -64,25 +64,21 @@ fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.StudyResu
         totalPlannedBreakTime += session.planned_break_time
 
         if (session.study_time >= session.planned_study_time) {
-            xpGained += getXp(totalStudyTime, totalPlannedStudyTime)
+            xpGained += getXp(session.study_time, session.planned_study_time)
         } else {
             healthChange = -1
         }
     }
 
-    return ApiHandler.StudyResult(
-        totalStudyTime,
-        totalBreakTime,
-        totalPlannedStudyTime,
-        totalPlannedBreakTime,
+    return ApiHandler.Reward(
         xpGained,
-        healthChange
+        healthChange,
+        totalStudyTime,
+        totalBreakTime
     )
 }
 
-fun getXp(actualTime: Int, setTime: Int): Int{
-    println(actualTime)
-    println(setTime)
+fun getXp(actualTime: Int, setTime: Int): Int {
     //values in seconds
     var xp: Int = 0
     val maxXp = setTime / 10
@@ -108,6 +104,5 @@ fun getXp(actualTime: Int, setTime: Int): Int{
     }
 
     xp = max(xp, 0)//limit to at least 0xp
-    println(xp)
     return xp
 }
