@@ -45,13 +45,13 @@ class FailActivity : AppCompatActivity() {
     private fun successGet(info: PetStatus) {
         val mainPet = info.petType
         petImage.setImageResource(mainPet.failImage)
+        var health = info.health.ordinal - 1
         healthImage.setImageResource(info.health.image)
 
         petImage.visibility = View.VISIBLE
         healthImage.visibility = View.VISIBLE
     }
 
-    //todo improve
     private fun failGet(error: ApiError) {
         petImage.visibility = View.INVISIBLE
         healthImage.visibility = View.INVISIBLE

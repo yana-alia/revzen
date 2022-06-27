@@ -25,13 +25,13 @@
     <TextView
         android:id="@+id/summarybg"
         android:layout_width="334dp"
-        android:layout_height="646dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="620dp"
+        android:layout_marginBottom="28dp"
         android:background="?colorPrimaryVariant"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -69,7 +69,7 @@
         android:layout_width="306dp"
         android:layout_height="34dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:background="?colorPrimaryVariant"
         android:text="@string/summary_total_study"
         android:textAllCaps="true"
@@ -162,10 +162,10 @@
         android:id="@+id/summaryPetImage"
         android:layout_width="177dp"
         android:layout_height="140dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/summaryPetXP"
         app:layout_constraintEnd_toEndOf="@+id/summaryPetXP"
         app:layout_constraintStart_toStartOf="@+id/summaryPetXP"
-        app:layout_constraintTop_toBottomOf="@+id/summaryRatio"
         app:srcCompat="@drawable/petstudy_husky" />
 
     <ImageView
@@ -173,6 +173,7 @@
         android:layout_width="130dp"
         android:layout_height="44dp"
         android:layout_marginBottom="20dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/summarybg"
         app:layout_constraintEnd_toStartOf="@+id/okButton"
         app:layout_constraintStart_toStartOf="@+id/summarybg"
@@ -182,10 +183,10 @@
         android:id="@+id/summaryPetXP"
         android:layout_width="131dp"
         android:layout_height="27dp"
-        android:layout_marginBottom="24dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/summaryPetHealth"
         app:layout_constraintEnd_toEndOf="@+id/summaryPetHealth"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/summaryPetHealth" />
 
 

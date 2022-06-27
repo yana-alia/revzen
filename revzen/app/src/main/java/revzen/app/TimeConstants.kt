@@ -1,6 +1,7 @@
 package revzen.app
 
 import revzen.app.api.ApiHandler
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 const val MINS_TO_MILLIS = 60000
@@ -25,14 +26,15 @@ fun timeFormat(time: Int): String {
     }
 }
 
+
 fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.StudyResult {
     var totalStudyTime = 0
     var totalBreakTime = 0
     var totalPlannedStudyTime = 0
     var totalPlannedBreakTime = 0
 
-    var xp = 0
-    var health = 0f
+    var xpGained = 0
+    var healthChange = 0
 
     for (session in session_data) {
         totalStudyTime += session.study_time
@@ -41,10 +43,9 @@ fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.StudyResu
         totalPlannedBreakTime += session.planned_break_time
 
         if (session.study_time > session.planned_study_time) {
-            xp += session.study_time
-            health += session.study_time / SECS_TO_HOURS
+            xpGained += getXp(totalStudyTime, totalPlannedStudyTime)
         } else {
-            health -= (session.planned_study_time - session.study_time) / SECS_TO_HOURS
+            healthChange = -1
         }
     }
 
@@ -53,7 +54,39 @@ fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.StudyResu
         totalBreakTime,
         totalPlannedStudyTime,
         totalPlannedBreakTime,
-        xp,
-        health.roundToInt(),
+        xpGained,
+        healthChange
     )
+}
+
+fun getXp(actualTime: Int, setTime: Int): Int{
+    println(actualTime)
+    println(setTime)
+    //values in seconds
+    var xp: Int = 0
+    val maxXp = setTime / 10
+
+    if(actualTime < setTime/2) {
+        xp += 0
+    } else if (actualTime < setTime) {
+        val m = maxXp / (setTime/2)
+        xp += m*(actualTime - (setTime/2))
+        //y - y1 = m*(x - x1)
+        //(x1,y1) = (setTime/2, 0) is a point on the line
+
+    } else if (actualTime < setTime + 5*60) {
+        xp += maxXp
+    } else if (actualTime < setTime + 30*60) {
+        val m = -maxXp/2   //maxXp/2 - maxXp
+        xp += m*(actualTime - (setTime + 5*60)) + maxXp
+        //y - y1 = m*(x - x1)
+        //(x1,y1) = (setTime + 5*60, maxXp) is a point on the line
+
+    } else {
+        xp -= maxXp / 2
+    }
+
+    xp = max(xp, 0)//limit to at least 0xp
+    println(xp)
+    return xp
 }

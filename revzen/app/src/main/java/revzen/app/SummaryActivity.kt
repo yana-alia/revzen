@@ -30,6 +30,7 @@ class SummaryActivity : AppCompatActivity() {
     private lateinit var healthImage: ImageView
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
@@ -60,7 +61,12 @@ class SummaryActivity : AppCompatActivity() {
         XP.text = "${studyRes.xp} XP"
         totalStudy.text = timeFormat(studyRes.total_study_time)
         totalBreak.text = timeFormat(studyRes.total_break_time)
-        ratio.text = "${studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()}"
+        if(studyRes.total_break_time == 0){
+            ratio.text = "N/A"
+        } else {
+            val ratioVal = studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
+            ratio.text = "${(ratioVal * 100.0).roundToInt() / 100.0}"
+        }
     }
 
     override fun onBackPressed() {}
@@ -71,9 +77,11 @@ class SummaryActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun successfulStudyLog(pet: PetStatus) {
-        petImage.setImageResource(pet.petType.studyImage)
+        petImage.setImageResource(pet.petType.logoImage)
         healthImage.setImageResource(pet.health.image)
         petXP.text = "${pet.xp} XP"
+        petImage.visibility = View.VISIBLE
+        healthImage.visibility = View.VISIBLE
     }
 
     private fun studyLogFailure(error: ApiError) {
