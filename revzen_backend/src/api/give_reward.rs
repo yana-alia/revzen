@@ -26,7 +26,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=3' -F 'gained_xp=5' -F 'health_change=-1' 'http://127.0.0.1:8000/api/give_reward'
+//! curl -X POST -F 'user_id=301' -F 'version=4' -F 'gained_xp=5' -F 'health_change=-1' 'http://127.0.0.1:8000/api/give_reward'
 //! ```
 
 use crate::{

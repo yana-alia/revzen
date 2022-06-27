@@ -29,7 +29,7 @@
 //!
 //! ## CURL Example:
 //! ```bash
-//! curl -X POST -F 'user_id=301' -F 'version=3' -F 'planned_study_time=3600' -F 'planned_break_time=60' -F 'study_time=3000' -F 'break_time=120' 'http://127.0.0.1:8000/api/log_session'
+//! curl -X POST -F 'user_id=301' -F 'version=4' -F 'planned_study_time=3600' -F 'planned_break_time=60' -F 'study_time=3000' -F 'break_time=120' 'http://127.0.0.1:8000/api/log_session'
 //! ```
 
 use std::time::SystemTime;
