@@ -1,11 +1,15 @@
 <resources>
     // GENERAL //
     <string name="app_name">revzen</string>
+    <string name="login_button_text">Login</string>
 
-    // MAIN ACTIVITY //
-    <string name="login_button">Login</string>
-    <string name="break_notification">Break Notification</string>
-    <string name="break_description">Notifies when your break is ending</string>
+    // LOGIN ACTIVITIES //
+    <string name="revzen_welcome_text">Welcome to revzen</string>
+    <string name="create_account_button_text">Create Account</string>
+    <string name="revzen_welcome_image_desc">Zenny</string>
+
+
+
 
     // MENU ACTIVITY //
     <string name="start_session_button">Start Session</string>
@@ -17,6 +21,9 @@
     <string name="pet_description">Your trusty pal</string>
     <string name="friend_code">Friend Code:</string>
     <string name="change_pet">Change Pet</string>
+
+    <string name="break_notification">Break Notification</string>
+    <string name="break_description">Notifies when your break is ending</string>
 
 
     // PET SELECT ACTIVITY //
@@ -53,11 +60,10 @@
 
     <string name="sample_text">Lorem Ipsum</string>
 
-    <string name="revzen_welcome">Welcome to revzen!</string>
+
     <string name="revzen_menu_social">Live Revision</string>
     <string name="revzen_history_menu">Study History</string>
     <string name="revzen_account_menu">Account Settings</string>
-    <string name="create_account">Create Account</string>
     <string name="subject_id_text">Enter Subject ID</string>
     <string name="login_failure_no_such_user">There is not an account for this user</string>
     <string name="login_failure_outdated_api">App out of date, too old for API</string>
