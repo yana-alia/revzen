@@ -84,7 +84,7 @@
         android:id="@+id/petView"
         android:layout_width="229dp"
         android:layout_height="218dp"
-        android:contentDescription="@string/pet_description"
+        android:contentDescription="@string/pet_image_desc"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/endSessionButton"
         app:layout_constraintEnd_toEndOf="parent"

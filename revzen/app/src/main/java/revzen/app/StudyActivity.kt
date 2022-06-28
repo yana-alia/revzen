@@ -21,7 +21,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     private var inSession = true
     private var validLeave = false
     private var originalTime = 0L
-    
+
     private lateinit var studyTitle: TextView
     private lateinit var warning: TextView
     private lateinit var endButton: Button
@@ -108,7 +108,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         warning.visibility = View.VISIBLE
     }
 
-    private fun goToFail(){
+    private fun goToFail() {
         validLeave = true
         startActivity(Intent(this, FailActivity::class.java).apply {
             putExtra("reason", "studyTimeout")
@@ -150,7 +150,7 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         petImage.visibility = View.VISIBLE
     }
 
-    private fun failGet(error: ApiError) {
+    private fun failGet(_error: ApiError) {
         petImage.visibility = View.INVISIBLE
     }
 }

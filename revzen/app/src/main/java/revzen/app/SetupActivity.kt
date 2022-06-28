@@ -15,7 +15,7 @@ import revzen.app.api.HistoryResponse
 import revzen.app.api.SessionData
 
 class SetupActivity : AppCompatActivity() {
-    //in seconds
+    // Lengths in seconds
     private val studyLengths = listOf(5, 10, 30, 60, 300, 600, 900, 1800, 3600, 5400, 7200)
     private val breakLengths = listOf(5, 10, 30, 60, 300, 600, 900, 1200, 1500, 1800)
 
@@ -28,7 +28,6 @@ class SetupActivity : AppCompatActivity() {
 
     private lateinit var studySpinner: Spinner
     private lateinit var breakSpinner: Spinner
-
     private lateinit var recentView: TextView
     private lateinit var studyButton: Button
     private lateinit var breakButton: Button
@@ -42,14 +41,14 @@ class SetupActivity : AppCompatActivity() {
 
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
 
-        // Get the api handler
+        // Get API handler
         apiHandler = intent.extras?.getParcelable("handler")!!
 
         apiHandler.getHistory(this::successGotHistory, this::historyFailure)
 
         studySpinner = findViewById(R.id.studyLengthSpinner)
         breakSpinner = findViewById(R.id.breakLengthSpinner)
-        recentView = findViewById(R.id.recentView)
+        recentView = findViewById(R.id.recentTitleTextView)
         studyButton = findViewById(R.id.setupStudyButton)
         breakButton = findViewById(R.id.setupBreakButton)
         studySpinner.adapter =
@@ -70,7 +69,6 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun startSession(studyTime: Int, breakTime: Int) {
-
         apiHandler.startLiveRevision({}, { })
 
         startActivity(Intent(this, StudyActivity::class.java).apply {
@@ -84,7 +82,6 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun successGotHistory(history: Array<HistoryResponse>) {
-
         if (history.isNotEmpty()) {
             recentStudy = history[0].planned_study_time
             recentBreak = history[0].planned_break_time

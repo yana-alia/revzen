@@ -14,25 +14,25 @@ import java.lang.NumberFormatException
 class FollowRequestActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
     private lateinit var loading: ProgressBar
-    private lateinit var friendcodeText: EditText
+    private lateinit var friendCodeText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_follow_request)
         apiHandler = intent.extras?.getParcelable("handler")!!
         loading = findViewById(R.id.send_request_loading)
-        friendcodeText = findViewById(R.id.enter_friend_code)
+        friendCodeText = findViewById(R.id.enter_friend_code)
     }
 
     fun sendRequest(_view: View) {
         try {
-            val friendcode = Integer.parseInt(friendcodeText.text.toString())
+            val friendCode = Integer.parseInt(friendCodeText.text.toString())
             loading.visibility = View.VISIBLE
-            apiHandler.getUser(friendcode, this::userConfirmed, this::userFailedConfirmation)
+            apiHandler.getUser(friendCode, this::userConfirmed, this::userFailedConfirmation)
         } catch (e: NumberFormatException) {
             AlertDialog.Builder(this).apply {
                 setTitle("Error")
-                setMessage("Friendcode needs to be a number")
+                setMessage("Friend code needs to be a number")
                 setPositiveButton("Ok") { _, _ -> }
                 create()
                 show()
@@ -75,9 +75,9 @@ class FollowRequestActivity : AppCompatActivity() {
             setTitle("Error")
             setMessage(
                 when (error) {
-                    ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friendcode"
+                    ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friend code"
                     ApiError.WRONG_VERSION -> "Application version incorrect"
-                    else -> "An error occured"
+                    else -> "An error occurred"
                 }
             )
             setPositiveButton("Ok") { _, _ -> }
@@ -103,9 +103,9 @@ class FollowRequestActivity : AppCompatActivity() {
             setTitle("Error")
             setMessage(
                 when (error) {
-                    ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friendcode"
+                    ApiError.FRIENDCODE_NOT_PRESENT -> "No user has that friend code"
                     ApiError.WRONG_VERSION -> "Application version incorrect"
-                    else -> "An error occured"
+                    else -> "An error occurred"
                 }
             )
             setPositiveButton("Ok") { _, _ -> finish() }

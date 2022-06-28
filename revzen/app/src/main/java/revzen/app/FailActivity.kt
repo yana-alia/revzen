@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import revzen.app.api.*
-import kotlin.math.max
 
 class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
@@ -17,7 +16,7 @@ class FailActivity : AppCompatActivity() {
     private lateinit var failLoadingImage: ProgressBar
 
     private lateinit var timeTracker: SessionData
-    private lateinit var studyList : ArrayList<SessionData>
+    private lateinit var studyList: ArrayList<SessionData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
