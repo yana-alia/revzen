@@ -1,10 +1,10 @@
 <resources>
     // GENERAL //
     <string name="app_name">revzen</string>
-    <string name="login_button_text">Login</string>
 
     // LOGIN ACTIVITIES //
     <string name="revzen_welcome_text">Welcome to revzen</string>
+    <string name="login_button_text">Login</string>
     <string name="create_account_button_text">Create Account</string>
     <string name="revzen_welcome_image_desc">Zenny</string>
 
@@ -12,23 +12,29 @@
     <string name="enter_username_text">Enter Username</string>
     <string name="user_exists_text">This user code is already in use</string>
 
-    ////////////////
-
-
     // MENU ACTIVITY //
-    <string name="start_session_button">Start Session</string>
-    <string name="dashboard_title">Dashboard</string>
-
-    <string name="pet_description">Your trusty pal</string>
+    <string name="start_session_button_text">Start Session</string>
+    <string name="revzen_menu_social">Live Revision</string>
+    <string name="menu_follow_screen">Social Feed</string>
+    <string name="revzen_history_menu">Study History</string>
     <string name="friend_code">Friend Code:</string>
     <string name="change_pet">Change Pet</string>
+    <string name="hearts_image_desc">Pet health</string>
+    <string name="pet_image_desc">Your trusty pet</string>
+
+    // PET SELECT ACTIVITY //
+    <string name="ok_button_text">OK</string>
+    <string name="pet_select_title">Choose your pet</string>
+
+
+
 
     <string name="break_notification">Break Notification</string>
     <string name="break_description">Notifies when your break is ending</string>
 
 
-    // PET SELECT ACTIVITY //
-    <string name="pet_select_title">Choose your pet!</string>
+
+
 
     // SETUP ACTIVITY //
     <string name="setup_title">Select your Study Plan</string>
@@ -51,7 +57,6 @@
 
     <string name="fail_title1">Oh no!</string>
     <string name="fail_title2">You broke your study session</string>
-    <string name="summary_button">OK</string>
 
     <string name="summary_title">Summary</string>
     <string name="summary_xp">Gained XP:</string>
@@ -62,9 +67,6 @@
     <string name="sample_text">Lorem Ipsum</string>
 
 
-    <string name="revzen_menu_social">Live Revision</string>
-    <string name="revzen_history_menu">Study History</string>
-    <string name="revzen_account_menu">Account Settings</string>
     <string name="login_failure_no_such_user">There is not an account for this user</string>
     <string name="login_failure_outdated_api">App out of date, too old for API</string>
     <string name="login_failure_unspecified_api_error">Something went wrong</string>
@@ -73,7 +75,7 @@
     <string name="follow_screen_following">following</string>
     <string name="follow_screen_requests">requests</string>
     <string name="follow_screen_requested">requested</string>
-    <string name="menu_follow_screen">Social</string>
+
     <string name="follow_screen_new_friend">Get New Friends!</string>
     <string name="follow_request_screen_instructions">To send a follow request to a new friend, simply type their friendcode!</string>
     <string name="follow_request_screen_button_prompt">Send Request</string>

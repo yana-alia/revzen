@@ -14,18 +14,18 @@ import java.lang.NumberFormatException
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var loading: ProgressBar
-    private lateinit var subjectID: EditText
+    private lateinit var userCode: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        subjectID = findViewById(R.id.userCodeEditText)
+        userCode = findViewById(R.id.userCodeEditText)
         loading = findViewById(R.id.loginProgressBar)
     }
 
     fun attemptLogin(_view: View) {
         try {
-            val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
+            val subjectID = Integer.parseInt(userCode.text.toString()).toLong()
             loading.visibility = View.VISIBLE
             loginUser(subjectID, this::successfulLogin, this::loginFailure)
         } catch (e: NumberFormatException) {
@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginFailure(error: ApiError) {
         loading.visibility = View.INVISIBLE
-        subjectID.text.clear()
+        userCode.text.clear()
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage(

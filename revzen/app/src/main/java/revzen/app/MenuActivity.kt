@@ -14,7 +14,7 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
 
     private lateinit var usernameText: TextView
-    private lateinit var friendcodeText: TextView
+    private lateinit var friendCodeText: TextView
     private lateinit var petXP: TextView
 
     private lateinit var petImage: ImageView
@@ -26,14 +26,14 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
         // Assume it has been passed to the intent
         apiHandler = intent.extras?.getParcelable("handler")!!
-        usernameText = findViewById(R.id.menu_username)
-        friendcodeText = findViewById(R.id.menu_friendcode)
+        usernameText = findViewById(R.id.usernameTextView)
+        friendCodeText = findViewById(R.id.userFriendCodeTextView)
         usernameText.text = apiHandler.username
-        friendcodeText.text = apiHandler.friendCode.toString()
+        friendCodeText.text = apiHandler.friendCode.toString()
 
-        petImage = findViewById(R.id.mainMenuPetImage)
-        petHealthImage = findViewById(R.id.mainMenuPetHealth)
-        petXP = findViewById(R.id.mainMenuPetXP)
+        petImage = findViewById(R.id.menuPetImageView)
+        petHealthImage = findViewById(R.id.menuHealthImageVIew)
+        petXP = findViewById(R.id.menuXPTextView)
     }
 
     override fun onStart() {
@@ -70,7 +70,8 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun goToFollowScreen(_view: View) {
-        startActivity(Intent(this, FollowActivity::class.java).apply {putExtra(
+        startActivity(Intent(this, FollowActivity::class.java).apply {
+            putExtra(
                 "handler",
                 apiHandler
             )

@@ -11,20 +11,20 @@ import revzen.app.api.createUser
 
 class CreateAccountActivity : AppCompatActivity() {
     private lateinit var loading: ProgressBar
-    private lateinit var subjectID: EditText
+    private lateinit var userCode: EditText
     private lateinit var username: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
-        subjectID = findViewById(R.id.createUserCodeEditText)
+        userCode = findViewById(R.id.createUserCodeEditText)
         username = findViewById(R.id.createUsernameEditText)
         loading = findViewById(R.id.createAccountProgressBar)
     }
 
     fun attemptAccountCreation(_view: View) {
         loading.visibility = View.VISIBLE
-        val subjectID = Integer.parseInt(subjectID.text.toString()).toLong()
+        val subjectID = Integer.parseInt(userCode.text.toString()).toLong()
         val username = username.text.toString()
         createUser(
             subjectID,
@@ -47,7 +47,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
     private fun failedAccountCreate(error: ApiError) {
         loading.visibility = View.INVISIBLE
-        subjectID.text.clear()
+        userCode.text.clear()
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage(
