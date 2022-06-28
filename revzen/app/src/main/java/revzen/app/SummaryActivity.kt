@@ -49,7 +49,7 @@ class SummaryActivity : AppCompatActivity() {
         apiHandler.stopLiveRevision({}, { })
 
         val random = Random()
-        if (random.nextInt(GIVE_PET_CHANCE) == 1) {
+        if (random.nextInt(GIVE_PET_CHANCE) == 1 && studyRes.healthChange >= 0) {
             apiHandler.givePet(
                 Pet.values()[random.nextInt(Pet.values().size - 1) + 1],
                 this::successfulGivePet,
