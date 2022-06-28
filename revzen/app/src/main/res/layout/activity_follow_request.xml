@@ -31,8 +31,8 @@
 
     <Button
         android:id="@+id/send_follow_request_button"
-        android:layout_width="157dp"
-        android:layout_height="48dp"
+        android:layout_width="216dp"
+        android:layout_height="57dp"
         android:onClick="sendRequest"
         android:text="@string/follow_request_screen_button_prompt"
         app:layout_constraintBottom_toBottomOf="parent"
