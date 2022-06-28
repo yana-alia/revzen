@@ -17,9 +17,9 @@ class CreateAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
-        subjectID = findViewById(R.id.create_subject_id)
-        username = findViewById(R.id.create_username)
-        loading = findViewById(R.id.create_account_loading)
+        subjectID = findViewById(R.id.createUserCodeEditText)
+        username = findViewById(R.id.createUsernameEditText)
+        loading = findViewById(R.id.createAccountProgressBar)
     }
 
     fun attemptAccountCreation(_view: View) {
@@ -52,7 +52,7 @@ class CreateAccountActivity : AppCompatActivity() {
             setTitle("Error")
             setMessage(
                 when (error) {
-                    ApiError.USER_ALREADY_EXISTS -> R.string.create_account_user_exists
+                    ApiError.USER_ALREADY_EXISTS -> R.string.user_exists_text
                     ApiError.WRONG_VERSION -> R.string.login_failure_outdated_api
                     else -> R.string.login_failure_unspecified_api_error
                 }

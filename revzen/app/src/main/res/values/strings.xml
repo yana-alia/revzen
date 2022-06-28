@@ -8,16 +8,17 @@
     <string name="create_account_button_text">Create Account</string>
     <string name="revzen_welcome_image_desc">Zenny</string>
 
+    <string name="enter_user_code_text">Enter User Code</string>
+    <string name="enter_username_text">Enter Username</string>
+    <string name="user_exists_text">This user code is already in use</string>
 
+    ////////////////
 
 
     // MENU ACTIVITY //
     <string name="start_session_button">Start Session</string>
     <string name="dashboard_title">Dashboard</string>
 
-    <string name="calendar_description">Calendar</string>
-    <string name="friends_description">Friends</string>
-    <string name="trophy_description">Trophies</string>
     <string name="pet_description">Your trusty pal</string>
     <string name="friend_code">Friend Code:</string>
     <string name="change_pet">Change Pet</string>
@@ -64,14 +65,10 @@
     <string name="revzen_menu_social">Live Revision</string>
     <string name="revzen_history_menu">Study History</string>
     <string name="revzen_account_menu">Account Settings</string>
-    <string name="subject_id_text">Enter Subject ID</string>
     <string name="login_failure_no_such_user">There is not an account for this user</string>
     <string name="login_failure_outdated_api">App out of date, too old for API</string>
     <string name="login_failure_unspecified_api_error">Something went wrong</string>
-    <string name="create_account_enter_subject">Enter Subject ID</string>
-    <string name="create_account_enter_username">Enter username</string>
-    <string name="create_account_user_exists">You appear to have previously created an account (same subject id)</string>
-    <string name="create_account_button">Create Account</string>
+
     <string name="follow_screen_followers">followers</string>
     <string name="follow_screen_following">following</string>
     <string name="follow_screen_requests">requests</string>

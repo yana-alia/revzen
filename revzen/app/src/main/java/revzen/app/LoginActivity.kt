@@ -19,8 +19,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        subjectID = findViewById(R.id.subject_id)
-        loading = findViewById(R.id.login_loading)
+        subjectID = findViewById(R.id.userCodeEditText)
+        loading = findViewById(R.id.loginProgressBar)
     }
 
     fun attemptLogin(_view: View) {
