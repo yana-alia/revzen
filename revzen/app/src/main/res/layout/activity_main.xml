@@ -7,48 +7,49 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/revzen_welcome"
+        android:text="@string/revzen_welcome_text"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
+        app:layout_constraintBottom_toTopOf="@+id/attemptCreateAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeImageView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/attemptLoginButton"
         android:layout_width="125dp"
         android:layout_height="85dp"
         android:layout_marginBottom="32dp"
         android:onClick="goToLogin"
-        android:text="@string/login_button"
+        android:text="@string/login_button_text"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button8"
+        app:layout_constraintEnd_toStartOf="@+id/attemptCreateAccountButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/attemptCreateAccountButton"
         android:layout_width="125dp"
         android:layout_height="85dp"
         android:layout_marginBottom="32dp"
         android:onClick="goToCreateAccount"
-        android:text="@string/create_account"
+        android:text="@string/create_account_button_text"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/attemptLoginButton" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/welcomeImageView"
         android:layout_width="267dp"
         android:layout_height="255dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        android:contentDescription="@string/revzen_welcome_image_desc"
+        app:layout_constraintBottom_toTopOf="@+id/welcomeTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -13,8 +13,8 @@ import revzen.app.api.*
 class PetSelectActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
 
-    private lateinit var loading : ProgressBar
-    
+    private lateinit var loading: ProgressBar
+
     private lateinit var shibaImage: ImageView
     private lateinit var huskyImage: ImageView
     private lateinit var calicoImage: ImageView
@@ -33,32 +33,38 @@ class PetSelectActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pet_select)
 
         apiHandler = intent.extras?.getParcelable("handler")!!
-        
-        loading = findViewById(R.id.pet_loading)
-        
-        shibaImage = findViewById(R.id.shibaImage)
-        huskyImage = findViewById(R.id.huskyImage)
-        calicoImage = findViewById(R.id.calicoImage)
 
-        shibaHealthImage = findViewById(R.id.shibaHealth)
-        huskyHealthImage = findViewById(R.id.huskyHealth)
-        calicoHealthImage = findViewById(R.id.calicoHealth)
+        loading = findViewById(R.id.petSelectProgressBar)
+
+        shibaImage = findViewById(R.id.shibaImageView)
+        huskyImage = findViewById(R.id.huskyImageView)
+        calicoImage = findViewById(R.id.calicoImageView)
+
+        shibaHealthImage = findViewById(R.id.shibaHealthImageView)
+        huskyHealthImage = findViewById(R.id.huskyHealthImageView)
+        calicoHealthImage = findViewById(R.id.calicoHealthImageView)
 
         shibaImage.setBackgroundColor(R.color.light_grey)
         huskyImage.setBackgroundColor(R.color.light_grey)
         calicoImage.setBackgroundColor(R.color.light_grey)
 
-        shibaXPText = findViewById(R.id.shibaXP)
-        huskyXPText = findViewById(R.id.huskyXP)
-        calicoXPText = findViewById(R.id.calicoXP)
-        
+        shibaXPText = findViewById(R.id.shibaXPTextView)
+        huskyXPText = findViewById(R.id.huskyXPTextView)
+        calicoXPText = findViewById(R.id.calicoXPTextView)
+
         loading.visibility = View.VISIBLE
 
         apiHandler.getPetInfo(this::successInfo, this::failInfo)
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setPetDisplay(image: ImageView, healthImage: ImageView, xpText: TextView, pet: Pet, info: PetsResponse) {
+    private fun setPetDisplay(
+        image: ImageView,
+        healthImage: ImageView,
+        xpText: TextView,
+        pet: Pet,
+        info: PetsResponse
+    ) {
         if (!info.allPets.containsKey(pet)) {
             image.setImageResource(pet.greyImage)
             image.setOnClickListener {}
@@ -97,7 +103,7 @@ class PetSelectActivity : AppCompatActivity() {
         }
     }
 
-    private fun failInfo(error: ApiError) {
+    private fun failInfo(_error: ApiError) {
         loading.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Error")
@@ -133,10 +139,10 @@ class PetSelectActivity : AppCompatActivity() {
     }
 
     private fun selectPet(pet: Pet) {
-        apiHandler.changePet(pet, {}, this::errorOccured)
+        apiHandler.changePet(pet, {}, this::errorOccurred)
     }
 
-    private fun errorOccured(error: ApiError) {
+    private fun errorOccurred(_error: ApiError) {
         AlertDialog.Builder(this).apply {
             setTitle("Error")
             setMessage("Could not retrieve pet data from database")
@@ -146,7 +152,7 @@ class PetSelectActivity : AppCompatActivity() {
         }
     }
 
-    fun confirmChoice(_view: View){
+    fun confirmChoice(_view: View) {
         finish()
     }
 }
