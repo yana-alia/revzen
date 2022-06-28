@@ -14,7 +14,7 @@ class SingleButtonRowAdapter(
     private val context: Context,
     private val dataSource: List<UserDetails>,
     private val buttonFun: (UserDetails) -> Any,
-    private val buttontext: String
+    private val buttonText: String
 ) : BaseAdapter() {
     override fun getCount(): Int {
         return dataSource.size
@@ -30,7 +30,8 @@ class SingleButtonRowAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view =
-            convertView ?: LayoutInflater.from(context).inflate(R.layout.single_button_row, parent, false)
+            convertView ?: LayoutInflater.from(context)
+                .inflate(R.layout.single_button_row, parent, false)
 
         val user = getItem(position) as UserDetails
 
@@ -38,12 +39,13 @@ class SingleButtonRowAdapter(
         val description: TextView = view.findViewById(R.id.row_description)
         val icon: ImageView = view.findViewById(R.id.row_icon)
         val button: Button = view.findViewById(R.id.row_button)
+        val descText = "friend code: " + user.friendcode
 
         icon.setImageResource(user.main_pet.logoImage)
         title.text = user.username
-        description.text = "friendcode: " + user.friendcode
-        button.text = buttontext
-        button.setOnClickListener {buttonFun(user)}
+        description.text = descText
+        button.text = buttonText
+        button.setOnClickListener { buttonFun(user) }
 
         return view
     }

@@ -13,6 +13,7 @@ class FollowingFragment : Fragment() {
     private val viewModel: SocialViewModel by activityViewModels()
     private lateinit var followingList: ListView
     private lateinit var adapter: SingleButtonRowAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

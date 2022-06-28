@@ -17,29 +17,29 @@ fun timeFormat(time: Int): String {
     val hours = time / 3600
     val mins = (time % 3600) / 60
     val secs = (time % 3600) % 60
+    var out = ""
 
-    var out: String = ""
-    if(hours != 0) {
+    if (hours != 0) {
         out += "$hours hour"
-        out += if(hours == 1){
+        out += if (hours == 1) {
             " "
-        }else{
+        } else {
             "s "
         }
     }
-    if(mins != 0) {
+    if (mins != 0) {
         out += "$mins minute"
-        out += if(mins == 1){
+        out += if (mins == 1) {
             " "
-        }else{
+        } else {
             "s "
         }
     }
-    if(secs != 0) {
+    if (secs != 0) {
         out += "$secs second"
-        out += if(secs == 1){
+        out += if (secs == 1) {
             " "
-        }else{
+        } else {
             "s "
         }
     }
@@ -48,7 +48,7 @@ fun timeFormat(time: Int): String {
 }
 
 
-fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.Reward {
+fun calculateResult(session_data: ArrayList<SessionData>): ApiHandler.Reward {
     var totalStudyTime = 0
     var totalBreakTime = 0
     var totalPlannedStudyTime = 0
@@ -79,23 +79,23 @@ fun calculateResult(session_data: ArrayList<SessionData>) : ApiHandler.Reward {
 }
 
 fun getXp(actualTime: Int, setTime: Int): Int {
-    //values in seconds
-    var xp: Int = 0
+    // Values are in Seconds
+    var xp = 0
     val maxXp = setTime / 10
 
-    if(actualTime < setTime/2) {
+    if (actualTime < setTime / 2) {
         xp += 0
     } else if (actualTime < setTime) {
-        val m = maxXp / (setTime/2)
-        xp += m*(actualTime - (setTime/2))
+        val m = maxXp / (setTime / 2)
+        xp += m * (actualTime - (setTime / 2))
         //y - y1 = m*(x - x1)
         //(x1,y1) = (setTime/2, 0) is a point on the line
 
-    } else if (actualTime < setTime + 5*60) {
+    } else if (actualTime < setTime + 5 * 60) {
         xp += maxXp
-    } else if (actualTime < setTime + 30*60) {
-        val m = -maxXp/2   //maxXp/2 - maxXp
-        xp += m*(actualTime - (setTime + 5*60)) + maxXp
+    } else if (actualTime < setTime + 30 * 60) {
+        val m = -maxXp / 2   //maxXp/2 - maxXp
+        xp += m * (actualTime - (setTime + 5 * 60)) + maxXp
         //y - y1 = m*(x - x1)
         //(x1,y1) = (setTime + 5*60, maxXp) is a point on the line
 

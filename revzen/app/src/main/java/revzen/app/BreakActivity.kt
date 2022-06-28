@@ -89,7 +89,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
     }
 
-    fun logSessionSuccess() {
+    private fun logSessionSuccess() {
         loading.visibility = View.INVISIBLE
         startActivity(Intent(this, SetupActivity::class.java).apply {
             putExtra("handler", apiHandler)
@@ -99,7 +99,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         finish()
     }
 
-    fun failureLogSession(error: ApiError) {
+    private fun failureLogSession(error: ApiError) {
         loading.visibility = View.INVISIBLE
         AlertDialog.Builder(this).apply {
             setTitle("Error")
@@ -140,7 +140,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
     }
 
     //todo improve
-    private fun failGet(error: ApiError) {
+    private fun failGet(_error: ApiError) {
         apiHandler.stopLiveRevision({}, { })
         finish()
     }

@@ -14,10 +14,10 @@ import kotlin.math.roundToInt
 
 class SummaryActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
-    private lateinit var studyList : ArrayList<SessionData>
+    private lateinit var studyList: ArrayList<SessionData>
     private lateinit var studyRes: ApiHandler.Reward
 
-    private lateinit var XP: TextView
+    private lateinit var xp: TextView
     private lateinit var totalStudy: TextView
     private lateinit var totalBreak: TextView
     private lateinit var ratio: TextView
@@ -35,7 +35,7 @@ class SummaryActivity : AppCompatActivity() {
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
 
-        XP = findViewById(R.id.summaryXP)
+        xp = findViewById(R.id.summaryXP)
         totalStudy = findViewById(R.id.summaryTotalStudy)
         totalBreak = findViewById(R.id.summaryTotalBreak)
         ratio = findViewById(R.id.summaryRatio)
@@ -46,22 +46,27 @@ class SummaryActivity : AppCompatActivity() {
 
         studyRes = calculateResult(studyList)
 
-        apiHandler.stopLiveRevision({},{_ -> })
+        apiHandler.stopLiveRevision({}, { })
 
         val random = Random()
         if (random.nextInt(GIVE_PET_CHANCE) == 1) {
-            apiHandler.givePet(Pet.values()[random.nextInt(Pet.values().size - 1) + 1], this::successfulGivePet, this::givePetFailure)
+            apiHandler.givePet(
+                Pet.values()[random.nextInt(Pet.values().size - 1) + 1],
+                this::successfulGivePet,
+                this::givePetFailure
+            )
         } else {
             apiHandler.giveReward(studyRes, this::successfulReward, this::rewardFailure)
         }
 
-        XP.text = "${studyRes.xpGained} XP"
+        xp.text = "${studyRes.xpGained} XP"
         totalStudy.text = timeFormat(studyRes.total_study_time)
         totalBreak.text = timeFormat(studyRes.total_break_time)
-        if(studyRes.total_break_time == 0){
+        if (studyRes.total_break_time == 0) {
             ratio.text = "N/A"
         } else {
-            val ratioVal = studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
+            val ratioVal =
+                studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
             ratio.text = "${(ratioVal * 100.0).roundToInt() / 100.0}"
         }
     }
@@ -83,7 +88,7 @@ class SummaryActivity : AppCompatActivity() {
                     when (reward.petChange) {
                         PetChange.OnlyRock -> "Your pet has died, and you are now only left with the rock"
                         PetChange.SwitchedPet -> "Your pet has died, so you have now switched pet to ${reward.pet.petName}"
-                        else -> "No pet change has occured"
+                        else -> "No pet change has occurred"
                     }
                 )
                 setPositiveButton("Ok") { _, _ -> }
@@ -93,7 +98,7 @@ class SummaryActivity : AppCompatActivity() {
         }
 
         petImage.setImageResource(reward.pet.logoImage)
-        if(reward.pet != Pet.ROCK) {
+        if (reward.pet != Pet.ROCK) {
             healthImage.setImageResource(reward.health.image)
             healthImage.visibility = View.VISIBLE
             petXP.text = "${reward.XP} XP"

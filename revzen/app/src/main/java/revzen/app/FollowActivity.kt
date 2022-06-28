@@ -35,7 +35,7 @@ class FollowActivity : AppCompatActivity() {
     }
 
     private fun updateFollowData() {
-        apiHandler.getFollows({ viewModel.updatedata(it) }, this::getFollowersFailure)
+        apiHandler.getFollows({ viewModel.updateData(it) }, this::getFollowersFailure)
     }
 
     private fun getFollowersFailure(error: ApiError) {
@@ -89,8 +89,12 @@ class FollowActivity : AppCompatActivity() {
         handler.post(updateTask)
     }
 
-    private fun manageFollow(friendcode: Int, requestType: ApiHandler.SocialAction, successMessage: String) {
-        apiHandler.manageFollower(friendcode, requestType, {
+    private fun manageFollow(
+        friendCode: Int,
+        requestType: ApiHandler.SocialAction,
+        successMessage: String
+    ) {
+        apiHandler.manageFollower(friendCode, requestType, {
             AlertDialog.Builder(this).apply {
                 setTitle("Success")
                 setMessage(successMessage)
@@ -98,10 +102,10 @@ class FollowActivity : AppCompatActivity() {
                 create()
                 show()
             }
-        },  {
+        }, {
             AlertDialog.Builder(this).apply {
                 setTitle("Error")
-                setMessage("An error occured")
+                setMessage("An error occurred")
                 setPositiveButton("Ok") { _, _ -> }
                 create()
                 show()
@@ -113,6 +117,7 @@ class FollowActivity : AppCompatActivity() {
         println("reject here")
         manageFollow(user.friendcode, ApiHandler.SocialAction.REJECT, "Rejected ${user.username}")
     }
+
     fun acceptUser(user: UserDetails) {
         println("accept here")
         manageFollow(user.friendcode, ApiHandler.SocialAction.ACCEPT, "Accepted ${user.username}")
@@ -120,8 +125,13 @@ class FollowActivity : AppCompatActivity() {
 
     fun unfollowUser(user: UserDetails) {
         println("unfollow here")
-        manageFollow(user.friendcode, ApiHandler.SocialAction.UNFOLLOW, "Unfollowed ${user.username}")
+        manageFollow(
+            user.friendcode,
+            ApiHandler.SocialAction.UNFOLLOW,
+            "Unfollowed ${user.username}"
+        )
     }
+
     fun followRequest(_view: View) {
         startActivity(Intent(this, FollowRequestActivity::class.java).apply {
             putExtra(

@@ -26,15 +26,9 @@
     <string name="ok_button_text">OK</string>
     <string name="pet_select_title">Choose your pet</string>
 
-
-
-
+    // NOTIFICATIONS //
     <string name="break_notification">Break Notification</string>
     <string name="break_description">Notifies when your break is ending</string>
-
-
-
-
 
     // SETUP ACTIVITY //
     <string name="setup_title">Select your Study Plan</string>
@@ -42,8 +36,8 @@
     <string name="break_length_title">Break Length</string>
     <string name="recent_title">Recent</string>
     <string name="start_study_button">Go</string>
-    <string name="studySpinner_contentDesc">Study Length options</string>
-    <string name="breakSpinner_contentDesc">Break Length options</string>
+    <string name="study_spinner_desc">Study Length options</string>
+    <string name="break_spinner_desc">Break Length options</string>
 
     <string name="session_title">Keep Studying!</string>
     <string name="end_session_button">End Session</string>

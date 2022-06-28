@@ -7,7 +7,7 @@
     tools:context=".SetupActivity">
 
     <TextView
-        android:id="@+id/breakLengthView"
+        android:id="@+id/breakLengthTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -16,10 +16,10 @@
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studyLengthView" />
+        app:layout_constraintTop_toBottomOf="@+id/studyLengthTitleTextView" />
 
     <TextView
-        android:id="@+id/recentView"
+        android:id="@+id/recentTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="152dp"
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/setupTitleView"
+        android:id="@+id/setupTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="134dp"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/studyLengthView"
+        android:id="@+id/studyLengthTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -63,7 +63,7 @@
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setupTitleView" />
+        app:layout_constraintTop_toBottomOf="@+id/setupTitleTextView" />
 
     <Button
         android:id="@+id/startStudyButton"
@@ -83,11 +83,11 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="64dp"
-        android:contentDescription="@string/studySpinner_contentDesc"
+        android:contentDescription="@string/study_spinner_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studyLengthView" />
+        app:layout_constraintTop_toBottomOf="@+id/studyLengthTitleTextView" />
 
     <Spinner
         android:id="@+id/breakLengthSpinner"
@@ -96,11 +96,11 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="64dp"
-        android:contentDescription="@string/breakSpinner_contentDesc"
+        android:contentDescription="@string/break_spinner_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/breakLengthView" />
+        app:layout_constraintTop_toBottomOf="@+id/breakLengthTitleTextView" />
 
     <Button
         android:id="@+id/setupStudyButton"

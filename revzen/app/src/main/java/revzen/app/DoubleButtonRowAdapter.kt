@@ -45,8 +45,8 @@ class DoubleButtonRowAdapter(
 
         icon.setImageResource(user.main_pet.logoImage)
         title.text = user.username
-        val friendcodeText = "friendcode: " + user.friendcode
-        description.text = friendcodeText
+        val friendCodeText = "friend code: " + user.friendcode
+        description.text = friendCodeText
         buttonOne.text = buttonOneText
         buttonTwo.text = buttonTwoText
         buttonOne.setOnClickListener { buttonOneFun(user) }
