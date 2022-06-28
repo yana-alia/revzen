@@ -44,6 +44,17 @@ class SummaryActivity : AppCompatActivity() {
         petImage = findViewById(R.id.summaryPetImage)
         healthImage = findViewById(R.id.summaryPetHealth)
 
+        xp.text = "${studyRes.xpGained} XP"
+        totalStudy.text = timeFormat(studyRes.total_study_time)
+        totalBreak.text = timeFormat(studyRes.total_break_time)
+        if (studyRes.total_break_time == 0) {
+            ratio.text = "N/A"
+        } else {
+            val ratioVal =
+                studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
+            ratio.text = "${(ratioVal * 100.0).roundToInt() / 100.0}"
+        }
+
         studyRes = calculateResult(studyList)
 
         apiHandler.stopLiveRevision({}, { })
@@ -57,17 +68,6 @@ class SummaryActivity : AppCompatActivity() {
             )
         } else {
             apiHandler.giveReward(studyRes, this::successfulReward, this::rewardFailure)
-        }
-
-        xp.text = "${studyRes.xpGained} XP"
-        totalStudy.text = timeFormat(studyRes.total_study_time)
-        totalBreak.text = timeFormat(studyRes.total_break_time)
-        if (studyRes.total_break_time == 0) {
-            ratio.text = "N/A"
-        } else {
-            val ratioVal =
-                studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
-            ratio.text = "${(ratioVal * 100.0).roundToInt() / 100.0}"
         }
     }
 

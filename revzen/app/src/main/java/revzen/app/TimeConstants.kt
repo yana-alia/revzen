@@ -7,11 +7,11 @@ import kotlin.math.max
 const val MINS_TO_MILLIS = 60000
 const val SECS_TO_MILLIS = 1000
 
-const val STUDY_WARNING_THRESHOLD = -20 * MINS_TO_MILLIS
-const val STUDY_FAIL_THRESHOLD = -30 * MINS_TO_MILLIS
-const val BREAK_FAIL_THRESHOLD = -5 * MINS_TO_MILLIS
+const val STUDY_WARNING_THRESHOLD = -0.5 * MINS_TO_MILLIS //demo, normally -20
+const val STUDY_FAIL_THRESHOLD = -1 * MINS_TO_MILLIS //demo, normally -30
+const val BREAK_FAIL_THRESHOLD = -0.5 * MINS_TO_MILLIS //demo, normally -5
 
-const val GIVE_PET_CHANCE = 2
+const val GIVE_PET_CHANCE = 2 //demo, normally 30
 
 fun timeFormat(time: Int): String {
     val hours = time / 3600
