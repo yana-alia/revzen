@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 import com.google.gson.Gson
 import okhttp3.*
 import okio.IOException
+import kotlin.reflect.KFunction1
 
 @Parcelize
 class ApiHandler(
@@ -215,7 +216,7 @@ class ApiHandler(
             })
     }
 
-    fun givePet(new_pet: Pet, on_success: (Pet) -> Any, on_failure: (ApiError) -> Any) {
+    fun givePet(new_pet: Pet, on_success: (GiveResult) -> Any, on_failure: (ApiError) -> Any) {
         val handler = Handler(Looper.getMainLooper())
         buildRequest("give_pet", listOf(Pair("pet_type", new_pet.ordinal)), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -224,7 +225,10 @@ class ApiHandler(
 
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
-                    200 -> handler.post { on_success(new_pet) }
+                    200 -> {
+                        val giveResponse = Gson().fromJson(response.body.string(), GiveResult::class.java)
+                        handler.post { on_success(giveResponse) }
+                    }
                     404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
                     422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
                     else -> handler.post { on_failure(ApiError.API_FAILURE) }
@@ -233,30 +237,47 @@ class ApiHandler(
         })
     }
 
-    data class StudyResult (
+    data class Reward (
+        val xpGained: Int,
+        val healthChange: Int,
         val total_study_time: Int,
-        val total_break_time: Int,
-        val total_planned_study_time: Int,
-        val total_planned_break_time: Int,
-        val xp: Int,
-        val health_change: Int,
+        val total_break_time: Int
     )
 
+    fun giveReward(reward: Reward, on_success: (RewardResponse) -> Any, on_failure: (ApiError) -> Any) {
+        val handler = Handler(Looper.getMainLooper())
+        buildRequest("give_reward", listOf(Pair("gained_xp", reward.xpGained), Pair("health_change", reward.healthChange)), object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post { on_failure(ApiError.API_FAILURE) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                when (response.code) {
+                    200 -> {
+                        val reward = Gson().fromJson(response.body.string(), RewardResponse::class.java)
+                        handler.post {on_success(reward)}
+                    }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                }
+            }
+        })
+    }
+
     fun logSession(
-        study : StudyResult,
-        on_success: (PetStatus) -> Any,
+        study : SessionData,
+        on_success: () -> Any,
         on_failure: (ApiError) -> Any
     ) {
         val handler = Handler(Looper.getMainLooper())
         buildRequest(
             "log_session",
             listOf(
-                Pair("planned_study_time", study.total_planned_study_time),
-                Pair("planned_break_time", study.total_planned_break_time),
-                Pair("study_time", study.total_study_time),
-                Pair("break_time", study.total_break_time),
-                Pair("gained_xp", study.xp),
-                Pair("health_change", study.health_change)
+                Pair("planned_study_time", study.planned_study_time),
+                Pair("planned_break_time", study.planned_break_time),
+                Pair("study_time", study.study_time),
+                Pair("break_time", study.break_time),
             ),
             object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -265,10 +286,7 @@ class ApiHandler(
 
                 override fun onResponse(call: Call, response: Response) {
                     when (response.code) {
-                        200 -> {
-                            val petStatus = Gson().fromJson(response.body.string(), PetStatus::class.java)
-                            handler.post { on_success(petStatus) }
-                        }
+                        200 -> handler.post { on_success() }
                         404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
                         422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
                         else -> handler.post { on_failure(ApiError.API_FAILURE) }
