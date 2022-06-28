@@ -44,6 +44,9 @@ fun timeFormat(time: Int): String {
         }
     }
 
+    if (out == "") {
+        return "0 seconds"
+    }
     return out
 }
 

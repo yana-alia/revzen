@@ -44,6 +44,8 @@ class SummaryActivity : AppCompatActivity() {
         petImage = findViewById(R.id.summaryPetImage)
         healthImage = findViewById(R.id.summaryPetHealth)
 
+        studyRes = calculateResult(studyList)
+
         xp.text = "${studyRes.xpGained} XP"
         totalStudy.text = timeFormat(studyRes.total_study_time)
         totalBreak.text = timeFormat(studyRes.total_break_time)
@@ -54,8 +56,6 @@ class SummaryActivity : AppCompatActivity() {
                 studyRes.total_study_time.toDouble() / studyRes.total_break_time.toDouble()
             ratio.text = "${(ratioVal * 100.0).roundToInt() / 100.0}"
         }
-
-        studyRes = calculateResult(studyList)
 
         apiHandler.stopLiveRevision({}, { })
 
