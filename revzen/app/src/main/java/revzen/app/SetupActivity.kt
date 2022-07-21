@@ -16,8 +16,8 @@ import revzen.app.api.SessionData
 
 class SetupActivity : AppCompatActivity() {
     // Lengths in seconds
-    private val studyLengths = listOf(5, 10, 30, 60, 300, 600, 900, 1800, 3600, 5400, 7200)
-    private val breakLengths = listOf(5, 10, 30, 60, 300, 600, 900, 1200, 1500, 1800)
+    private val studyLengths = listOf(300, 600, 900, 1800, 3600, 5400, 7200)
+    private val breakLengths = listOf(60, 300, 600, 900, 1200, 1500, 1800)
 
     private var studyList = ArrayList<SessionData>()
 
