@@ -29,8 +29,7 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var studySpinner: Spinner
     private lateinit var breakSpinner: Spinner
     private lateinit var recentView: TextView
-    private lateinit var studyButton: Button
-    private lateinit var breakButton: Button
+    private lateinit var recentButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +42,12 @@ class SetupActivity : AppCompatActivity() {
 
         // Get API handler
         apiHandler = intent.extras?.getParcelable("handler")!!
-
         apiHandler.getHistory(this::successGotHistory, this::historyFailure)
 
         studySpinner = findViewById(R.id.studyLengthSpinner)
         breakSpinner = findViewById(R.id.breakLengthSpinner)
         recentView = findViewById(R.id.recentTitleTextView)
-        studyButton = findViewById(R.id.setupStudyButton)
-        breakButton = findViewById(R.id.setupBreakButton)
+        recentButton = findViewById(R.id.recentStudyButton)
         studySpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_item, studyStrings)
         breakSpinner.adapter =
@@ -86,13 +83,10 @@ class SetupActivity : AppCompatActivity() {
             recentStudy = history[0].planned_study_time
             recentBreak = history[0].planned_break_time
 
-            val studyText = "Study: ${timeFormat(recentStudy)}"
-            val breakText = "Break: ${timeFormat(recentBreak)}"
-            studyButton.text = studyText
-            breakButton.text = breakText
+            val recentText = "Study: ${timeFormat(recentStudy)}\nBreak: ${timeFormat(recentBreak)}"
+            recentButton.text = recentText
 
-            studyButton.visibility = View.VISIBLE
-            breakButton.visibility = View.VISIBLE
+            recentButton.visibility = View.VISIBLE
             recentView.visibility = View.VISIBLE
         }
     }
