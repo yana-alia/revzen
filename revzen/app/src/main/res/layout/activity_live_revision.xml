@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".LiveRevisionActivity">
 
+    <TextView
+        android:id="@+id/noFriendsRevisingTextView"
+        android:layout_width="191dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="341dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginBottom="345dp"
+        android:text="@string/no_friends_revising_text"
+        app:layout_constraintBottom_toBottomOf="@+id/liveRevisersListView"
+        app:layout_constraintEnd_toEndOf="@+id/liveRevisersListView"
+        app:layout_constraintStart_toStartOf="@+id/liveRevisersListView"
+        app:layout_constraintTop_toTopOf="@+id/liveRevisersListView" />
+
     <ListView
         android:id="@+id/liveRevisersListView"
         android:layout_width="389dp"
@@ -13,5 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>
