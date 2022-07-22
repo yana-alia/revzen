@@ -78,4 +78,6 @@
     <string name="follow_request_screen_button_prompt">Send Request</string>
     <string name="follow_request_screen_number_pad">Friendcode here:</string>
     <string name="icon_image_desc">User Icon</string>
+
+    <string name="no_friends_revising_text">No friends currently revising</string>
 </resources>
