@@ -44,7 +44,7 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
 
         timer = findViewById(R.id.breakTimer)
         breakWarning = findViewById(R.id.breakWarning)
-        petImage = findViewById(R.id.petView)
+        petImage = findViewById(R.id.studyPetImageView)
 
         loading = findViewById(R.id.logSessionLoading)
 
@@ -61,10 +61,8 @@ class BreakActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         timeTracker.break_time += getElapsedTime()
     }
 
-    override fun onBackPressed() {
-        //disable back button by preventing call to super.onBackPressed()
-        return
-    }
+    //disable back button by preventing call to super.onBackPressed()
+    override fun onBackPressed() {}
 
     fun keepStudying(_view: View) {
         timer.stop()

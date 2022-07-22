@@ -22,7 +22,7 @@ class FollowerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        followerList = view.findViewById(R.id.follower_list)
+        followerList = view.findViewById(R.id.followerList)
         viewModel.socialData.observe(viewLifecycleOwner) { set ->
             adapter = SingleButtonRowAdapter(
                 requireContext(),

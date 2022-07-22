@@ -7,30 +7,32 @@
     tools:context=".FollowRequestActivity">
 
     <EditText
-        android:id="@+id/enter_friend_code"
+        android:id="@+id/enterFriendCodeEditText"
         android:layout_width="294dp"
         android:layout_height="50dp"
+        android:autofillHints="@string/follow_request_screen_instructions"
         android:ems="10"
         android:hint="@string/follow_request_screen_number_pad"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/send_follow_request_button"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@+id/followRequestButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/follow_request_instructions" />
+        app:layout_constraintTop_toBottomOf="@+id/followRequestTextView" />
 
     <TextView
-        android:id="@+id/follow_request_instructions"
+        android:id="@+id/followRequestTextView"
         android:layout_width="291dp"
         android:layout_height="47dp"
         android:text="@string/follow_request_screen_instructions"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/enter_friend_code"
+        app:layout_constraintBottom_toTopOf="@+id/enterFriendCodeEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/send_follow_request_button"
+        android:id="@+id/followRequestButton"
         android:layout_width="216dp"
         android:layout_height="57dp"
         android:onClick="sendRequest"
@@ -38,10 +40,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_friend_code" />
+        app:layout_constraintTop_toBottomOf="@+id/enterFriendCodeEditText" />
 
     <ProgressBar
-        android:id="@+id/send_request_loading"
+        android:id="@+id/sendRequestProgressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="131dp"
         android:layout_height="127dp"

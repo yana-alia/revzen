@@ -38,9 +38,9 @@ class HistoryAdapter(
         val view =
             convertView ?: LayoutInflater.from(context).inflate(R.layout.history_row, parent, false)
 
-        val title: TextView = view.findViewById(R.id.session_title)
-        val description: TextView = view.findViewById(R.id.session_description)
-        val icon: ImageView = view.findViewById(R.id.session_icon)
+        val title: TextView = view.findViewById(R.id.sessionTitle)
+        val description: TextView = view.findViewById(R.id.sessionDescription)
+        val icon: ImageView = view.findViewById(R.id.sessionIcon)
         val titleText =
             "Studied for ${timeFormat(session.study_time)}, with ${timeFormat(session.break_time)} break."
         val descriptionText =

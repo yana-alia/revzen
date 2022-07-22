@@ -6,7 +6,7 @@
     tools:context=".FollowerFragment">
 
     <ListView
-        android:id="@+id/follower_list"
+        android:id="@+id/followerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

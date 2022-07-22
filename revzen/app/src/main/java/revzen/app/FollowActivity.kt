@@ -1,12 +1,12 @@
 package revzen.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import revzen.app.api.ApiError
@@ -61,7 +61,7 @@ class FollowActivity : AppCompatActivity() {
 
         apiHandler = intent.extras?.getParcelable("handler")!!
         tabLayout = findViewById(R.id.tabLayout)
-        viewPager = findViewById(R.id.follow_screen_tabs)
+        viewPager = findViewById(R.id.followScreenTabs)
         pageAdapter = FollowPageAdapter(this)
         viewPager.adapter = pageAdapter
 

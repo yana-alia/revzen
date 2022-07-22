@@ -1,11 +1,11 @@
 package revzen.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.HistoryResponse
@@ -19,7 +19,7 @@ class StudyHistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study_history)
-        loading = findViewById(R.id.history_loading)
+        loading = findViewById(R.id.historyLoadingProgressBar)
         studyList = findViewById(R.id.revision_history_list)
         apiHandler = intent.extras?.getParcelable("handler")!!
 

@@ -1,15 +1,14 @@
 package revzen.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.UserDetails
-import java.lang.NumberFormatException
 
 class FollowRequestActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
@@ -20,8 +19,8 @@ class FollowRequestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_follow_request)
         apiHandler = intent.extras?.getParcelable("handler")!!
-        loading = findViewById(R.id.send_request_loading)
-        friendCodeText = findViewById(R.id.enter_friend_code)
+        loading = findViewById(R.id.sendRequestProgressBar)
+        friendCodeText = findViewById(R.id.enterFriendCodeEditText)
     }
 
     fun sendRequest(_view: View) {

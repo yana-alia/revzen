@@ -7,7 +7,7 @@
     tools:context=".LiveRevisionActivity">
 
     <ListView
-        android:id="@+id/live_revisers_list"
+        android:id="@+id/liveRevisersListView"
         android:layout_width="389dp"
         android:layout_height="705dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -3,12 +3,14 @@ package revzen.app.api
 import com.google.gson.annotations.SerializedName
 import revzen.app.R
 
-enum class Pet(val logoImage: Int,
-               val studyImage: Int,
-               val breakImage: Int,
-               val failImage: Int,
-               val greyImage: Int,
-                val petName: String) {
+enum class Pet(
+    val logoImage: Int,
+    val studyImage: Int,
+    val breakImage: Int,
+    val failImage: Int,
+    val greyImage: Int,
+    val petName: String
+) {
     @SerializedName("0")
     ROCK(
         R.drawable.petlogo_rock,
@@ -18,6 +20,7 @@ enum class Pet(val logoImage: Int,
         R.drawable.petgrey_rock,
         "Rock"
     ),
+
     @SerializedName("1")
     SHIBA(
         R.drawable.petlogo_shiba,
@@ -27,6 +30,7 @@ enum class Pet(val logoImage: Int,
         R.drawable.petgrey_shiba,
         "Shiba"
     ),
+
     @SerializedName("2")
     HUSKY(
         R.drawable.petlogo_husky,
@@ -36,6 +40,7 @@ enum class Pet(val logoImage: Int,
         R.drawable.petgrey_husky,
         "Husky"
     ),
+
     @SerializedName("3")
     CALICO(
         R.drawable.petlogo_calico,

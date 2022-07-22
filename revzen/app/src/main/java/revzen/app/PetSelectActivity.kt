@@ -8,7 +8,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import revzen.app.api.*
+import revzen.app.api.ApiError
+import revzen.app.api.ApiHandler
+import revzen.app.api.Pet
+import revzen.app.api.PetsResponse
 
 class PetSelectActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler

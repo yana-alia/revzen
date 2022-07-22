@@ -7,7 +7,7 @@
     tools:context=".StudyActivity">
 
     <Chronometer
-        android:id="@+id/chronometer"
+        android:id="@+id/studyTimer"
         android:layout_width="331dp"
         android:layout_height="134dp"
         android:layout_marginTop="52dp"
@@ -19,10 +19,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studyTitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/studyTitleTextView" />
 
     <TextView
-        android:id="@+id/studyTitleText"
+        android:id="@+id/studyTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="134dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/warningView"
+        android:id="@+id/warningTextView"
         android:layout_width="370dp"
         android:layout_height="79dp"
         android:layout_marginStart="152dp"
@@ -81,7 +81,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/petView"
+        android:id="@+id/studyPetImageView"
         android:layout_width="229dp"
         android:layout_height="218dp"
         android:contentDescription="@string/pet_image_desc"
