@@ -7,7 +7,7 @@
     tools:context=".SummaryActivity">
 
     <TextView
-        android:id="@+id/summaryTitleView"
+        android:id="@+id/summaryTitleTextView"
         android:layout_width="152dp"
         android:layout_height="50dp"
         android:background="?colorPrimaryVariant"
@@ -17,13 +17,13 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="24sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/summarybg"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintBottom_toTopOf="@+id/summaryBGTextView"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/summarybg"
+        android:id="@+id/summaryBGTextView"
         android:layout_width="334dp"
         android:layout_height="620dp"
         android:layout_marginBottom="28dp"
@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/summaryXPTitle"
+        android:id="@+id/summaryXPTitleTextView"
         android:layout_width="156dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
@@ -46,11 +46,11 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toTopOf="@+id/summarybg" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toTopOf="@+id/summaryBGTextView" />
 
     <TextView
-        android:id="@+id/summaryXP"
+        android:id="@+id/summaryXPTextView"
         android:layout_width="156dp"
         android:layout_height="40dp"
         android:layout_marginStart="48dp"
@@ -61,11 +61,11 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="24sp"
         android:textStyle="bold|italic"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryXPTitle" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryXPTitleTextView" />
 
     <TextView
-        android:id="@+id/summaryTotalStudyTitle"
+        android:id="@+id/summaryTotalStudyTitleTextView"
         android:layout_width="306dp"
         android:layout_height="34dp"
         android:layout_marginStart="24dp"
@@ -75,11 +75,11 @@
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryXP" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryXPTextView" />
 
     <TextView
-        android:id="@+id/summaryTotalBreakTitle"
+        android:id="@+id/summaryTotalBreakTitleTextView"
         android:layout_width="305dp"
         android:layout_height="35dp"
         android:layout_marginStart="24dp"
@@ -89,11 +89,11 @@
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudy" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudyTextView" />
 
     <TextView
-        android:id="@+id/summaryRatioTitle"
+        android:id="@+id/summaryRatioTitleTextView"
         android:layout_width="305dp"
         android:layout_height="35dp"
         android:layout_marginStart="24dp"
@@ -103,11 +103,11 @@
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreak" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreakTextView" />
 
     <TextView
-        android:id="@+id/summaryTotalStudy"
+        android:id="@+id/summaryTotalStudyTextView"
         android:layout_width="279dp"
         android:layout_height="35dp"
         android:layout_marginStart="48dp"
@@ -116,12 +116,12 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudyTitle" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudyTitleTextView" />
 
 
     <TextView
-        android:id="@+id/summaryRatio"
+        android:id="@+id/summaryRatioTextView"
         android:layout_width="279dp"
         android:layout_height="35dp"
         android:layout_marginStart="48dp"
@@ -130,11 +130,11 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryRatioTitle" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryRatioTitleTextView" />
 
     <TextView
-        android:id="@+id/summaryTotalBreak"
+        android:id="@+id/summaryTotalBreakTextView"
         android:layout_width="279dp"
         android:layout_height="35dp"
         android:layout_marginStart="48dp"
@@ -143,8 +143,8 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
-        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreakTitle" />
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreakTitleTextView" />
 
     <Button
         android:id="@+id/okButton"
@@ -153,44 +153,47 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="20dp"
         android:onClick="goToMenu"
-        android:text="OK"
+        android:text="@string/ok_button_text"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/summarybg"
-        app:layout_constraintEnd_toEndOf="@+id/summarybg" />
+        app:layout_constraintBottom_toBottomOf="@+id/summaryBGTextView"
+        app:layout_constraintEnd_toEndOf="@+id/summaryBGTextView"
+        tools:ignore="TextContrastCheck" />
 
     <ImageView
-        android:id="@+id/summaryPetImage"
+        android:id="@+id/summaryPetImageView"
         android:layout_width="177dp"
         android:layout_height="140dp"
-        android:visibility="invisible"
         android:background="?colorPrimaryVariant"
-        app:layout_constraintBottom_toTopOf="@+id/summaryPetXP"
-        app:layout_constraintEnd_toEndOf="@+id/summaryPetXP"
-        app:layout_constraintStart_toStartOf="@+id/summaryPetXP"
+        android:contentDescription="@string/pet_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/summaryPetXPTextView"
+        app:layout_constraintEnd_toEndOf="@+id/summaryPetXPTextView"
+        app:layout_constraintStart_toStartOf="@+id/summaryPetXPTextView"
         app:srcCompat="@drawable/petstudy_husky" />
 
     <ImageView
-        android:id="@+id/summaryPetHealth"
+        android:id="@+id/summaryHealthImageView"
         android:layout_width="130dp"
         android:layout_height="44dp"
         android:layout_marginBottom="20dp"
-        android:visibility="invisible"
         android:background="?colorPrimaryVariant"
-        app:layout_constraintBottom_toBottomOf="@+id/summarybg"
+        android:contentDescription="@string/health_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/summaryBGTextView"
         app:layout_constraintEnd_toStartOf="@+id/okButton"
-        app:layout_constraintStart_toStartOf="@+id/summarybg"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
         app:srcCompat="@drawable/heart0" />
 
     <TextView
-        android:id="@+id/summaryPetXP"
+        android:id="@+id/summaryPetXPTextView"
         android:layout_width="131dp"
         android:layout_height="27dp"
         android:text=""
         android:background="?colorPrimaryVariant"
-        app:layout_constraintBottom_toTopOf="@+id/summaryPetHealth"
-        app:layout_constraintEnd_toEndOf="@+id/summaryPetHealth"
+        app:layout_constraintBottom_toTopOf="@+id/summaryHealthImageView"
+        app:layout_constraintEnd_toEndOf="@+id/summaryHealthImageView"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/summaryPetHealth" />
+        app:layout_constraintStart_toStartOf="@+id/summaryHealthImageView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

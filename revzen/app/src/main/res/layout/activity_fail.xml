@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/failTitleText"
+        android:id="@+id/failTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="134dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/failTitleText2"
+        android:id="@+id/failTitle2TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="134dp"
@@ -53,9 +53,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/failPetImage"
+        android:id="@+id/failPetImageView"
         android:layout_width="336dp"
         android:layout_height="340dp"
+        android:contentDescription="@string/pet_image_desc"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +67,7 @@
         app:srcCompat="@drawable/petfail_shiba" />
 
     <ProgressBar
-        android:id="@+id/failLoadingImage"
+        android:id="@+id/imageLoadProgressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="166dp"
         android:layout_height="144dp"

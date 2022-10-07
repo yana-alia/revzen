@@ -1,17 +1,16 @@
 package revzen.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.createUser
 import revzen.app.api.loginUser
-import java.lang.NumberFormatException
 
 class CreateAccountActivity : AppCompatActivity() {
     private lateinit var loading: ProgressBar

@@ -7,11 +7,13 @@
     tools:context=".LiveRevisionActivity">
 
     <ListView
-        android:id="@+id/live_revisers_list"
+        android:id="@+id/liveRevisersListView"
         android:layout_width="389dp"
         android:layout_height="705dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>

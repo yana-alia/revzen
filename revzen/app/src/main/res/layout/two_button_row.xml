@@ -8,79 +8,79 @@
     android:padding="6dip">
 
     <Button
-        android:id="@+id/d_row_button_two"
+        android:id="@+id/dRowTwoButton"
         android:layout_width="126dp"
         android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/d_row_description"
+        android:layout_toEndOf="@+id/dRowDescription"
         android:minHeight="48dp"
-        android:text="Button"
+        android:text="@string/sample_button_text"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/d_row_button_one"
-        app:layout_constraintStart_toStartOf="@+id/d_row_button_one"
-        app:layout_constraintTop_toBottomOf="@+id/d_row_button_one" />
+        app:layout_constraintEnd_toEndOf="@+id/dRowOneButton"
+        app:layout_constraintStart_toStartOf="@+id/dRowOneButton"
+        app:layout_constraintTop_toBottomOf="@+id/dRowOneButton" />
 
     <ImageView
-        android:id="@+id/d_row_icon"
+        android:id="@+id/dRowIcon"
         android:layout_width="58dp"
         android:layout_height="58dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/icon_image_desc"
         android:src="@drawable/petfail_shiba"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
-        android:id="@+id/d_row_title"
+        android:id="@+id/dRowTitle"
         android:layout_width="183dp"
         android:layout_height="25dp"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_above="@id/d_row_description"
+        android:layout_above="@id/dRowDescription"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/d_row_icon"
+        android:layout_toRightOf="@id/dRowIcon"
         android:gravity="center_vertical"
-        android:text="Example application"
+        android:text="@string/sample_title_text"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/d_row_description"
-        app:layout_constraintEnd_toEndOf="@+id/d_row_description"
+        app:layout_constraintBottom_toTopOf="@+id/dRowDescription"
+        app:layout_constraintEnd_toEndOf="@+id/dRowDescription"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/d_row_description"
+        app:layout_constraintStart_toStartOf="@+id/dRowDescription"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/d_row_description"
+        android:id="@+id/dRowDescription"
         android:layout_width="184dp"
         android:layout_height="26dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="4dp"
-        android:layout_toRightOf="@id/d_row_icon"
+        android:layout_toRightOf="@id/dRowIcon"
         android:ellipsize="marquee"
         android:maxLines="1"
-        android:text="Description"
+        android:text="@string/sample_subtitle_text"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/d_row_icon"
-        app:layout_constraintTop_toBottomOf="@+id/d_row_title" />
+        app:layout_constraintStart_toEndOf="@+id/dRowIcon"
+        app:layout_constraintTop_toBottomOf="@+id/dRowTitle" />
 
     <Button
-        android:id="@+id/d_row_button_one"
+        android:id="@+id/dRowOneButton"
         android:layout_width="126dp"
         android:layout_height="39dp"
-        android:layout_below="@+id/d_row_button_two"
+        android:layout_below="@+id/dRowTwoButton"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/d_row_description"
-        android:text="Button"
+        android:layout_toEndOf="@+id/dRowDescription"
+        android:text="@string/sample_button_text"
         android:textSize="11sp"
-        app:layout_constraintBottom_toTopOf="@+id/d_row_button_two"
+        app:layout_constraintBottom_toTopOf="@+id/dRowTwoButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.714"
-        app:layout_constraintStart_toEndOf="@+id/d_row_description"
+        app:layout_constraintStart_toEndOf="@+id/dRowDescription"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ fun buildRequest(
 
 fun loginUser(subject_id: Long, on_success: (ApiHandler) -> Any, on_failure: (ApiError) -> Any) {
     val client = OkHttpClient()
-    val handler: Handler = Handler(Looper.getMainLooper())
+    val handler = Handler(Looper.getMainLooper())
     buildRequest(client, subject_id, "login", emptyList(), object : Callback {
         override fun onFailure(call: Call, e: IOException) {
             handler.post { on_failure(ApiError.API_FAILURE) }
@@ -62,7 +62,7 @@ fun createUser(
     on_failure: (ApiError) -> Any
 ) {
     val client = OkHttpClient()
-    val handler: Handler = Handler(Looper.getMainLooper())
+    val handler = Handler(Looper.getMainLooper())
     buildRequest(
         client,
         subject_id,

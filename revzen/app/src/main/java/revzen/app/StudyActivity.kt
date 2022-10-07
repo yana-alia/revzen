@@ -1,11 +1,14 @@
 package revzen.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.Chronometer
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.PetsResponse
@@ -37,15 +40,15 @@ class StudyActivity : AppCompatActivity(), Chronometer.OnChronometerTickListener
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
-        studyTitle = findViewById(R.id.studyTitleText)
-        warning = findViewById(R.id.warningView)
+        studyTitle = findViewById(R.id.studyTitleTextView)
+        warning = findViewById(R.id.warningTextView)
         endButton = findViewById(R.id.endSessionButton)
-        petImage = findViewById(R.id.petView)
+        petImage = findViewById(R.id.studyPetImageView)
 
         //api request to get main pet
         apiHandler.getPetInfo(this::successGet, this::failGet)
 
-        timer = findViewById(R.id.chronometer)
+        timer = findViewById(R.id.studyTimer)
         originalTime = SystemClock.elapsedRealtime()
         timer.base = originalTime + (timeTracker.planned_study_time * SECS_TO_MILLIS).toLong()
         timer.onChronometerTickListener = this

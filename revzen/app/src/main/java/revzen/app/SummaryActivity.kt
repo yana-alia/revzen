@@ -1,15 +1,14 @@
 package revzen.app
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.*
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class SummaryActivity : AppCompatActivity() {
@@ -35,14 +34,14 @@ class SummaryActivity : AppCompatActivity() {
         studyList = intent.extras?.getParcelableArrayList("studyList")!!
         apiHandler = intent.extras?.getParcelable("handler")!!
 
-        xp = findViewById(R.id.summaryXP)
-        totalStudy = findViewById(R.id.summaryTotalStudy)
-        totalBreak = findViewById(R.id.summaryTotalBreak)
-        ratio = findViewById(R.id.summaryRatio)
-        petXP = findViewById(R.id.summaryPetXP)
+        xp = findViewById(R.id.summaryXPTextView)
+        totalStudy = findViewById(R.id.summaryTotalStudyTextView)
+        totalBreak = findViewById(R.id.summaryTotalBreakTextView)
+        ratio = findViewById(R.id.summaryRatioTextView)
+        petXP = findViewById(R.id.summaryPetXPTextView)
 
-        petImage = findViewById(R.id.summaryPetImage)
-        healthImage = findViewById(R.id.summaryPetHealth)
+        petImage = findViewById(R.id.summaryPetImageView)
+        healthImage = findViewById(R.id.summaryHealthImageView)
 
         studyRes = calculateResult(studyList)
 
@@ -124,7 +123,6 @@ class SummaryActivity : AppCompatActivity() {
     }
 
     private fun successfulGivePet(give_result: GiveResult) {
-
         AlertDialog.Builder(this).apply {
             setIcon(give_result.pet.logoImage)
             if (give_result.isNew) {

@@ -1,13 +1,16 @@
 package revzen.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
-import revzen.app.api.*
+import androidx.appcompat.app.AppCompatActivity
+import revzen.app.api.ApiError
+import revzen.app.api.ApiHandler
+import revzen.app.api.PetStatus
+import revzen.app.api.SessionData
 
 class FailActivity : AppCompatActivity() {
     private lateinit var apiHandler: ApiHandler
@@ -26,8 +29,8 @@ class FailActivity : AppCompatActivity() {
         apiHandler = intent.extras?.getParcelable("handler")!!
         timeTracker = intent.extras?.getParcelable("timeTracker")!!
 
-        failLoadingImage = findViewById(R.id.failLoadingImage)
-        petImage = findViewById(R.id.failPetImage)
+        failLoadingImage = findViewById(R.id.imageLoadProgressBar)
+        petImage = findViewById(R.id.failPetImageView)
 
         apiHandler.logSession(timeTracker, {}, {})
         apiHandler.getCurrentPet(this::successGet, this::failGet)

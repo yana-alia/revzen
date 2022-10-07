@@ -1,7 +1,5 @@
 package revzen.app
 
-import revzen.app.api.LiveRevisionResponse
-
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import revzen.app.api.LiveRevisionResponse
 
 class LiveRevisionAdapter(
     private val context: Context,
@@ -33,8 +32,8 @@ class LiveRevisionAdapter(
             convertView ?: LayoutInflater.from(context)
                 .inflate(R.layout.live_revision_row, parent, false)
 
-        val title: TextView = view.findViewById(R.id.live_user_name)
-        val description: TextView = view.findViewById(R.id.live_user_friendcode)
+        val title: TextView = view.findViewById(R.id.liveUserName)
+        val description: TextView = view.findViewById(R.id.liveUserFriendcode)
         val titleText = "User: ${liveReviser.username} currently revising."
         val descriptionText = "FriendCode: ${liveReviser.friendcode}"
         title.text = titleText

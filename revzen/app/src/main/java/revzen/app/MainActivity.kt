@@ -4,9 +4,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,9 +31,7 @@ class MainActivity : AppCompatActivity() {
         val name = getString(R.string.break_notification)
         val descriptionText = getString(R.string.break_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelID, name, importance).apply {
-            description = descriptionText
-        }
+        val channel = NotificationChannel(channelID, name, importance).apply { description = descriptionText }
         // Register the channel with the system
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

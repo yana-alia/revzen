@@ -22,7 +22,7 @@ class RequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestsList = view.findViewById(R.id.requests_list)
+        requestsList = view.findViewById(R.id.requestListView)
         viewModel.socialData.observe(
             viewLifecycleOwner
         ) { set ->

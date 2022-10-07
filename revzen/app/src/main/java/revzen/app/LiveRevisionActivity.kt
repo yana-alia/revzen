@@ -1,10 +1,10 @@
 package revzen.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.LiveRevisionResponse
@@ -26,7 +26,7 @@ class LiveRevisionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_revision)
         apiHandler = intent.extras?.getParcelable("handler")!!
-        studyList = findViewById(R.id.live_revisers_list)
+        studyList = findViewById(R.id.liveRevisersListView)
         handler.post(updateTask)
     }
 
