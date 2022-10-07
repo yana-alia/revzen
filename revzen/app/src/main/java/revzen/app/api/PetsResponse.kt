@@ -1,4 +1,5 @@
 package revzen.app.api
+
 import com.google.gson.annotations.SerializedName
 
 data class PetsResponse(

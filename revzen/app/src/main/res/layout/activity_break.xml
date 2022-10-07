@@ -7,7 +7,7 @@
     tools:context=".BreakActivity">
 
     <ImageView
-        android:id="@+id/petView"
+        android:id="@+id/studyPetImageView"
         android:layout_width="261dp"
         android:layout_height="235dp"
         android:layout_marginStart="120dp"

@@ -35,10 +35,10 @@ class SingleButtonRowAdapter(
 
         val user = getItem(position) as UserDetails
 
-        val title: TextView = view.findViewById(R.id.row_title)
-        val description: TextView = view.findViewById(R.id.row_description)
-        val icon: ImageView = view.findViewById(R.id.row_icon)
-        val button: Button = view.findViewById(R.id.row_button)
+        val title: TextView = view.findViewById(R.id.rowTitle)
+        val description: TextView = view.findViewById(R.id.rowDescription)
+        val icon: ImageView = view.findViewById(R.id.rowIcon)
+        val button: Button = view.findViewById(R.id.rowButton)
         val descText = "friend code: " + user.friendcode
 
         icon.setImageResource(user.main_pet.logoImage)

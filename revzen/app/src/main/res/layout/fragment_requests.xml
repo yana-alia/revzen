@@ -6,7 +6,7 @@
     tools:context=".RequestsFragment">
 
     <ListView
-        android:id="@+id/requests_list"
+        android:id="@+id/requestListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

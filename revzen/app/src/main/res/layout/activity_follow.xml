@@ -38,13 +38,13 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/follow_screen_tabs"
+        android:id="@+id/followScreenTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tabLayout" />
 
     <Button
-        android:id="@+id/new_follower_button"
+        android:id="@+id/newFollowerButton"
         android:layout_width="match_parent"
         android:layout_height="59dp"
         android:layout_alignParentBottom="true"

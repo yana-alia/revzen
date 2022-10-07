@@ -3,12 +3,10 @@ package revzen.app.api
 import android.os.Handler
 import android.os.Looper
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
 import com.google.gson.Gson
+import kotlinx.parcelize.Parcelize
 import okhttp3.*
 import okio.IOException
-import kotlin.reflect.KFunction1
 
 @Parcelize
 class ApiHandler(
@@ -49,16 +47,16 @@ class ApiHandler(
         val handler = Handler(Looper.getMainLooper())
         buildRequest("change_pet", listOf(Pair("pet_type", new_pet.ordinal)), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                handler.post {on_failure(ApiError.API_FAILURE)}
+                handler.post { on_failure(ApiError.API_FAILURE) }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
                     200 -> handler.post { on_success() }
-                    409 -> handler.post {on_failure(ApiError.PET_UNAVAILABLE)}
-                    404 -> handler.post {on_failure(ApiError.NO_SUCH_USER)}
-                    422 -> handler.post {on_failure(ApiError.WRONG_VERSION)}
-                    else -> handler.post {on_failure(ApiError.API_FAILURE)}
+                    409 -> handler.post { on_failure(ApiError.PET_UNAVAILABLE) }
+                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
                 }
             }
         })
@@ -68,17 +66,18 @@ class ApiHandler(
         val handler = Handler(Looper.getMainLooper())
         buildRequest("get_current_pet", emptyList(), object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                handler.post {on_failure(ApiError.API_FAILURE)}
+                handler.post { on_failure(ApiError.API_FAILURE) }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
                     200 -> {
-                        val petStatus = Gson().fromJson(response.body.string(), PetStatus::class.java)
-                        handler.post {on_success(petStatus)}
+                        val petStatus =
+                            Gson().fromJson(response.body.string(), PetStatus::class.java)
+                        handler.post { on_success(petStatus) }
                     }
-                    422 -> handler.post{on_failure(ApiError.WRONG_VERSION)}
-                    else ->handler.post{on_failure(ApiError.API_FAILURE)}
+                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
                 }
             }
         })
@@ -146,8 +145,9 @@ class ApiHandler(
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
                     200 -> {
-                        val petResponse = Gson().fromJson(response.body.string(), PetsResponse::class.java)
-                        handler.post {on_success(petResponse)}
+                        val petResponse =
+                            Gson().fromJson(response.body.string(), PetsResponse::class.java)
+                        handler.post { on_success(petResponse) }
                     }
                     404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
                     422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
@@ -209,7 +209,7 @@ class ApiHandler(
                         }
                         410 -> handler.post { on_failure(ApiError.FRIENDCODE_NOT_PRESENT) }
                         404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
-                        422 -> handler.post { on_failure(ApiError.WRONG_VERSION)}
+                        422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
                         else -> handler.post { on_failure(ApiError.API_FAILURE) }
                     }
                 }
@@ -226,7 +226,8 @@ class ApiHandler(
             override fun onResponse(call: Call, response: Response) {
                 when (response.code) {
                     200 -> {
-                        val giveResponse = Gson().fromJson(response.body.string(), GiveResult::class.java)
+                        val giveResponse =
+                            Gson().fromJson(response.body.string(), GiveResult::class.java)
                         handler.post { on_success(giveResponse) }
                     }
                     404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
@@ -237,36 +238,44 @@ class ApiHandler(
         })
     }
 
-    data class Reward (
+    data class Reward(
         val xpGained: Int,
         val healthChange: Int,
         val total_study_time: Int,
         val total_break_time: Int
     )
 
-    fun giveReward(reward: Reward, on_success: (RewardResponse) -> Any, on_failure: (ApiError) -> Any) {
+    fun giveReward(
+        reward: Reward,
+        on_success: (RewardResponse) -> Any,
+        on_failure: (ApiError) -> Any
+    ) {
         val handler = Handler(Looper.getMainLooper())
-        buildRequest("give_reward", listOf(Pair("gained_xp", reward.xpGained), Pair("health_change", reward.healthChange)), object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                handler.post { on_failure(ApiError.API_FAILURE) }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                when (response.code) {
-                    200 -> {
-                        val reward = Gson().fromJson(response.body.string(), RewardResponse::class.java)
-                        handler.post {on_success(reward)}
-                    }
-                    404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
-                    422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
-                    else -> handler.post { on_failure(ApiError.API_FAILURE) }
+        buildRequest(
+            "give_reward",
+            listOf(Pair("gained_xp", reward.xpGained), Pair("health_change", reward.healthChange)),
+            object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    handler.post { on_failure(ApiError.API_FAILURE) }
                 }
-            }
-        })
+
+                override fun onResponse(call: Call, response: Response) {
+                    when (response.code) {
+                        200 -> {
+                            val reward =
+                                Gson().fromJson(response.body.string(), RewardResponse::class.java)
+                            handler.post { on_success(reward) }
+                        }
+                        404 -> handler.post { on_failure(ApiError.NO_SUCH_USER) }
+                        422 -> handler.post { on_failure(ApiError.WRONG_VERSION) }
+                        else -> handler.post { on_failure(ApiError.API_FAILURE) }
+                    }
+                }
+            })
     }
 
     fun logSession(
-        study : SessionData,
+        study: SessionData,
         on_success: () -> Any,
         on_failure: (ApiError) -> Any
     ) {

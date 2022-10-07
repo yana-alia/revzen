@@ -37,11 +37,11 @@ class DoubleButtonRowAdapter(
 
         val user = getItem(position) as UserDetails
 
-        val title: TextView = view.findViewById(R.id.d_row_title)
-        val description: TextView = view.findViewById(R.id.d_row_description)
-        val icon: ImageView = view.findViewById(R.id.d_row_icon)
-        val buttonOne: Button = view.findViewById(R.id.d_row_button_one)
-        val buttonTwo: Button = view.findViewById(R.id.d_row_button_two)
+        val title: TextView = view.findViewById(R.id.dRowTitle)
+        val description: TextView = view.findViewById(R.id.dRowDescription)
+        val icon: ImageView = view.findViewById(R.id.dRowIcon)
+        val buttonOne: Button = view.findViewById(R.id.dRowOneButton)
+        val buttonTwo: Button = view.findViewById(R.id.dRowTwoButton)
 
         icon.setImageResource(user.main_pet.logoImage)
         title.text = user.username

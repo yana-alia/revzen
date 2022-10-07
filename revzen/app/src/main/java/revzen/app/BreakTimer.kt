@@ -35,8 +35,7 @@ class BreakTimer(
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
 
-    override fun onTick(millisUntilFinished: Long) {
-    }
+    override fun onTick(millisUntilFinished: Long) {}
 
     fun stop() {
         stopped = true

@@ -1,7 +1,6 @@
 package revzen.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -9,6 +8,7 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import revzen.app.api.ApiError
 import revzen.app.api.ApiHandler
 import revzen.app.api.HistoryResponse
@@ -16,8 +16,8 @@ import revzen.app.api.SessionData
 
 class SetupActivity : AppCompatActivity() {
     // Lengths in seconds
-    private val studyLengths = listOf(5, 10, 30, 60, 300, 600, 900, 1800, 3600, 5400, 7200)
-    private val breakLengths = listOf(5, 10, 30, 60, 300, 600, 900, 1200, 1500, 1800)
+    private val studyLengths = listOf(300, 600, 900, 1800, 3600, 5400, 7200)
+    private val breakLengths = listOf(60, 300, 600, 900, 1200, 1500, 1800)
 
     private var studyList = ArrayList<SessionData>()
 
@@ -29,8 +29,7 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var studySpinner: Spinner
     private lateinit var breakSpinner: Spinner
     private lateinit var recentView: TextView
-    private lateinit var studyButton: Button
-    private lateinit var breakButton: Button
+    private lateinit var recentButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +42,12 @@ class SetupActivity : AppCompatActivity() {
 
         // Get API handler
         apiHandler = intent.extras?.getParcelable("handler")!!
-
         apiHandler.getHistory(this::successGotHistory, this::historyFailure)
 
         studySpinner = findViewById(R.id.studyLengthSpinner)
         breakSpinner = findViewById(R.id.breakLengthSpinner)
         recentView = findViewById(R.id.recentTitleTextView)
-        studyButton = findViewById(R.id.setupStudyButton)
-        breakButton = findViewById(R.id.setupBreakButton)
+        recentButton = findViewById(R.id.recentStudyButton)
         studySpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_item, studyStrings)
         breakSpinner.adapter =
@@ -86,13 +83,10 @@ class SetupActivity : AppCompatActivity() {
             recentStudy = history[0].planned_study_time
             recentBreak = history[0].planned_break_time
 
-            val studyText = "Study: ${timeFormat(recentStudy)}"
-            val breakText = "Break: ${timeFormat(recentBreak)}"
-            studyButton.text = studyText
-            breakButton.text = breakText
+            val recentText = "Study: ${timeFormat(recentStudy)}\nBreak: ${timeFormat(recentBreak)}"
+            recentButton.text = recentText
 
-            studyButton.visibility = View.VISIBLE
-            breakButton.visibility = View.VISIBLE
+            recentButton.visibility = View.VISIBLE
             recentView.visibility = View.VISIBLE
         }
     }
