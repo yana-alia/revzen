@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/revzen_welcome_text"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/attemptCreateAccountButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeImageView" />
+
+    <Button
+        android:id="@+id/attemptLoginButton"
+        android:layout_width="125dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="goToLogin"
+        android:text="@string/login_button_text"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/attemptCreateAccountButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/attemptCreateAccountButton"
+        android:layout_width="125dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="goToCreateAccount"
+        android:text="@string/create_account_button_text"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/attemptLoginButton" />
+
+    <ImageView
+        android:id="@+id/welcomeImageView"
+        android:layout_width="267dp"
+        android:layout_height="255dp"
+        android:contentDescription="@string/revzen_welcome_image_desc"
+        app:layout_constraintBottom_toTopOf="@+id/welcomeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/petlogo_shiba" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

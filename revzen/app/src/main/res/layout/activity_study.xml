@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StudyActivity">
+
+    <Chronometer
+        android:id="@+id/studyTimer"
+        android:layout_width="331dp"
+        android:layout_height="134dp"
+        android:layout_marginTop="52dp"
+        android:countDown="true"
+        android:format="%s"
+        android:textAlignment="center"
+        android:textColor="?android:colorSecondary"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/studyTitleTextView" />
+
+    <TextView
+        android:id="@+id/studyTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="134dp"
+        android:text="@string/session_title"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/warningTextView"
+        android:layout_width="370dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/warning_title1"
+        android:textAlignment="center"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/studyProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="83dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="108dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/endSessionButton"
+        android:layout_width="122dp"
+        android:layout_height="76dp"
+        android:layout_marginBottom="108dp"
+        android:onClick="goToEndSession"
+        android:text="@string/end_session_button"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/studyPetImageView"
+        android:layout_width="229dp"
+        android:layout_height="218dp"
+        android:contentDescription="@string/pet_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/endSessionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/studyProgressBar"
+        app:srcCompat="@drawable/petstudy_shiba" />
+</androidx.constraintlayout.widget.ConstraintLayout>

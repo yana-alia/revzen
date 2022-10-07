@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SummaryActivity">
+
+    <TextView
+        android:id="@+id/summaryTitleTextView"
+        android:layout_width="152dp"
+        android:layout_height="50dp"
+        android:background="?colorPrimaryVariant"
+        android:gravity="center"
+        android:text="@string/summary_title"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/summaryBGTextView"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/summaryBGTextView"
+        android:layout_width="334dp"
+        android:layout_height="620dp"
+        android:layout_marginBottom="28dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/summaryXPTitleTextView"
+        android:layout_width="156dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_xp"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toTopOf="@+id/summaryBGTextView" />
+
+    <TextView
+        android:id="@+id/summaryXPTextView"
+        android:layout_width="156dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="4dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryXPTitleTextView" />
+
+    <TextView
+        android:id="@+id/summaryTotalStudyTitleTextView"
+        android:layout_width="306dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_total_study"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryXPTextView" />
+
+    <TextView
+        android:id="@+id/summaryTotalBreakTitleTextView"
+        android:layout_width="305dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_total_break"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudyTextView" />
+
+    <TextView
+        android:id="@+id/summaryRatioTitleTextView"
+        android:layout_width="305dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:background="?colorPrimaryVariant"
+        android:text="@string/summary_ratio"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreakTextView" />
+
+    <TextView
+        android:id="@+id/summaryTotalStudyTextView"
+        android:layout_width="279dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalStudyTitleTextView" />
+
+
+    <TextView
+        android:id="@+id/summaryRatioTextView"
+        android:layout_width="279dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryRatioTitleTextView" />
+
+    <TextView
+        android:id="@+id/summaryTotalBreakTextView"
+        android:layout_width="279dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:background="?colorPrimaryVariant"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTotalBreakTitleTextView" />
+
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="103dp"
+        android:layout_height="57dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="goToMenu"
+        android:text="@string/ok_button_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/summaryBGTextView"
+        app:layout_constraintEnd_toEndOf="@+id/summaryBGTextView"
+        tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/summaryPetImageView"
+        android:layout_width="177dp"
+        android:layout_height="140dp"
+        android:background="?colorPrimaryVariant"
+        android:contentDescription="@string/pet_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/summaryPetXPTextView"
+        app:layout_constraintEnd_toEndOf="@+id/summaryPetXPTextView"
+        app:layout_constraintStart_toStartOf="@+id/summaryPetXPTextView"
+        app:srcCompat="@drawable/petstudy_husky" />
+
+    <ImageView
+        android:id="@+id/summaryHealthImageView"
+        android:layout_width="130dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="20dp"
+        android:background="?colorPrimaryVariant"
+        android:contentDescription="@string/health_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/summaryBGTextView"
+        app:layout_constraintEnd_toStartOf="@+id/okButton"
+        app:layout_constraintStart_toStartOf="@+id/summaryBGTextView"
+        app:srcCompat="@drawable/heart0" />
+
+    <TextView
+        android:id="@+id/summaryPetXPTextView"
+        android:layout_width="131dp"
+        android:layout_height="27dp"
+        android:text=""
+        android:background="?colorPrimaryVariant"
+        app:layout_constraintBottom_toTopOf="@+id/summaryHealthImageView"
+        app:layout_constraintEnd_toEndOf="@+id/summaryHealthImageView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/summaryHealthImageView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

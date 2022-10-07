@@ -1,0 +1,183 @@
+# Set cargo home relative to the project directory to allow for caching
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/.cargo
+
+stages:
+  - build
+  - lint
+  - test
+  - deploy
+  - pass
+
+# This is required for an issue with gitlab. When there are no jobs (no code 
+# changes, e.g just readme), there are no CI jobs, hence the pipeline will 
+# continually "get ready" to run, but never finish.
+pipeline-pass:
+  stage: pass
+  script:
+    - echo "No jobs required for this commit."
+  except:
+    changes:
+      - revzen_backend/**/*
+      - revzen/**/*
+
+# Backend should be run with the latest rust image, only if there are changes 
+# in the revzen_backend directory.
+#
+# The target directory is cached, this way if cargo determines some files do not
+# need to be re downloaded or compiled, they can be reused (significant speedup).
+.backend-run:
+  before_script:
+    - cd revzen_backend
+  image: rust:latest
+  cache:
+    key: backend-shared-cache
+    paths:
+        - revzen_backend/target/
+        - .cargo/
+  only:
+    changes:
+      - revzen_backend/**/*
+
+backend-build:
+  extends: 
+    - .backend-run
+  stage: build
+  script:
+    - cargo build --verbose
+
+backend-test:
+  extends: 
+    - .backend-run
+  stage: test
+  script:
+    - cargo test --verbose
+
+backend-clippy:
+  extends: 
+    - .backend-run
+  stage: lint
+  allow_failure: true
+  script:
+    - cargo clippy --verbose
+
+backend-fmt:
+  extends: 
+    - .backend-run
+  stage: lint
+  allow_failure: true
+  script:
+    - cargo fmt --check
+
+# Heroku Backend Hosting:
+# - A buildpack is used to set the revzen_backend directory as the root, allowing 
+#   for the rust buildpack to be used. This requires a PROJECT_PATH variable in 
+#   heroku as well as the packs to be ordered, and procfile placed in revzen_backend
+#   (subdir first)
+# - A separate heroku app is used for the production environment.
+
+# When merging into dev, we want to host on the development backend
+deploy-backend-dev:
+  stage: deploy
+  image: ceorcham/dpl-heroku
+  script:
+    - dpl --provider=heroku --app=revzen-backend-dev --api-key=$HEROKU_API_KEY
+  # only:
+  #  - dev
+
+# When merging into master, we want to host on the production backend
+deploy-backend-prod:
+  stage: deploy
+  image: ceorcham/dpl-heroku
+  script:
+    - dpl --provider=heroku --app=revzen-backend-prod --api-key=$HEROKU_API_KEY
+  only:
+   - master
+
+# Frontend build requires java 8, as well as gradle. Gradle is used for build, test and lint.
+.android-run:
+  before_script:
+    - cd revzen
+    - chmod +x ./gradlew
+  image: androidsdk/android-30
+  cache:
+    key: android-frontend-$CI_COMMIT_SHA
+    paths:
+      - build-cache/
+  only:
+    changes:
+      - revzen/**/*
+
+build-android:
+  extends:
+    .android-run
+  stage: build
+  script:
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx2000m --no-daemon assembleDebug
+  artifacts:
+    paths:
+      - revzen/app/build/outputs/apk/debug/app-debug.apk
+
+test-android:
+  extends:
+    .android-run
+  stage: test
+  script:
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx2000m --no-daemon test
+
+# Run a linting pass, creating an artifact of the results if the lint fails.
+lint-android:
+  extends:
+    .android-run
+  stage: lint
+  script:
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx2000m --no-daemon lint
+  allow_failure: true
+  artifacts:
+    when: on_failure
+    paths:
+      - revzen/app/build/reports/lint-results-debug.html
+    expire_in: 1 week
+    expose_as: 'Android App Linting Report'
+
+deploy-android-dev:
+  extends:
+    .android-run
+  stage: deploy
+  script:
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx2000m --no-daemon assembleDev
+  artifacts:
+    paths:
+      - revzen/app/build/outputs/apk/dev/app-dev.apk
+  only:
+    - dev
+
+deploy-android-prod:
+  extends:
+    .android-run
+  stage: deploy
+  script:
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx2000m --no-daemon assembleProd
+  artifacts:
+    paths:
+      - revzen/app/build/outputs/apk/prod/app-prod.apk
+  only:
+  - master
+
+# When merging into the dev branch, publish the backend docs (hosted on gitlab 
+# pages)
+pages:
+  extends: 
+    - .android-run
+  stage: deploy
+  script:
+    - ./gradlew -Dorg.gradle.jvmargs=-Xmx2000m --no-daemon assembleDebug
+    - mkdir ../public
+    - mkdir ../public/android_app
+    - mv app/build/outputs/apk/debug/app-debug.apk ../public/app.apk
+  artifacts:
+    paths:
+      - public/app.apk
+    expire_in: 1 week
+  only:
+    - dev

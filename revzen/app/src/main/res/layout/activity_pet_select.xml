@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PetSelectActivity">
+
+    <TextView
+        android:id="@+id/shibaXPTextView"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/shibaHealthImageView"
+        app:layout_constraintStart_toStartOf="@+id/shibaHealthImageView"
+        app:layout_constraintTop_toBottomOf="@+id/shibaHealthImageView" />
+
+    <TextView
+        android:id="@+id/huskyXPTextView"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/huskyHealthImageView"
+        app:layout_constraintStart_toStartOf="@+id/huskyHealthImageView"
+        app:layout_constraintTop_toBottomOf="@+id/huskyHealthImageView" />
+
+    <TextView
+        android:id="@+id/calicoXPTextView"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/calicoHealthImageView"
+        app:layout_constraintStart_toStartOf="@+id/calicoHealthImageView"
+        app:layout_constraintTop_toBottomOf="@+id/calicoHealthImageView" />
+
+    <ImageView
+        android:id="@+id/shibaHealthImageView"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:contentDescription="@string/hearts_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/shibaImageView"
+        app:layout_constraintStart_toStartOf="@+id/shibaImageView"
+        app:layout_constraintTop_toBottomOf="@+id/shibaImageView"
+        app:srcCompat="@drawable/heart3" />
+
+    <ImageView
+        android:id="@+id/calicoHealthImageView"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:contentDescription="@string/hearts_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/calicoImageView"
+        app:layout_constraintStart_toStartOf="@+id/calicoImageView"
+        app:layout_constraintTop_toBottomOf="@+id/calicoImageView"
+        app:srcCompat="@drawable/heart3" />
+
+    <ImageView
+        android:id="@+id/huskyHealthImageView"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:contentDescription="@string/hearts_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/huskyImageView"
+        app:layout_constraintStart_toStartOf="@+id/huskyImageView"
+        app:layout_constraintTop_toBottomOf="@+id/huskyImageView"
+        app:srcCompat="@drawable/heart3" />
+
+    <ProgressBar
+        android:id="@+id/petSelectProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="94dp"
+        android:layout_height="109dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/petOKButton"
+        android:layout_width="103dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="confirmChoice"
+        android:text="@string/ok_button_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/petSelectTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="134dp"
+        android:text="@string/pet_select_title"
+        android:textAllCaps="true"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/shibaImageView"
+        android:layout_width="150dp"
+        android:layout_height="153dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/light_grey"
+        android:clickable="true"
+        android:contentDescription="@string/pet_image_desc"
+        android:cropToPadding="true"
+        android:onClick="selectShiba"
+        android:padding="1dp"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/petSelectTitleTextView"
+        app:srcCompat="@drawable/petlogo_shiba" />
+
+    <ImageView
+        android:id="@+id/huskyImageView"
+        android:layout_width="150dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/light_grey"
+        android:clickable="true"
+        android:contentDescription="@string/pet_image_desc"
+        android:onClick="selectHusky"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/petSelectTitleTextView"
+        app:srcCompat="@drawable/petlogo_husky" />
+
+    <ImageView
+        android:id="@+id/calicoImageView"
+        android:layout_width="150dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="288dp"
+        android:background="@color/light_grey"
+        android:clickable="true"
+        android:contentDescription="@string/pet_image_desc"
+        android:onClick="selectCalico"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/petSelectTitleTextView"
+        app:srcCompat="@drawable/petlogo_calico" />
+</androidx.constraintlayout.widget.ConstraintLayout>
