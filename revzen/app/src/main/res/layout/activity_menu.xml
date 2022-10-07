@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuActivity">
+
+    <Button
+        android:id="@+id/startSessionButton"
+        android:layout_width="162dp"
+        android:layout_height="139dp"
+        android:layout_marginEnd="32dp"
+        android:onClick="goToSessionSetup"
+        android:text="@string/start_session_button_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPetImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/menuPetImageView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/menuPetImageView"
+        android:layout_width="150dp"
+        android:layout_height="153dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="56dp"
+        android:clickable="true"
+        android:contentDescription="@string/pet_image_desc"
+        android:onClick="goToPetSelect"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoImageView"
+        app:srcCompat="@drawable/petlogo_shiba" />
+
+    <Button
+        android:id="@+id/studyHistoryButton"
+        android:layout_width="300dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="28dp"
+        android:onClick="goToRevisionHistory"
+        android:text="@string/revzen_history_menu"
+        app:layout_constraintEnd_toEndOf="@+id/socialFeedButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/socialFeedButton"
+        app:layout_constraintTop_toBottomOf="@+id/socialFeedButton" />
+
+    <Button
+        android:id="@+id/liveRevisionButton"
+        android:layout_width="300dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="48dp"
+        android:onClick="goToLiveRevision"
+        android:text="@string/revzen_menu_social"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuHealthImageVIew" />
+
+    <Button
+        android:id="@+id/socialFeedButton"
+        android:layout_width="300dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="28dp"
+        android:onClick="goToFollowScreen"
+        android:text="@string/menu_follow_screen"
+        app:layout_constraintEnd_toEndOf="@+id/liveRevisionButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/liveRevisionButton"
+        app:layout_constraintTop_toBottomOf="@+id/liveRevisionButton" />
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="95dp"
+        android:layout_height="89dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/userFriendCodeTextView"
+        android:layout_width="90dp"
+        android:layout_height="39dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/usernameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/friendCodeTitleTextView" />
+
+    <TextView
+        android:id="@+id/friendCodeTitleTextView"
+        android:layout_width="90dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/friend_code"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/usernameTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/changePetTitleTextView"
+        android:layout_width="90dp"
+        android:layout_height="21dp"
+        android:gravity="center"
+        android:text="@string/change_pet"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/menuPetImageView"
+        app:layout_constraintEnd_toEndOf="@+id/menuPetImageView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/menuPetImageView" />
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="135dp"
+        android:layout_height="44dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/userFriendCodeTextView"
+        app:layout_constraintEnd_toStartOf="@+id/userFriendCodeTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/logoImageView" />
+
+    <ImageView
+        android:id="@+id/menuHealthImageVIew"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:contentDescription="@string/hearts_image_desc"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/menuXPTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/menuPetImageView"
+        app:layout_constraintTop_toBottomOf="@+id/menuPetImageView"
+        app:srcCompat="@drawable/heart3" />
+
+    <TextView
+        android:id="@+id/menuXPTextView"
+        android:layout_width="49dp"
+        android:layout_height="34dp"
+        android:text=""
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/menuHealthImageVIew"
+        app:layout_constraintEnd_toEndOf="@+id/menuPetImageView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/menuHealthImageVIew"
+        app:layout_constraintTop_toTopOf="@+id/menuHealthImageVIew" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
